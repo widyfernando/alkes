@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Alkes POS - Offline</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; background: #f8fafc; color: #0f172a; font-family: system-ui, sans-serif; }
+    main { width: min(100%, 420px); padding: 32px; border: 1px solid #e2e8f0; border-radius: 20px; background: white; text-align: center; box-shadow: 0 16px 40px rgba(15, 23, 42, .08); }
+    h1 { margin: 0 0 12px; font-size: 24px; }
+    p { margin: 0 0 24px; color: #475569; line-height: 1.6; }
+    button { border: 0; border-radius: 10px; padding: 12px 20px; background: #2563eb; color: white; font: inherit; font-weight: 700; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Anda sedang offline</h1>
+    <p>Alkes POS memerlukan koneksi internet untuk mengambil data terbaru. Periksa koneksi lalu coba kembali.</p>
+    <button type="button" onclick="location.reload()">Coba Lagi</button>
+  </main>
+</body>
+</html>

@@ -1,0 +1,4418 @@
+[
+  {
+    "item_id": "003.00097",
+    "nama": "ADAPTOR KONVERTER PENTIL PRESTA UTK POMPA BAN SPEDA",
+    "harga_modal": 2144,
+    "harga": 8000
+  },
+  {
+    "item_id": "003.00201",
+    "nama": "ADAPTOR RD",
+    "harga_modal": 15000,
+    "harga": 30000
+  },
+  {
+    "item_id": "020.00034",
+    "nama": "ADAPTOR STEM / TIANG STEM",
+    "harga_modal": 25000,
+    "harga": 50000
+  },
+  {
+    "item_id": "020.00038",
+    "nama": "AIR GELAS LEVIOS",
+    "harga_modal": 0,
+    "harga": 1000
+  },
+  {
+    "item_id": "003.00118",
+    "nama": "AIR VIT BESAR",
+    "harga_modal": 0,
+    "harga": 8000
+  },
+  {
+    "item_id": "003.00117",
+    "nama": "AIR VIT TANGGUNG",
+    "harga_modal": 0,
+    "harga": 5000
+  },
+  {
+    "item_id": "002.00157",
+    "nama": "AKUA BESAR",
+    "harga_modal": 0,
+    "harga": 8000
+  },
+  {
+    "item_id": "002.00156",
+    "nama": "AKUA TANGGUNG",
+    "harga_modal": 0,
+    "harga": 5000
+  },
+  {
+    "item_id": "003.00048",
+    "nama": "ANTING2",
+    "harga_modal": 600,
+    "harga": 5000
+  },
+  {
+    "item_id": "020.00019",
+    "nama": "AS BELAKANG ATLANIS PUTIH",
+    "harga_modal": 5500,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00172",
+    "nama": "AS BELAKANG ATLANTIS HITAM",
+    "harga_modal": 4500,
+    "harga": 20000
+  },
+  {
+    "item_id": "IMP0001",
+    "nama": "AS BELAKANG FORZA UNIFLY HITAM",
+    "harga_modal": 5500,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00049",
+    "nama": "AS BELAKANG EXOTIC HITAM",
+    "harga_modal": 6700,
+    "harga": 20000
+  },
+  {
+    "item_id": "IMP0002",
+    "nama": "AS BELAKANG GENIO HITAM",
+    "harga_modal": 5750,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00188",
+    "nama": "AS BELAKANG TAIWAN BAUT BESAR",
+    "harga_modal": 8600,
+    "harga": 22000
+  },
+  {
+    "item_id": "003.00131",
+    "nama": "AS BELAKANG TAYA HITAM",
+    "harga_modal": 4200,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00050",
+    "nama": "AS BELAKANG TW PUTIH",
+    "harga_modal": 7500,
+    "harga": 25000
+  },
+  {
+    "item_id": "IMP0003",
+    "nama": "AS BELAKANG TORPEDO BESAR",
+    "harga_modal": 10500,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00051",
+    "nama": "AS DEPAN BESAR",
+    "harga_modal": 5900,
+    "harga": 18000
+  },
+  {
+    "item_id": "003.00052",
+    "nama": "AS DEPAN KECIL",
+    "harga_modal": 3500,
+    "harga": 15000
+  },
+  {
+    "item_id": "020.00026",
+    "nama": "AS DEPAN TAYA",
+    "harga_modal": 850,
+    "harga": 15000
+  },
+  {
+    "item_id": "020.00027",
+    "nama": "AS DEPAN TURANZA",
+    "harga_modal": 4600,
+    "harga": 15000
+  },
+  {
+    "item_id": "003.00053",
+    "nama": "AS GIR BERUANG 122/127 TW",
+    "harga_modal": 32500,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00054",
+    "nama": "AS GIR BERUANG 133 RRT",
+    "harga_modal": 30000,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00045",
+    "nama": "AS GIR TENGAH BAUT (HITAM)",
+    "harga_modal": 10000,
+    "harga": 20000
+  },
+  {
+    "item_id": "IMP0004",
+    "nama": "AS GIR BECAK",
+    "harga_modal": 28000,
+    "harga": 45000
+  },
+  {
+    "item_id": "003.00055",
+    "nama": "AS KERONCONG INT",
+    "harga_modal": 15000,
+    "harga": 40000
+  },
+  {
+    "item_id": "003.00056",
+    "nama": "AS LEHER BECAK",
+    "harga_modal": 27500,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0005",
+    "nama": "AS GEROBAK 70CM",
+    "harga_modal": 86000,
+    "harga": 150000
+  },
+  {
+    "item_id": "IMP0006",
+    "nama": "AS GEROBAK 60CM",
+    "harga_modal": 63750,
+    "harga": 140000
+  },
+  {
+    "item_id": "003.00072",
+    "nama": "BONCENGAN BESI/BAHASI 28 ONTHEL",
+    "harga_modal": 44000,
+    "harga": 90000
+  },
+  {
+    "item_id": "003.00155",
+    "nama": "BAN SINCAN KECIL",
+    "harga_modal": 27500,
+    "harga": 55000
+  },
+  {
+    "item_id": "003.00190",
+    "nama": "BAUT KERANJANG KOMPLIT",
+    "harga_modal": 2500,
+    "harga": 5000
+  },
+  {
+    "item_id": "002.00001",
+    "nama": "BD 12 INFINERA",
+    "harga_modal": 10250,
+    "harga": 20000
+  },
+  {
+    "item_id": "002.00002",
+    "nama": "BD 12 KINGLAND",
+    "harga_modal": 11000,
+    "harga": 22000
+  },
+  {
+    "item_id": "002.00003",
+    "nama": "BD 12 SWALLOW",
+    "harga_modal": 12000,
+    "harga": 25000
+  },
+  {
+    "item_id": "IMP0007",
+    "nama": "BD 12 X 30 PACIFIC",
+    "harga_modal": 19000,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00067",
+    "nama": "BD 12 X 30 UNITED",
+    "harga_modal": 31000,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0008",
+    "nama": "BD 14 X 175 SWALAW",
+    "harga_modal": 10750,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0009",
+    "nama": "BD 14 X 250 PACIFIC",
+    "harga_modal": 10750,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0010",
+    "nama": "BD 14 X 250 SWALAW",
+    "harga_modal": 32000,
+    "harga": 55000
+  },
+  {
+    "item_id": "IMP0011",
+    "nama": "BD 14 X 250 LUCKY STONE",
+    "harga_modal": 26000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00004",
+    "nama": "BD 16 INFINERA",
+    "harga_modal": 11500,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00006",
+    "nama": "BD 16 KINGLAND",
+    "harga_modal": 12000,
+    "harga": 25000
+  },
+  {
+    "item_id": "IMP0012",
+    "nama": "BD 16 LUCKY STONE",
+    "harga_modal": 14000,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00154",
+    "nama": "BD 16 X 150 PACIFIC",
+    "harga_modal": 18000,
+    "harga": 36000
+  },
+  {
+    "item_id": "002.00007",
+    "nama": "BD 16 X 30 SWALAW PENTIL BENGKOK",
+    "harga_modal": 22500,
+    "harga": 45000
+  },
+  {
+    "item_id": "IMP0013",
+    "nama": "BD 16 X 30 SWALAW PENTIL BIASA",
+    "harga_modal": 18500,
+    "harga": 45000
+  },
+  {
+    "item_id": "IMP0014",
+    "nama": "BD 16 X 30 DELI TIRE PENTIL BENGKOK",
+    "harga_modal": 22500,
+    "harga": 45000
+  },
+  {
+    "item_id": "IMP0015",
+    "nama": "BD 16 X 30 PACIFIC",
+    "harga_modal": 23500,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0016",
+    "nama": "BD 16 X 30 LUCKY STONE",
+    "harga_modal": 27000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00008",
+    "nama": "BD 18 INFINERA",
+    "harga_modal": 12500,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00009",
+    "nama": "BD 18 KINGLAND",
+    "harga_modal": 12500,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00140",
+    "nama": "BD 18 LUCKY STONE",
+    "harga_modal": 15000,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00010",
+    "nama": "BD 18 X 3.0 KENDA",
+    "harga_modal": 27000,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00162",
+    "nama": "BD 18 X 30 LUCKY STONE",
+    "harga_modal": 28000,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0017",
+    "nama": "BD 18 X 30 PACIFIC",
+    "harga_modal": 33500,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0018",
+    "nama": "BD 18 X 30 SWALAW",
+    "harga_modal": 21000,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00011",
+    "nama": "BD 20 INFINERA",
+    "harga_modal": 12500,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00012",
+    "nama": "BD 20 KENDA",
+    "harga_modal": 0,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00013",
+    "nama": "BD 20 KINGLAND",
+    "harga_modal": 12250,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00044",
+    "nama": "BD 20 SWALAW",
+    "harga_modal": 14000,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0019",
+    "nama": "BD 20 LUCKY STONE",
+    "harga_modal": 15000,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00141",
+    "nama": "BD 20 SWALLAW 48MM",
+    "harga_modal": 15000,
+    "harga": 30000
+  },
+  {
+    "item_id": "003.00153",
+    "nama": "BD 20 X 150 PACIFIC",
+    "harga_modal": 26500,
+    "harga": 53000
+  },
+  {
+    "item_id": "IMP0020",
+    "nama": "BD 20 X 150 SWALAW",
+    "harga_modal": 12500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0021",
+    "nama": "BD 20 X 1 3/8 SWALAW",
+    "harga_modal": 13000,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00014",
+    "nama": "BD 20 X 2.125 KINGLAND / LUCKY STONE PENTIL PANJANG",
+    "harga_modal": 19000,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00160",
+    "nama": "BD 20 X 230 SWALAW",
+    "harga_modal": 14000,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0022",
+    "nama": "BD 20 X 230 LUCKY STONE",
+    "harga_modal": 19000,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00015",
+    "nama": "BD 20 X 3.0 KENDA",
+    "harga_modal": 27500,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00134",
+    "nama": "BD 20 X 30 (250/275-17) YAMAHA",
+    "harga_modal": 21000,
+    "harga": 36000
+  },
+  {
+    "item_id": "IMP0023",
+    "nama": "BD 20 X 30 SWALAW",
+    "harga_modal": 17500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0024",
+    "nama": "B 20 X 30 LUCKY STONE / PACIFIC",
+    "harga_modal": 29150,
+    "harga": 55000
+  },
+  {
+    "item_id": "002.00016",
+    "nama": "BD 24 INFINERA",
+    "harga_modal": 13500,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00017",
+    "nama": "BD 24 KINGLAND",
+    "harga_modal": 12500,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00018",
+    "nama": "BD 24 LUCKY STONE",
+    "harga_modal": 16500,
+    "harga": 27000
+  },
+  {
+    "item_id": "IMP0025",
+    "nama": "BD 24 PENTIL PANJANG LUCKY STONE",
+    "harga_modal": 19000,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00019",
+    "nama": "BD 24 SWALLOW BALAP",
+    "harga_modal": 13500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0026",
+    "nama": "BD 24 X 1 3/8 SWALAW BALAP",
+    "harga_modal": 15000,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00020",
+    "nama": "BD 26 INFINERA",
+    "harga_modal": 15000,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00021",
+    "nama": "BD 26 KINGLAND",
+    "harga_modal": 14500,
+    "harga": 25000
+  },
+  {
+    "item_id": "IMP0027",
+    "nama": "BD 26 LUCKY STONE",
+    "harga_modal": 18000,
+    "harga": 27000
+  },
+  {
+    "item_id": "IMP0028",
+    "nama": "BD 26 X 175 PENTIL PANJANG SWALAW",
+    "harga_modal": 21000,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00150",
+    "nama": "BD 26 PENTIL PANJANG KINGLAND LUCKY STONE",
+    "harga_modal": 21000,
+    "harga": 35000
+  },
+  {
+    "item_id": "IMP0029",
+    "nama": "BD 26 X 2125/230 SWALAW PENTIL PANJANG",
+    "harga_modal": 19000,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00023",
+    "nama": "BD 26 SWALLOW",
+    "harga_modal": 16500,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00024",
+    "nama": "BD 26 X 1.3/8 (JENGKI)",
+    "harga_modal": 11000,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00025",
+    "nama": "BD 26 X 1.3/8 (JENGKI) SWALLOW",
+    "harga_modal": 14500,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00026",
+    "nama": "BD 26 X 2.35 SWALAW",
+    "harga_modal": 16000,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00027",
+    "nama": "BD 27 1/2 210 SWALAW DELI",
+    "harga_modal": 21000,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00028",
+    "nama": "BD 27 1/4 WANDA",
+    "harga_modal": 13000,
+    "harga": 40000
+  },
+  {
+    "item_id": "002.00029",
+    "nama": "BD 27 GY BALAP",
+    "harga_modal": 13000,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00084",
+    "nama": "BD 27.5 CST",
+    "harga_modal": 47000,
+    "harga": 70000
+  },
+  {
+    "item_id": "IMP0030",
+    "nama": "BD 27.5 MAXXIS",
+    "harga_modal": 63000,
+    "harga": 85000
+  },
+  {
+    "item_id": "002.00030",
+    "nama": "BD 27.5 DELI TIRE PP",
+    "harga_modal": 23000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00032",
+    "nama": "BD 27.5 INFINERA",
+    "harga_modal": 12720,
+    "harga": 25000
+  },
+  {
+    "item_id": "IMP0031",
+    "nama": "BD 27.5 LUCKY STONE PRESTA/PENTIL PANJANG",
+    "harga_modal": 27000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00031",
+    "nama": "BD 27.5 UNITED",
+    "harga_modal": 32000,
+    "harga": 60000
+  },
+  {
+    "item_id": "002.00033",
+    "nama": "BD 28 INFINERA",
+    "harga_modal": 15000,
+    "harga": 60000
+  },
+  {
+    "item_id": "002.00034",
+    "nama": "BD 28 KINGLAND",
+    "harga_modal": 13500,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00035",
+    "nama": "BD 28 SWALAW",
+    "harga_modal": 17500,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00037",
+    "nama": "BD FIKSI SWALAW",
+    "harga_modal": 20500,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00036",
+    "nama": "BD FIKSI LUCKY STONE",
+    "harga_modal": 25000,
+    "harga": 40000
+  },
+  {
+    "item_id": "007.00002",
+    "nama": "BEL BOLA",
+    "harga_modal": 17500,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00139",
+    "nama": "BEL BUNGA EXOTIC",
+    "harga_modal": 7500,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00001",
+    "nama": "BEL KUBAH BAGUS",
+    "harga_modal": 16500,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00189",
+    "nama": "BEL KUBAH CINA",
+    "harga_modal": 7500,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00002",
+    "nama": "BEL KUMBANG (ONLINE)",
+    "harga_modal": 0,
+    "harga": 30000
+  },
+  {
+    "item_id": "007.00003",
+    "nama": "BEL LOVE EXOTIC/MODEL AKI2 ABU2",
+    "harga_modal": 8500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0032",
+    "nama": "BEL LOVE MODEL BARU KUNING",
+    "harga_modal": 8500,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00113",
+    "nama": "BEL ONTHEL",
+    "harga_modal": 45000,
+    "harga": 90000
+  },
+  {
+    "item_id": "003.00177",
+    "nama": "BEL PANDA EXOTIC WARNA",
+    "harga_modal": 0,
+    "harga": 30000
+  },
+  {
+    "item_id": "003.00116",
+    "nama": "BEL PANDA TW",
+    "harga_modal": 0,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00039",
+    "nama": "BEL T MUSA (KRININGAN)",
+    "harga_modal": 0,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00040",
+    "nama": "BEL TOM",
+    "harga_modal": 0,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00041",
+    "nama": "BEL TOPI",
+    "harga_modal": 0,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00042",
+    "nama": "BEL TOPI EMAS (ONLINE)",
+    "harga_modal": 0,
+    "harga": 20000
+  },
+  {
+    "item_id": "020.00028",
+    "nama": "BEL/KLAKSON POLISI GENIO",
+    "harga_modal": 29000,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00077",
+    "nama": "BERKO",
+    "harga_modal": 0,
+    "harga": 150000
+  },
+  {
+    "item_id": "003.00182",
+    "nama": "BESI/TIANG KERANJANG HITAM",
+    "harga_modal": 5500,
+    "harga": 10000
+  },
+  {
+    "item_id": "003.00003",
+    "nama": "BL 12 BEAR",
+    "harga_modal": 25000,
+    "harga": 39000
+  },
+  {
+    "item_id": "IMP0033",
+    "nama": "BL 12 GENIO",
+    "harga_modal": 23000,
+    "harga": 39000
+  },
+  {
+    "item_id": "IMP0034",
+    "nama": "BL 12 MILESTONE",
+    "harga_modal": 19500,
+    "harga": 39000
+  },
+  {
+    "item_id": "IMP0035",
+    "nama": "BL 12 ATLANTIS BESAR",
+    "harga_modal": 26500,
+    "harga": 40000
+  },
+  {
+    "item_id": "003.00004",
+    "nama": "BL 12 LUCKY STONE",
+    "harga_modal": 30000,
+    "harga": 65000
+  },
+  {
+    "item_id": "003.00171",
+    "nama": "BL 12 SWALAW KUNING",
+    "harga_modal": 27500,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00005",
+    "nama": "BL 12 X 230 SWALAW HITAM",
+    "harga_modal": 27500,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0036",
+    "nama": "BL 12 X 30 GENIO",
+    "harga_modal": 44000,
+    "harga": 85000
+  },
+  {
+    "item_id": "003.00064",
+    "nama": "BL 12 X 30 KENDA",
+    "harga_modal": 60500,
+    "harga": 90000
+  },
+  {
+    "item_id": "IMP0037",
+    "nama": "BL 14 X 250 EXOTIC/GADA MEREK",
+    "harga_modal": 99000,
+    "harga": 170000
+  },
+  {
+    "item_id": "IMP0038",
+    "nama": "BL 14 X 250 GENIO/LUCKY STONE LISTRIK TUBELESS",
+    "harga_modal": 107500,
+    "harga": 170000
+  },
+  {
+    "item_id": "IMP0039",
+    "nama": "BL 14 X 250 PACIFIC LISTRIK TUBELESS",
+    "harga_modal": 90000,
+    "harga": 170000
+  },
+  {
+    "item_id": "003.00175",
+    "nama": "BL 16 X 175 ATLANTIS",
+    "harga_modal": 25500,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00167",
+    "nama": "BL 16 X 175 BEAR",
+    "harga_modal": 24000,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00007",
+    "nama": "BL 16 X 175 LUCKY STONE",
+    "harga_modal": 35000,
+    "harga": 65000
+  },
+  {
+    "item_id": "003.00163",
+    "nama": "BL 16 X 175 KENDA",
+    "harga_modal": 38000,
+    "harga": 70000
+  },
+  {
+    "item_id": "IMP0040",
+    "nama": "BL 16 X 175 GENIO",
+    "harga_modal": 25000,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0041",
+    "nama": "BL 16 X 175 SWALAW",
+    "harga_modal": 28500,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00008",
+    "nama": "BL 16 X 2125 SWALLAW",
+    "harga_modal": 31000,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00006",
+    "nama": "BL 16 X 2125 LUCKY STONE",
+    "harga_modal": 37500,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00192",
+    "nama": "BL 16 X 2125 WANDA",
+    "harga_modal": 30000,
+    "harga": 55000
+  },
+  {
+    "item_id": "IMP0042",
+    "nama": "BL 16 X 2125 GENIO",
+    "harga_modal": 29500,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0043",
+    "nama": "BL 16 X 2125 LUCKY STONE POWER GRIP",
+    "harga_modal": 31750,
+    "harga": 65000
+  },
+  {
+    "item_id": "IMP0044",
+    "nama": "BL 16 X 2125 ATLANTIS",
+    "harga_modal": 29500,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0045",
+    "nama": "BL 16 X 2125 KINGLAND",
+    "harga_modal": 29500,
+    "harga": 55000
+  },
+  {
+    "item_id": "003.00065",
+    "nama": "BL 16 X 30 KENDA LUCKY STONE",
+    "harga_modal": 75000,
+    "harga": 105000
+  },
+  {
+    "item_id": "003.00010",
+    "nama": "BL 18 LUCKY STONE",
+    "harga_modal": 40000,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00011",
+    "nama": "BL 18 WANDA KING",
+    "harga_modal": 31000,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00012",
+    "nama": "BL 18 X 175 GENIO",
+    "harga_modal": 29500,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00080",
+    "nama": "BL 18 X 175 SWALAW",
+    "harga_modal": 0,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00013",
+    "nama": "BL 18 X 2125 ATLANTIS",
+    "harga_modal": 42000,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00009",
+    "nama": "BL 18 X 2125 SWALAW",
+    "harga_modal": 44500,
+    "harga": 75000
+  },
+  {
+    "item_id": "IMP0046",
+    "nama": "BL 18 X 2125 LUCKY STONE",
+    "harga_modal": 47000,
+    "harga": 82000
+  },
+  {
+    "item_id": "003.00066",
+    "nama": "BL 18 X 30 KENDA/SW/LS",
+    "harga_modal": 75000,
+    "harga": 110000
+  },
+  {
+    "item_id": "003.00015",
+    "nama": "BL 20 GY",
+    "harga_modal": 0,
+    "harga": 65000
+  },
+  {
+    "item_id": "003.00127",
+    "nama": "BL 20 X 1 3/8 KENDA",
+    "harga_modal": 74500,
+    "harga": 105000
+  },
+  {
+    "item_id": "003.00128",
+    "nama": "BL 20 X 1.50 KENDA",
+    "harga_modal": 69500,
+    "harga": 100000
+  },
+  {
+    "item_id": "IMP0047",
+    "nama": "BL 20 X 175 GENIO",
+    "harga_modal": 29500,
+    "harga": 62000
+  },
+  {
+    "item_id": "003.00166",
+    "nama": "BL 20 X 175 BEAR",
+    "harga_modal": 0,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0048",
+    "nama": "BL 20 X 175 WANDA",
+    "harga_modal": 33000,
+    "harga": 65000
+  },
+  {
+    "item_id": "003.00100",
+    "nama": "BL 20 X 175 KENDA",
+    "harga_modal": 39500,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00174",
+    "nama": "BL 20 X 175 KINGLAND",
+    "harga_modal": 31000,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00185",
+    "nama": "BL 20 X 175 LUCKY STONE LIST PUTIH",
+    "harga_modal": 31000,
+    "harga": 62000
+  },
+  {
+    "item_id": "IMP0049",
+    "nama": "BL 20 X 175 LUCKY STONE KUNING",
+    "harga_modal": 40000,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00169",
+    "nama": "BL 20 X 175 SWALAW HITAM MERAH",
+    "harga_modal": 34000,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00016",
+    "nama": "BL 20 X 175 SWALAW LIST KUNING",
+    "harga_modal": 35500,
+    "harga": 70000
+  },
+  {
+    "item_id": "IMP0050",
+    "nama": "BL 20 X 175 ATLANTIS",
+    "harga_modal": 35000,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0051",
+    "nama": "BL 20 X 175 MILESTONE",
+    "harga_modal": 31500,
+    "harga": 62000
+  },
+  {
+    "item_id": "003.00014",
+    "nama": "BL 20 X 2125 BEAR",
+    "harga_modal": 31500,
+    "harga": 65000
+  },
+  {
+    "item_id": "003.00165",
+    "nama": "BL 20 X 2125 GY/LUCKY STONE (POWER GRIP)",
+    "harga_modal": 43000,
+    "harga": 80000
+  },
+  {
+    "item_id": "IMP0052",
+    "nama": "BL 20 X 2125 LUCKY STONE MERAH",
+    "harga_modal": 33500,
+    "harga": 67000
+  },
+  {
+    "item_id": "IMP0053",
+    "nama": "BL 20 X 2125 LUCY STONE KUNING",
+    "harga_modal": 47000,
+    "harga": 85000
+  },
+  {
+    "item_id": "IMP0054",
+    "nama": "BL 20 X 2125 GENIO",
+    "harga_modal": 33000,
+    "harga": 65000
+  },
+  {
+    "item_id": "IMP0055",
+    "nama": "BL 20 X 2125 SWALAW",
+    "harga_modal": 41000,
+    "harga": 80000
+  },
+  {
+    "item_id": "IMP0056",
+    "nama": "BL 20 X 2125/2.30 ATLANTIS",
+    "harga_modal": 36000,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00019",
+    "nama": "BL 20 X 230 SW SPECTRA",
+    "harga_modal": 45000,
+    "harga": 85000
+  },
+  {
+    "item_id": "IMP0057",
+    "nama": "BL 20 X 230 BS",
+    "harga_modal": 36000,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00018",
+    "nama": "BL 20 X 30 KENDA",
+    "harga_modal": 72500,
+    "harga": 110000
+  },
+  {
+    "item_id": "003.00069",
+    "nama": "BL 20 X 30 GENIO",
+    "harga_modal": 71500,
+    "harga": 110000
+  },
+  {
+    "item_id": "IMP0058",
+    "nama": "BL 20 X 30 SWALAW",
+    "harga_modal": 75000,
+    "harga": 110000
+  },
+  {
+    "item_id": "IMP0059",
+    "nama": "BL 20 X 240 PACIFIC",
+    "harga_modal": 32500,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00025",
+    "nama": "BL 24 1 3/8 SWALAW (BALAP)",
+    "harga_modal": 40000,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00021",
+    "nama": "BL 24 BIASA",
+    "harga_modal": 0,
+    "harga": 55000
+  },
+  {
+    "item_id": "003.00022",
+    "nama": "BL 24 GENIO",
+    "harga_modal": 0,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00026",
+    "nama": "BL 24 SWALAW",
+    "harga_modal": 0,
+    "harga": 66000
+  },
+  {
+    "item_id": "003.00024",
+    "nama": "BL 24 WANDA",
+    "harga_modal": 39000,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00023",
+    "nama": "BL 24 X 175 GY/LUCKY STONE",
+    "harga_modal": 45000,
+    "harga": 80000
+  },
+  {
+    "item_id": "IMP0060",
+    "nama": "BL 24 X 175 SWALAW HITAM",
+    "harga_modal": 44500,
+    "harga": 80000
+  },
+  {
+    "item_id": "003.00020",
+    "nama": "BL 24 X 200 SWALAW",
+    "harga_modal": 46500,
+    "harga": 80000
+  },
+  {
+    "item_id": "IMP0061",
+    "nama": "BL 24 X 210 LUCKY STONE",
+    "harga_modal": 58000,
+    "harga": 95000
+  },
+  {
+    "item_id": "003.00027",
+    "nama": "BL 26 AIRATOR",
+    "harga_modal": 28000,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00029",
+    "nama": "BL 26 X 1 3/8 JENGKI SWALAW",
+    "harga_modal": 36500,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00129",
+    "nama": "BL 26 X 1 3/8 KENDA",
+    "harga_modal": 72500,
+    "harga": 105000
+  },
+  {
+    "item_id": "003.00098",
+    "nama": "BL 26 X 150 UNITED ORANGE",
+    "harga_modal": 25000,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00198",
+    "nama": "BL 26 X 175 ATLANTIS",
+    "harga_modal": 34000,
+    "harga": 66000
+  },
+  {
+    "item_id": "003.00161",
+    "nama": "BL 26 X 175 GENIO",
+    "harga_modal": 35000,
+    "harga": 66000
+  },
+  {
+    "item_id": "003.00028",
+    "nama": "BL 26 x 175 GY/LUCKY STONE",
+    "harga_modal": 42500,
+    "harga": 82000
+  },
+  {
+    "item_id": "003.00114",
+    "nama": "BL 26 X 175 SWALAW",
+    "harga_modal": 50000,
+    "harga": 85000
+  },
+  {
+    "item_id": "003.00030",
+    "nama": "BL 26 X 175 WANDA KING",
+    "harga_modal": 39000,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00143",
+    "nama": "BL 26 X 2125 LUCKY STONE",
+    "harga_modal": 58000,
+    "harga": 95000
+  },
+  {
+    "item_id": "003.00031",
+    "nama": "BL 26 X 195 KENDA",
+    "harga_modal": 47500,
+    "harga": 85000
+  },
+  {
+    "item_id": "003.00168",
+    "nama": "BL 26 X 200 SWALAW",
+    "harga_modal": 48000,
+    "harga": 85000
+  },
+  {
+    "item_id": "003.00032",
+    "nama": "BL 26 X 210 KENDA",
+    "harga_modal": 60000,
+    "harga": 95000
+  },
+  {
+    "item_id": "IMP0062",
+    "nama": "BL 26 X 210 ROTATION/UNITED",
+    "harga_modal": 60500,
+    "harga": 90000
+  },
+  {
+    "item_id": "003.00033",
+    "nama": "BL 27 X 1/4 GY/LUCKY STONE BALAP",
+    "harga_modal": 37500,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00110",
+    "nama": "BL 27.5 X 195 KENDA",
+    "harga_modal": 59500,
+    "harga": 95000
+  },
+  {
+    "item_id": "003.00034",
+    "nama": "BL 27.5 X 210 KENDA",
+    "harga_modal": 67500,
+    "harga": 95000
+  },
+  {
+    "item_id": "IMP0063",
+    "nama": "BL 27.5 X 210 LUCKY STONE",
+    "harga_modal": 65000,
+    "harga": 100000
+  },
+  {
+    "item_id": "IMP0064",
+    "nama": "BL 27.5 X 210 SWALAW",
+    "harga_modal": 64500,
+    "harga": 100000
+  },
+  {
+    "item_id": "003.00037",
+    "nama": "BL 28 LUCKY STONE SEPEDA",
+    "harga_modal": 41000,
+    "harga": 80000
+  },
+  {
+    "item_id": "003.00036",
+    "nama": "BL 28 NO.1 SWALAW 6 PR",
+    "harga_modal": 69500,
+    "harga": 94000
+  },
+  {
+    "item_id": "003.00164",
+    "nama": "BL 28 ONTHEL SW COKELAT",
+    "harga_modal": 68000,
+    "harga": 93000
+  },
+  {
+    "item_id": "003.00035",
+    "nama": "BL 28 SWALAW ORANGE",
+    "harga_modal": 42500,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00038",
+    "nama": "BL FIKSI GY/LUCKY STONE",
+    "harga_modal": 0,
+    "harga": 80000
+  },
+  {
+    "item_id": "003.00040",
+    "nama": "BL FIKSI WANDA",
+    "harga_modal": 0,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00042",
+    "nama": "BL FIKSI WANDA",
+    "harga_modal": 0,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00039",
+    "nama": "BL FIKSI/FIXIE DK TAIWAN",
+    "harga_modal": 67500,
+    "harga": 100000
+  },
+  {
+    "item_id": "003.00041",
+    "nama": "BL FNT BIKE 20 X 30",
+    "harga_modal": 0,
+    "harga": 90000
+  },
+  {
+    "item_id": "003.00043",
+    "nama": "BL WISKY HA WD",
+    "harga_modal": 0,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00152",
+    "nama": "BONCENGAN ANAK DEPAN",
+    "harga_modal": 56500,
+    "harga": 85000
+  },
+  {
+    "item_id": "002.00045",
+    "nama": "BONCENGAN BESI/BAHASI 16 ODDESY",
+    "harga_modal": 32500,
+    "harga": 65000
+  },
+  {
+    "item_id": "002.00043",
+    "nama": "BONCENGAN BESI/BAHASI 20",
+    "harga_modal": 36000,
+    "harga": 70000
+  },
+  {
+    "item_id": "020.00036",
+    "nama": "BONCENGAN BESI/BAHASI 24 ODDYSEY",
+    "harga_modal": 37500,
+    "harga": 75000
+  },
+  {
+    "item_id": "020.00037",
+    "nama": "BONCENGAN BESI/BAHASI 26 TAYA",
+    "harga_modal": 35000,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00087",
+    "nama": "BONCENGAN BUSA 24CM",
+    "harga_modal": 17000,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00044",
+    "nama": "BONCENGAN BUSA 34 & 30 CM",
+    "harga_modal": 20000,
+    "harga": 35000
+  },
+  {
+    "item_id": "IMP0065",
+    "nama": "BOS ALLOY WARNA/SATUAN",
+    "harga_modal": 50000,
+    "harga": 100000
+  },
+  {
+    "item_id": "002.00047",
+    "nama": "BOS BECAK BESI",
+    "harga_modal": 0,
+    "harga": 40000
+  },
+  {
+    "item_id": "003.00132",
+    "nama": "BOS BELAKANG L20",
+    "harga_modal": 13500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0066",
+    "nama": "BOS BELAKANG L28",
+    "harga_modal": 18500,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00173",
+    "nama": "BOS BELAKANG L36",
+    "harga_modal": 18250,
+    "harga": 40000
+  },
+  {
+    "item_id": "002.00048",
+    "nama": "BOS BELAKANG L40",
+    "harga_modal": 19000,
+    "harga": 40000
+  },
+  {
+    "item_id": "003.00133",
+    "nama": "BOS DEPAN L20",
+    "harga_modal": 11500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0067",
+    "nama": "BOS DEPAN L28",
+    "harga_modal": 14500,
+    "harga": 30000
+  },
+  {
+    "item_id": "003.00145",
+    "nama": "BOS DEPAN L32 DUS",
+    "harga_modal": 13000,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00100",
+    "nama": "BOS DEPAN L36",
+    "harga_modal": 12500,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00079",
+    "nama": "BOS L36",
+    "harga_modal": 0,
+    "harga": 40000
+  },
+  {
+    "item_id": "IMP0068",
+    "nama": "BOS SAMPING L40 GADA MEREK",
+    "harga_modal": 25000,
+    "harga": 40000
+  },
+  {
+    "item_id": "002.00050",
+    "nama": "BOS SAMPING BECAK TRIO L40",
+    "harga_modal": 31500,
+    "harga": 50000
+  },
+  {
+    "item_id": "020.00030",
+    "nama": "BOTOL MINUM 500 CC",
+    "harga_modal": 18500,
+    "harga": 37000
+  },
+  {
+    "item_id": "002.00051",
+    "nama": "BOTOL MINUM PASIFIC",
+    "harga_modal": 22500,
+    "harga": 50000
+  },
+  {
+    "item_id": "020.00014",
+    "nama": "BOTTOM BRACKET BB 111 FIXIE",
+    "harga_modal": 51000,
+    "harga": 100000
+  },
+  {
+    "item_id": "003.00119",
+    "nama": "BOTTOM BRACKET BB AS KOTAK 122",
+    "harga_modal": 66600,
+    "harga": 117000
+  },
+  {
+    "item_id": "003.00115",
+    "nama": "BUKAAN TUTUP PENTIL",
+    "harga_modal": 1500,
+    "harga": 5000
+  },
+  {
+    "item_id": "002.00052",
+    "nama": "BUSA SEPEDA/PEGANGAN/HANDPAT HITAM",
+    "harga_modal": 7500,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00151",
+    "nama": "BUSA SEPEDA/PEGANGAN/HANDPAT HITAM PACIFIC",
+    "harga_modal": 11000,
+    "harga": 25000
+  },
+  {
+    "item_id": "IMP0069",
+    "nama": "BUSA SEPEDA/PEGANGAN/HANDPAT PASIFIC BINTANG HITAM",
+    "harga_modal": 7500,
+    "harga": 20000
+  },
+  {
+    "item_id": "002.00053",
+    "nama": "BUSA SEPEDA/PEGANGAN/HANDPAT PASIFIC ABU",
+    "harga_modal": 9750,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00054",
+    "nama": "BUSA SEPEDA/PEGANGAN/HANDPAT PASIFIC BINTANG",
+    "harga_modal": 8250,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00157",
+    "nama": "BUSA SEPEDA/PEGANGAN/HANDPAT PASIFIC CINCIN HT",
+    "harga_modal": 16000,
+    "harga": 32000
+  },
+  {
+    "item_id": "002.00055",
+    "nama": "BUSA SEPEDA/PEGANGAN/HANDPAT WARNA",
+    "harga_modal": 7500,
+    "harga": 22000
+  },
+  {
+    "item_id": "IMP0070",
+    "nama": "CAT KUDA TERBANG",
+    "harga_modal": 10000,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00061",
+    "nama": "COLD PATCH / TIP TOP TAMBAL BAN",
+    "harga_modal": 11000,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00146",
+    "nama": "COVER JOK GEL",
+    "harga_modal": 52500,
+    "harga": 105000
+  },
+  {
+    "item_id": "020.00009",
+    "nama": "CRANK MXL DOUBLE HT2 39/53",
+    "harga_modal": 725000,
+    "harga": 1400000
+  },
+  {
+    "item_id": "IMP0071",
+    "nama": "CONGKEL BAN BESI",
+    "harga_modal": 26500,
+    "harga": 40000
+  },
+  {
+    "item_id": "020.00012",
+    "nama": "DISCBRAKE ULIR KOMPLIT ODDYSEY+HANDLE TALI",
+    "harga_modal": 121500,
+    "harga": 180000
+  },
+  {
+    "item_id": "003.00159",
+    "nama": "DISCBRAKE ULIR SET ODDSEY (TANPA HANDLE&TALI)",
+    "harga_modal": 92500,
+    "harga": 150000
+  },
+  {
+    "item_id": "003.00179",
+    "nama": "DUDUKAN KERANJANG DEPAN SEPEDA",
+    "harga_modal": 3400,
+    "harga": 10000
+  },
+  {
+    "item_id": "011.00012",
+    "nama": "FD SHIMANO TY510/31.8 DUALPULL",
+    "harga_modal": 70000,
+    "harga": 150000
+  },
+  {
+    "item_id": "020.00029",
+    "nama": "GANTUNGAN BOTOL MINUM PASIFIC HITAM",
+    "harga_modal": 22000,
+    "harga": 44000
+  },
+  {
+    "item_id": "002.00056",
+    "nama": "GANTUNGAN BOTOL MINUM BESI NO MERK",
+    "harga_modal": 12250,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00057",
+    "nama": "GANTUNGAN BOTOL MINUM SEPEDA&MOTOR",
+    "harga_modal": 9700,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00058",
+    "nama": "GANTUNGAN BOTOL MINUM VARIASI (ONLINE)",
+    "harga_modal": 9700,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00059",
+    "nama": "GARPU 12 BIASA",
+    "harga_modal": 0,
+    "harga": 60000
+  },
+  {
+    "item_id": "002.00060",
+    "nama": "GARPU 16 HITAM MODEL BIASA",
+    "harga_modal": 21000,
+    "harga": 42000
+  },
+  {
+    "item_id": "002.00062",
+    "nama": "GARPU 20 BIASA PUTIH",
+    "harga_modal": 0,
+    "harga": 70000
+  },
+  {
+    "item_id": "002.00061",
+    "nama": "GARPU 20 HITAM",
+    "harga_modal": 37500,
+    "harga": 80000
+  },
+  {
+    "item_id": "002.00063",
+    "nama": "GARPU 24 MTB, 26",
+    "harga_modal": 0,
+    "harga": 80000
+  },
+  {
+    "item_id": "002.00064",
+    "nama": "GARPU 26 SINGKING WARNA HIJAU",
+    "harga_modal": 0,
+    "harga": 85000
+  },
+  {
+    "item_id": "002.00065",
+    "nama": "GARPU 28 HITAM PANJANG",
+    "harga_modal": 0,
+    "harga": 90000
+  },
+  {
+    "item_id": "002.00066",
+    "nama": "GARPU FIKSI",
+    "harga_modal": 0,
+    "harga": 100000
+  },
+  {
+    "item_id": "003.00158",
+    "nama": "GARPU JENGKI PANJANG HT",
+    "harga_modal": 42500,
+    "harga": 100000
+  },
+  {
+    "item_id": "003.00075",
+    "nama": "GARPU SOK BREKER 26 OVERSIZE HT",
+    "harga_modal": 170000,
+    "harga": 350000
+  },
+  {
+    "item_id": "002.00067",
+    "nama": "GEMUK BESAR",
+    "harga_modal": 5500,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00068",
+    "nama": "GEMUK KECIL",
+    "harga_modal": 1875,
+    "harga": 10000
+  },
+  {
+    "item_id": "002.00069",
+    "nama": "GEMUK MERAH/STEMPET",
+    "harga_modal": 6500,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00194",
+    "nama": "GIR 32T KOTAK",
+    "harga_modal": 40000,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00195",
+    "nama": "GIR 36T KOTAK",
+    "harga_modal": 40000,
+    "harga": 70000
+  },
+  {
+    "item_id": "002.00070",
+    "nama": "GIR 36T PASIFIC",
+    "harga_modal": 45500,
+    "harga": 85000
+  },
+  {
+    "item_id": "020.00040",
+    "nama": "GIR 44 TUTUP WARNA KOTAK",
+    "harga_modal": 45000,
+    "harga": 90000
+  },
+  {
+    "item_id": "002.00071",
+    "nama": "GIR 44T PACIFIC",
+    "harga_modal": 43000,
+    "harga": 85000
+  },
+  {
+    "item_id": "002.00072",
+    "nama": "GIR 48T PASIFIC BULAT",
+    "harga_modal": 48000,
+    "harga": 90000
+  },
+  {
+    "item_id": "002.00073",
+    "nama": "GIR BALAP/SUSUN",
+    "harga_modal": 0,
+    "harga": 140000
+  },
+  {
+    "item_id": "002.00074",
+    "nama": "GIR BIASA 12, 16, 18",
+    "harga_modal": 0,
+    "harga": 65000
+  },
+  {
+    "item_id": "002.00075",
+    "nama": "GIR BIASA 20",
+    "harga_modal": 0,
+    "harga": 80000
+  },
+  {
+    "item_id": "002.00076",
+    "nama": "GIR BIASA 24, 26",
+    "harga_modal": 0,
+    "harga": 90000
+  },
+  {
+    "item_id": "002.00077",
+    "nama": "GIR FIKSI",
+    "harga_modal": 0,
+    "harga": 135000
+  },
+  {
+    "item_id": "002.00078",
+    "nama": "GIR FIKSI",
+    "harga_modal": 42500,
+    "harga": 80000
+  },
+  {
+    "item_id": "002.00079",
+    "nama": "GIR LANGSUNG 12 & 16",
+    "harga_modal": 30000,
+    "harga": 60000
+  },
+  {
+    "item_id": "002.00080",
+    "nama": "GIR LANGSUNG 20",
+    "harga_modal": 35000,
+    "harga": 70000
+  },
+  {
+    "item_id": "002.00081",
+    "nama": "GIR SEPEDA MINI 24, 26",
+    "harga_modal": 0,
+    "harga": 130000
+  },
+  {
+    "item_id": "003.00120",
+    "nama": "GIR SUSUN 3 TURANZA",
+    "harga_modal": 60000,
+    "harga": 120000
+  },
+  {
+    "item_id": "020.00035",
+    "nama": "HANDEL BMX ABU2/HITAM",
+    "harga_modal": 16000,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00083",
+    "nama": "HANDEL FULL ALLOY",
+    "harga_modal": 18000,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00101",
+    "nama": "HANDEL PANJANG TW",
+    "harga_modal": 19500,
+    "harga": 40000
+  },
+  {
+    "item_id": "002.00084",
+    "nama": "HANDEL PSP",
+    "harga_modal": 29700,
+    "harga": 45000
+  },
+  {
+    "item_id": "003.00197",
+    "nama": "HANDEL V BRAKE HT PACIFIC",
+    "harga_modal": 13500,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00170",
+    "nama": "HANDEL WARNA",
+    "harga_modal": 6500,
+    "harga": 22000
+  },
+  {
+    "item_id": "003.00147",
+    "nama": "HANDGRIP ANAK2 HITAM/PSG",
+    "harga_modal": 6750,
+    "harga": 15000
+  },
+  {
+    "item_id": "020.00033",
+    "nama": "HANDGRIP ANAK2 WARNA WARNI ATL",
+    "harga_modal": 6000,
+    "harga": 15000
+  },
+  {
+    "item_id": "003.00124",
+    "nama": "HANDGRIP PASIFIC HT POLOS",
+    "harga_modal": 11000,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00126",
+    "nama": "HANDGRIP UNITED",
+    "harga_modal": 34000,
+    "harga": 64000
+  },
+  {
+    "item_id": "002.00085",
+    "nama": "HANDLEPOST SEPEDA LIPAT UK. 25",
+    "harga_modal": 104500,
+    "harga": 300000
+  },
+  {
+    "item_id": "003.00202",
+    "nama": "HELM DEWASA LIXADA WARNA",
+    "harga_modal": 100000,
+    "harga": 165000
+  },
+  {
+    "item_id": "003.00090",
+    "nama": "HELM XD STANDAR DEWASA",
+    "harga_modal": 0,
+    "harga": 165000
+  },
+  {
+    "item_id": "011.00006",
+    "nama": "INER SHIFTER MARS 200CM",
+    "harga_modal": 7000,
+    "harga": 20000
+  },
+  {
+    "item_id": "IMP0072",
+    "nama": "INER SHIFTER MURAH",
+    "harga_modal": 3000,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00109",
+    "nama": "JALU JUMBO",
+    "harga_modal": 13000,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00086",
+    "nama": "JALU/PASANG",
+    "harga_modal": 14500,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00087",
+    "nama": "JARI2 12 MAYA/GROSS",
+    "harga_modal": 32000,
+    "harga": 2000
+  },
+  {
+    "item_id": "002.00088",
+    "nama": "JARI2 12 X 28/GROSS",
+    "harga_modal": 52500,
+    "harga": 0
+  },
+  {
+    "item_id": "002.00089",
+    "nama": "JARI2 13 X 20 MAYA/GROSS",
+    "harga_modal": 52500,
+    "harga": 0
+  },
+  {
+    "item_id": "002.00090",
+    "nama": "JARI2 13 X 28/ GROSS",
+    "harga_modal": 42500,
+    "harga": 0
+  },
+  {
+    "item_id": "002.00091",
+    "nama": "JARI2 14 X 20 MAYA",
+    "harga_modal": 34000,
+    "harga": 0
+  },
+  {
+    "item_id": "002.00094",
+    "nama": "JARI2 14 X 26 MAYA PER GROSS",
+    "harga_modal": 36000,
+    "harga": 80000
+  },
+  {
+    "item_id": "002.00092",
+    "nama": "JARI2 16 MAYA/GTOSS",
+    "harga_modal": 32000,
+    "harga": 0
+  },
+  {
+    "item_id": "002.00093",
+    "nama": "JARI2 24 MAYA/GROSS",
+    "harga_modal": 35000,
+    "harga": 0
+  },
+  {
+    "item_id": "002.00095",
+    "nama": "JARI2 MOTOR",
+    "harga_modal": 18000,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00082",
+    "nama": "JEPIT CAKRAM BOLIDS",
+    "harga_modal": 29000,
+    "harga": 60000
+  },
+  {
+    "item_id": "002.00096",
+    "nama": "JEPIT CAKRAM/KALIPER PASIFIC",
+    "harga_modal": 30000,
+    "harga": 70000
+  },
+  {
+    "item_id": "020.00039",
+    "nama": "KABEL LUAR PANJANG HT",
+    "harga_modal": 3500,
+    "harga": 10000
+  },
+  {
+    "item_id": "003.00047",
+    "nama": "KABEL REM (TANPA ISI)",
+    "harga_modal": 5000,
+    "harga": 10000
+  },
+  {
+    "item_id": "003.00106",
+    "nama": "KALIPER CAKRAM",
+    "harga_modal": 35000,
+    "harga": 65000
+  },
+  {
+    "item_id": "003.00144",
+    "nama": "KALIPER VERTEX / PASANG",
+    "harga_modal": 67500,
+    "harga": 140000
+  },
+  {
+    "item_id": "003.00199",
+    "nama": "KAMPAS REM CAKRAM KOTAK",
+    "harga_modal": 33000,
+    "harga": 53000
+  },
+  {
+    "item_id": "IMP0073",
+    "nama": "KAMPAS REM CAKRAM BULAT BESAR MERAH",
+    "harga_modal": 2000,
+    "harga": 15000
+  },
+  {
+    "item_id": "020.00018",
+    "nama": "KAMPAS REM CAKRAM MTB GUNUNG",
+    "harga_modal": 11000,
+    "harga": 26000
+  },
+  {
+    "item_id": "003.00183",
+    "nama": "KAMPAS REM CAKRAM SAKONI 21.5 MM",
+    "harga_modal": 6000,
+    "harga": 18000
+  },
+  {
+    "item_id": "020.00041",
+    "nama": "KAP BECAK",
+    "harga_modal": 29000,
+    "harga": 58000
+  },
+  {
+    "item_id": "002.00097",
+    "nama": "KAPALAN/OPERAN DEPAN SEPEDA",
+    "harga_modal": 12500,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0074",
+    "nama": "OPERAN VESPA MERAH",
+    "harga_modal": 29500,
+    "harga": 75000
+  },
+  {
+    "item_id": "003.00103",
+    "nama": "KARET REM TW",
+    "harga_modal": 2000,
+    "harga": 10000
+  },
+  {
+    "item_id": "002.00099",
+    "nama": "KARET REM L V BRAKE",
+    "harga_modal": 2000,
+    "harga": 10000
+  },
+  {
+    "item_id": "IMP0075",
+    "nama": "KARET REM BECAK",
+    "harga_modal": 1700,
+    "harga": 10000
+  },
+  {
+    "item_id": "003.00059",
+    "nama": "KELEP (RUSAK)",
+    "harga_modal": 0,
+    "harga": 3000
+  },
+  {
+    "item_id": "002.00102",
+    "nama": "KELEP BESAR",
+    "harga_modal": 850,
+    "harga": 5000
+  },
+  {
+    "item_id": "003.00196",
+    "nama": "KELEP BOLONG2",
+    "harga_modal": 750,
+    "harga": 5000
+  },
+  {
+    "item_id": "003.00058",
+    "nama": "KELEP KECIL",
+    "harga_modal": 750,
+    "harga": 5000
+  },
+  {
+    "item_id": "002.00103",
+    "nama": "KEPALA KOMPA TABUNG",
+    "harga_modal": 1800,
+    "harga": 8000
+  },
+  {
+    "item_id": "003.00181",
+    "nama": "KERANJANG 12 BESI TANPA BAUT",
+    "harga_modal": 13000,
+    "harga": 23000
+  },
+  {
+    "item_id": "003.00083",
+    "nama": "KERANJANG 16 WARNA (PINK KECIL)",
+    "harga_modal": 9000,
+    "harga": 18000
+  },
+  {
+    "item_id": "002.00105",
+    "nama": "KERANJANG 16 WARNA WARNI",
+    "harga_modal": 16000,
+    "harga": 40000
+  },
+  {
+    "item_id": "003.00186",
+    "nama": "KERANJANG BESAR BESI WARNA WARNI (GA DAPAT TIANG)",
+    "harga_modal": 26000,
+    "harga": 52000
+  },
+  {
+    "item_id": "003.00176",
+    "nama": "KERANJANG BESI TANGGUNG WARNA",
+    "harga_modal": 26500,
+    "harga": 45000
+  },
+  {
+    "item_id": "002.00104",
+    "nama": "KERANJANG BESI GENIO HITAM",
+    "harga_modal": 35500,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00106",
+    "nama": "KERANJANG PLS",
+    "harga_modal": 12000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00107",
+    "nama": "KERANJANG UNITED HITAM BESAR PLASTIK",
+    "harga_modal": 23000,
+    "harga": 40000
+  },
+  {
+    "item_id": "008.00001",
+    "nama": "KLAHER 6000 ABC (BELAKANG)",
+    "harga_modal": 3500,
+    "harga": 15000
+  },
+  {
+    "item_id": "008.00002",
+    "nama": "KLAHER 608 ABC (DEPAN)",
+    "harga_modal": 2000,
+    "harga": 15000
+  },
+  {
+    "item_id": "IMP0076",
+    "nama": "KLAHER 6000 NKN BELAKANG",
+    "harga_modal": 6750,
+    "harga": 15000
+  },
+  {
+    "item_id": "008.00009",
+    "nama": "KLAHER 6202 NKN",
+    "harga_modal": 8000,
+    "harga": 20000
+  },
+  {
+    "item_id": "008.00007",
+    "nama": "KLAHER 629 NKN",
+    "harga_modal": 6000,
+    "harga": 13000
+  },
+  {
+    "item_id": "008.00008",
+    "nama": "KLAHER 6300 NKN",
+    "harga_modal": 8500,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00191",
+    "nama": "KLAHER 6301",
+    "harga_modal": 9000,
+    "harga": 20000
+  },
+  {
+    "item_id": "IMP0077",
+    "nama": "KLAHER 6304 ABC",
+    "harga_modal": 8000,
+    "harga": 20000
+  },
+  {
+    "item_id": "008.00006",
+    "nama": "KLAHER 6903 NKN (BUAT GOESAN)",
+    "harga_modal": 9000,
+    "harga": 18000
+  },
+  {
+    "item_id": "008.00003",
+    "nama": "KLAHER HOYO 6204",
+    "harga_modal": 5250,
+    "harga": 25000
+  },
+  {
+    "item_id": "008.00004",
+    "nama": "KLAHER HOYO 6205",
+    "harga_modal": 5500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0078",
+    "nama": "KLAHER 6205 6204 TAN",
+    "harga_modal": 6000,
+    "harga": 25000
+  },
+  {
+    "item_id": "008.00005",
+    "nama": "KLAHER NKN 6003",
+    "harga_modal": 8000,
+    "harga": 2000
+  },
+  {
+    "item_id": "002.00108",
+    "nama": "KLAKSON TAYA",
+    "harga_modal": 24000,
+    "harga": 50000
+  },
+  {
+    "item_id": "009.00015",
+    "nama": "KOM GIR 16 CINA (KECIL)",
+    "harga_modal": 12000,
+    "harga": 35000
+  },
+  {
+    "item_id": "009.00014",
+    "nama": "KOM GIR 20 ATLANTIS",
+    "harga_modal": 13500,
+    "harga": 35000
+  },
+  {
+    "item_id": "009.00002",
+    "nama": "KOM TENGAH",
+    "harga_modal": 0,
+    "harga": 30000
+  },
+  {
+    "item_id": "009.00003",
+    "nama": "KOMFORK",
+    "harga_modal": 25000,
+    "harga": 50000
+  },
+  {
+    "item_id": "009.00004",
+    "nama": "KOMFORK INTER",
+    "harga_modal": 11000,
+    "harga": 35000
+  },
+  {
+    "item_id": "009.00006",
+    "nama": "KOMFORK LIPET QILANA (HIJAU)",
+    "harga_modal": 19000,
+    "harga": 40000
+  },
+  {
+    "item_id": "009.00005",
+    "nama": "KOMFORK PACIFIC 22.2",
+    "harga_modal": 11000,
+    "harga": 30000
+  },
+  {
+    "item_id": "009.00007",
+    "nama": "KOMFORK PASIFIC (8 PCS MERAH)",
+    "harga_modal": 10000,
+    "harga": 35000
+  },
+  {
+    "item_id": "009.00008",
+    "nama": "KOMFORK WARNA HIJAU/MERAH (INTER)",
+    "harga_modal": 0,
+    "harga": 35000
+  },
+  {
+    "item_id": "009.00009",
+    "nama": "KOMGIR",
+    "harga_modal": 25000,
+    "harga": 50000
+  },
+  {
+    "item_id": "009.00011",
+    "nama": "KOMGIR LANGSUNG TURANZA",
+    "harga_modal": 0,
+    "harga": 40000
+  },
+  {
+    "item_id": "009.00012",
+    "nama": "KOMGIR PASIFIC",
+    "harga_modal": 10000,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00081",
+    "nama": "KOMPA  PACIFIC HT",
+    "harga_modal": 42000,
+    "harga": 70000
+  },
+  {
+    "item_id": "002.00109",
+    "nama": "KOMPA TABUNG ATLANTIS",
+    "harga_modal": 52000,
+    "harga": 100000
+  },
+  {
+    "item_id": "020.00042",
+    "nama": "KOMPA TABUNG INTER HT",
+    "harga_modal": 47000,
+    "harga": 94000
+  },
+  {
+    "item_id": "003.00099",
+    "nama": "KOMPA TABUNG ODDYSEY",
+    "harga_modal": 60000,
+    "harga": 120000
+  },
+  {
+    "item_id": "IMP0079",
+    "nama": "KOMPA TABUNG SPARTA",
+    "harga_modal": 55000,
+    "harga": 100000
+  },
+  {
+    "item_id": "IMP0080",
+    "nama": "KOMPA TABUNG EXOTIC",
+    "harga_modal": 58000,
+    "harga": 100000
+  },
+  {
+    "item_id": "IMP0081",
+    "nama": "KOMPA TABUNG VERON",
+    "harga_modal": 49500,
+    "harga": 100000
+  },
+  {
+    "item_id": "IMP0082",
+    "nama": "KOMPA TABUNG PALAZZO",
+    "harga_modal": 55000,
+    "harga": 100000
+  },
+  {
+    "item_id": "009.00013",
+    "nama": "KOMSIR LIPET",
+    "harga_modal": 30000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00110",
+    "nama": "KONES",
+    "harga_modal": 1100,
+    "harga": 6000
+  },
+  {
+    "item_id": "020.00024",
+    "nama": "KONFLEKTOR LAMPU/PAIR",
+    "harga_modal": 2000,
+    "harga": 10000
+  },
+  {
+    "item_id": "003.00102",
+    "nama": "KSRET REM COLOK",
+    "harga_modal": 1500,
+    "harga": 10000
+  },
+  {
+    "item_id": "010.00001",
+    "nama": "KUNCI INGGRIS BESAR",
+    "harga_modal": 0,
+    "harga": 80000
+  },
+  {
+    "item_id": "010.00002",
+    "nama": "KUNCI INGGRIS KECIL",
+    "harga_modal": 0,
+    "harga": 65000
+  },
+  {
+    "item_id": "010.00006",
+    "nama": "KUNCI L",
+    "harga_modal": 5500,
+    "harga": 20000
+  },
+  {
+    "item_id": "010.00003",
+    "nama": "KUNCI PAS 10, 11, 12, 13. 14. 15",
+    "harga_modal": 22000,
+    "harga": 32000
+  },
+  {
+    "item_id": "IMP0083",
+    "nama": "KUNCI RING BULAT 14 15",
+    "harga_modal": 23000,
+    "harga": 33000
+  },
+  {
+    "item_id": "010.00004",
+    "nama": "KUNCI SPAK",
+    "harga_modal": 26500,
+    "harga": 42000
+  },
+  {
+    "item_id": "IMP0084",
+    "nama": "KUNCI SPIRAL MURAH",
+    "harga_modal": 7500,
+    "harga": 30000
+  },
+  {
+    "item_id": "010.00005",
+    "nama": "KUNCI SPIRAL EXOTIC",
+    "harga_modal": 18500,
+    "harga": 40000
+  },
+  {
+    "item_id": "IMP0085",
+    "nama": "KUNCI SPIRAL LIMITLESS",
+    "harga_modal": 17500,
+    "harga": 40000
+  },
+  {
+    "item_id": "IMP0086",
+    "nama": "KUNCI SPIRAL PACIFIC",
+    "harga_modal": 23000,
+    "harga": 40000
+  },
+  {
+    "item_id": "010.00008",
+    "nama": "KUNCI WING ONTHEL",
+    "harga_modal": 32000,
+    "harga": 60000
+  },
+  {
+    "item_id": "020.00010",
+    "nama": "LAMPU BELAKANG LED CHARGE",
+    "harga_modal": 12000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00112",
+    "nama": "LAMPU DEPAN LED CHARGE",
+    "harga_modal": 18500,
+    "harga": 75000
+  },
+  {
+    "item_id": "002.00111",
+    "nama": "LAMPU KEDIP",
+    "harga_modal": 5000,
+    "harga": 20000
+  },
+  {
+    "item_id": "003.00200",
+    "nama": "LAMPU LASER +BATRE (KOTAK MERAH)",
+    "harga_modal": 15000,
+    "harga": 30000
+  },
+  {
+    "item_id": "002.00113",
+    "nama": "LAMPU SENTER LED BATRE",
+    "harga_modal": 24000,
+    "harga": 48000
+  },
+  {
+    "item_id": "002.00114",
+    "nama": "LAMPU SEPEDA",
+    "harga_modal": 0,
+    "harga": 100000
+  },
+  {
+    "item_id": "002.00115",
+    "nama": "LEM KK",
+    "harga_modal": 9000,
+    "harga": 15000
+  },
+  {
+    "item_id": "011.00002",
+    "nama": "LETER S / RD MEREK PASIFIC / DERAILEUR",
+    "harga_modal": 33000,
+    "harga": 70000
+  },
+  {
+    "item_id": "IMP0087",
+    "nama": "RD BIASA GADA MERK",
+    "harga_modal": 22750,
+    "harga": 60000
+  },
+  {
+    "item_id": "011.00001",
+    "nama": "LETER S BOLAT TRN / DERAILEUR",
+    "harga_modal": 18000,
+    "harga": 50000
+  },
+  {
+    "item_id": "011.00003",
+    "nama": "LETER S TAYA/GADA MEREK / DERAILEUR",
+    "harga_modal": 0,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00116",
+    "nama": "MANGKOK DEPAN",
+    "harga_modal": 695,
+    "harga": 5000
+  },
+  {
+    "item_id": "IMP0088",
+    "nama": "MANGKOK BELAKANG",
+    "harga_modal": 833,
+    "harga": 0
+  },
+  {
+    "item_id": "002.00117",
+    "nama": "MANGKOK TIPIS",
+    "harga_modal": 0,
+    "harga": 5000
+  },
+  {
+    "item_id": "002.00120",
+    "nama": "MIMIS 1/4 MC / GROSS ATL",
+    "harga_modal": 5500,
+    "harga": 28000
+  },
+  {
+    "item_id": "020.00002",
+    "nama": "MIMIS BELAKANG SET",
+    "harga_modal": 0,
+    "harga": 15000
+  },
+  {
+    "item_id": "020.00001",
+    "nama": "MIMIS DEPAN SET",
+    "harga_modal": 0,
+    "harga": 15000
+  },
+  {
+    "item_id": "020.00022",
+    "nama": "MIMIS FOSL TW",
+    "harga_modal": 750,
+    "harga": 8000
+  },
+  {
+    "item_id": "020.00046",
+    "nama": "MIMIS GROSS BESAR PSP 1/4",
+    "harga_modal": 9000,
+    "harga": 28000
+  },
+  {
+    "item_id": "020.00047",
+    "nama": "MIMIS GROSS KECIL GADA MERK 3/16",
+    "harga_modal": 5000,
+    "harga": 16000
+  },
+  {
+    "item_id": "020.00025",
+    "nama": "MIMIS GROSS PASIFIC DEPAN KECIL",
+    "harga_modal": 5500,
+    "harga": 25000
+  },
+  {
+    "item_id": "020.00007",
+    "nama": "MIMIS SARANG BELAKANG",
+    "harga_modal": 1500,
+    "harga": 8000
+  },
+  {
+    "item_id": "020.00005",
+    "nama": "MIMIS SARANG BESAR 20",
+    "harga_modal": 2500,
+    "harga": 10000
+  },
+  {
+    "item_id": "020.00006",
+    "nama": "MIMIS SARANG DEPAN",
+    "harga_modal": 1150,
+    "harga": 8000
+  },
+  {
+    "item_id": "002.00118",
+    "nama": "MIMIS SARANG GIR 16",
+    "harga_modal": 2250,
+    "harga": 8000
+  },
+  {
+    "item_id": "020.00004",
+    "nama": "MIMIS SARANG LEHER KECIL",
+    "harga_modal": 1250,
+    "harga": 10000
+  },
+  {
+    "item_id": "IMP0089",
+    "nama": "MIMIS SARANG TENGAH/GIR",
+    "harga_modal": 1250,
+    "harga": 8000
+  },
+  {
+    "item_id": "020.00023",
+    "nama": "MIMIS SARANG LEHER OVERSIZE",
+    "harga_modal": 2500,
+    "harga": 10000
+  },
+  {
+    "item_id": "020.00020",
+    "nama": "MIMIS STANG GIR TW",
+    "harga_modal": 1000,
+    "harga": 10000
+  },
+  {
+    "item_id": "020.00003",
+    "nama": "MIMIS TENGAH/BUAT AS KERONCONG",
+    "harga_modal": 1100,
+    "harga": 8000
+  },
+  {
+    "item_id": "002.00121",
+    "nama": "MUR AS BECAK",
+    "harga_modal": 0,
+    "harga": 10000
+  },
+  {
+    "item_id": "011.00007",
+    "nama": "OUTER SHIFTER MARS",
+    "harga_modal": 15000,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00122",
+    "nama": "PAKU SEPI",
+    "harga_modal": 600,
+    "harga": 5000
+  },
+  {
+    "item_id": "002.00123",
+    "nama": "PAKU STANG",
+    "harga_modal": 3500,
+    "harga": 10000
+  },
+  {
+    "item_id": "002.00124",
+    "nama": "PAKU STANG MTB PAKE KONCI",
+    "harga_modal": 4000,
+    "harga": 15000
+  },
+  {
+    "item_id": "012.00013",
+    "nama": "PEDAL 16 KOTAK HT/WARNA UKURAN 12",
+    "harga_modal": 13750,
+    "harga": 30000
+  },
+  {
+    "item_id": "012.00011",
+    "nama": "PEDAL 20 MORISON",
+    "harga_modal": 9250,
+    "harga": 35000
+  },
+  {
+    "item_id": "012.00001",
+    "nama": "PEDAL 807 (KECIL)",
+    "harga_modal": 11000,
+    "harga": 30000
+  },
+  {
+    "item_id": "012.00002",
+    "nama": "PEDAL ALLOY (BESI ITEM/WARNA)",
+    "harga_modal": 31000,
+    "harga": 50000
+  },
+  {
+    "item_id": "012.00003",
+    "nama": "PEDAL ALLOY HITAM",
+    "harga_modal": 35000,
+    "harga": 70000
+  },
+  {
+    "item_id": "012.00004",
+    "nama": "PEDAL ATLANTIS KOTAK HI",
+    "harga_modal": 7500,
+    "harga": 30000
+  },
+  {
+    "item_id": "012.00006",
+    "nama": "PEDAL BESAR DERAT KECIL HITAM",
+    "harga_modal": 7500,
+    "harga": 30000
+  },
+  {
+    "item_id": "012.00014",
+    "nama": "PEDAL BESAR I",
+    "harga_modal": 16500,
+    "harga": 40000
+  },
+  {
+    "item_id": "012.00005",
+    "nama": "PEDAL BESI KARET INTER",
+    "harga_modal": 22000,
+    "harga": 45000
+  },
+  {
+    "item_id": "012.00010",
+    "nama": "PEDAL HITAM DERAT BESAR",
+    "harga_modal": 11500,
+    "harga": 40000
+  },
+  {
+    "item_id": "012.00016",
+    "nama": "PEDAL KECIL DERAT KECIL 16 WARNA",
+    "harga_modal": 7500,
+    "harga": 30000
+  },
+  {
+    "item_id": "012.00007",
+    "nama": "PEDAL KUCING",
+    "harga_modal": 7000,
+    "harga": 30000
+  },
+  {
+    "item_id": "012.00008",
+    "nama": "PEDAL SINCAN",
+    "harga_modal": 7500,
+    "harga": 15000
+  },
+  {
+    "item_id": "012.00009",
+    "nama": "PEDAL TUR KOTAK WARNA",
+    "harga_modal": 13000,
+    "harga": 30000
+  },
+  {
+    "item_id": "012.00015",
+    "nama": "PEDAL WARNA TAYA DERAT BESAR",
+    "harga_modal": 13500,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00203",
+    "nama": "PELUMAS RANTE",
+    "harga_modal": 13000,
+    "harga": 26000
+  },
+  {
+    "item_id": "002.00125",
+    "nama": "PENTIL 1 M",
+    "harga_modal": 0,
+    "harga": 20000
+  },
+  {
+    "item_id": "002.00126",
+    "nama": "PENTIL JUMBO",
+    "harga_modal": 1250,
+    "harga": 5000
+  },
+  {
+    "item_id": "002.00127",
+    "nama": "PENTIL KARET",
+    "harga_modal": 417,
+    "harga": 5000
+  },
+  {
+    "item_id": "IMP0090",
+    "nama": "PENTIL BENGKOK TUBELESS",
+    "harga_modal": 5000,
+    "harga": 10000
+  },
+  {
+    "item_id": "002.00128",
+    "nama": "PER BINTANG 12",
+    "harga_modal": 17000,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00129",
+    "nama": "PER STANDAR",
+    "harga_modal": 1500,
+    "harga": 10000
+  },
+  {
+    "item_id": "003.00062",
+    "nama": "PILOK ATZ",
+    "harga_modal": 15000,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00184",
+    "nama": "PILOK BLACK DITON",
+    "harga_modal": 21000,
+    "harga": 30000
+  },
+  {
+    "item_id": "020.00045",
+    "nama": "PILOK GOLD & GREEN REVO",
+    "harga_modal": 18500,
+    "harga": 28000
+  },
+  {
+    "item_id": "003.00111",
+    "nama": "PILOK PINK",
+    "harga_modal": 16500,
+    "harga": 26000
+  },
+  {
+    "item_id": "003.00178",
+    "nama": "PILOK RED DAN BLACK DOFF MERK MTR",
+    "harga_modal": 18000,
+    "harga": 26000
+  },
+  {
+    "item_id": "003.00063",
+    "nama": "PILOK YELLOW ALTIS",
+    "harga_modal": 15500,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00130",
+    "nama": "POMPA /KOMPA ALOY PENDEK",
+    "harga_modal": 17000,
+    "harga": 40000
+  },
+  {
+    "item_id": "002.00131",
+    "nama": "POMPA PSP HI",
+    "harga_modal": 27000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00132",
+    "nama": "POMPA VARIED",
+    "harga_modal": 0,
+    "harga": 62500
+  },
+  {
+    "item_id": "002.00133",
+    "nama": "POMPA/KOMPA ALLOY (PLASTIK WARNA)",
+    "harga_modal": 29000,
+    "harga": 50000
+  },
+  {
+    "item_id": "013.00001",
+    "nama": "PRIWIL 16 UNIFLY/EXOTIC/DIAMOND",
+    "harga_modal": 14000,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0091",
+    "nama": "PRIWIL 16 UNITED",
+    "harga_modal": 16500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0092",
+    "nama": "PRIWIL 16 GENIO",
+    "harga_modal": 12500,
+    "harga": 30000
+  },
+  {
+    "item_id": "013.00002",
+    "nama": "PRIWIL 18 ATLANTIS",
+    "harga_modal": 13500,
+    "harga": 30000
+  },
+  {
+    "item_id": "013.00010",
+    "nama": "PRIWIL 18 TAYA",
+    "harga_modal": 11500,
+    "harga": 30000
+  },
+  {
+    "item_id": "013.00013",
+    "nama": "PRIWIL 18T DIAMOND",
+    "harga_modal": 14000,
+    "harga": 30000
+  },
+  {
+    "item_id": "013.00014",
+    "nama": "PRIWIL 18T EXOTIC",
+    "harga_modal": 16000,
+    "harga": 30000
+  },
+  {
+    "item_id": "013.00009",
+    "nama": "PRIWIL 20 UNITED",
+    "harga_modal": 21500,
+    "harga": 40000
+  },
+  {
+    "item_id": "013.00007",
+    "nama": "PRIWIL 20T EXOTIC",
+    "harga_modal": 18500,
+    "harga": 40000
+  },
+  {
+    "item_id": "013.00012",
+    "nama": "PRIWIL 22T LEADER",
+    "harga_modal": 21000,
+    "harga": 42000
+  },
+  {
+    "item_id": "013.00003",
+    "nama": "PRIWIL 22T TAYA",
+    "harga_modal": 21000,
+    "harga": 41000
+  },
+  {
+    "item_id": "IMP0093",
+    "nama": "PRIWIL 22T UNITED",
+    "harga_modal": 26500,
+    "harga": 50000
+  },
+  {
+    "item_id": "013.00004",
+    "nama": "PRIWIL 24 T BESAR",
+    "harga_modal": 17500,
+    "harga": 50000
+  },
+  {
+    "item_id": "013.00008",
+    "nama": "PRIWIL 2OT DIAMOND",
+    "harga_modal": 14750,
+    "harga": 25000
+  },
+  {
+    "item_id": "013.00005",
+    "nama": "PRIWIL DTO 6 SUSUN",
+    "harga_modal": 0,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00076",
+    "nama": "PRIWIL FIKSI",
+    "harga_modal": 10000,
+    "harga": 30000
+  },
+  {
+    "item_id": "013.00006",
+    "nama": "PRIWIL TAYA 6 SUSUN (MERAH)",
+    "harga_modal": 28000,
+    "harga": 60000
+  },
+  {
+    "item_id": "013.00011",
+    "nama": "PRIWIL TAYA 8 SUSUN 8S",
+    "harga_modal": 80000,
+    "harga": 135000
+  },
+  {
+    "item_id": "020.00016",
+    "nama": "QR SEATCLAMP",
+    "harga_modal": 14000,
+    "harga": 28000
+  },
+  {
+    "item_id": "IMP0094",
+    "nama": "RANTE CELCIUS HITAM",
+    "harga_modal": 15750,
+    "harga": 35000
+  },
+  {
+    "item_id": "IMP0095",
+    "nama": "RANTE EXOTIC",
+    "harga_modal": 15000,
+    "harga": 35000
+  },
+  {
+    "item_id": "IMP0096",
+    "nama": "RANTE UNITED",
+    "harga_modal": 22000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00134",
+    "nama": "RANTE DTO",
+    "harga_modal": 15750,
+    "harga": 35000
+  },
+  {
+    "item_id": "003.00136",
+    "nama": "RANTE OPERAN ATL 116",
+    "harga_modal": 20500,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00138",
+    "nama": "RANTE 8S GOLD PYC",
+    "harga_modal": 80000,
+    "harga": 140000
+  },
+  {
+    "item_id": "003.00135",
+    "nama": "RANTE 8S SHIMANO",
+    "harga_modal": 75000,
+    "harga": 125000
+  },
+  {
+    "item_id": "003.00046",
+    "nama": "RANTE BALAP DTO",
+    "harga_modal": 20000,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00135",
+    "nama": "RANTE BINTANG",
+    "harga_modal": 21000,
+    "harga": 40000
+  },
+  {
+    "item_id": "003.00121",
+    "nama": "RANTE GENIO",
+    "harga_modal": 20000,
+    "harga": 40000
+  },
+  {
+    "item_id": "003.00070",
+    "nama": "RANTE MAYA",
+    "harga_modal": 20000,
+    "harga": 40000
+  },
+  {
+    "item_id": "003.00122",
+    "nama": "RANTE PASIFIC",
+    "harga_modal": 17750,
+    "harga": 50000
+  },
+  {
+    "item_id": "002.00137",
+    "nama": "RANTE PASIFIC, TAYA (PUTIH)",
+    "harga_modal": 0,
+    "harga": 50000
+  },
+  {
+    "item_id": "011.00008",
+    "nama": "RD T X 35 7S BAUT L SHIMANO OEM",
+    "harga_modal": 125000,
+    "harga": 200000
+  },
+  {
+    "item_id": "011.00020",
+    "nama": "RD T2 CAPIT",
+    "harga_modal": 60000,
+    "harga": 100000
+  },
+  {
+    "item_id": "014.00001",
+    "nama": "REM BMX ABU2",
+    "harga_modal": 31000,
+    "harga": 70000
+  },
+  {
+    "item_id": "IMP0097",
+    "nama": "REM ONTHEL",
+    "harga_modal": 60000,
+    "harga": 100000
+  },
+  {
+    "item_id": "014.00002",
+    "nama": "REM BMX SET",
+    "harga_modal": 25000,
+    "harga": 60000
+  },
+  {
+    "item_id": "014.00005",
+    "nama": "REM FIKSI",
+    "harga_modal": 135000,
+    "harga": 160000
+  },
+  {
+    "item_id": "014.00003",
+    "nama": "REM V BRAKE TAYA",
+    "harga_modal": 39000,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00123",
+    "nama": "REM V BRAKE TURANZA",
+    "harga_modal": 48000,
+    "harga": 75000
+  },
+  {
+    "item_id": "014.00004",
+    "nama": "REM VIBREK (V BRAKE) FWD",
+    "harga_modal": 38000,
+    "harga": 75000
+  },
+  {
+    "item_id": "015.00004",
+    "nama": "RODA  BANTU ODDYSEY",
+    "harga_modal": 36000,
+    "harga": 75000
+  },
+  {
+    "item_id": "IMP0098",
+    "nama": "RODA BANTU 12-20 BESI PANJANG GADA MERK",
+    "harga_modal": 27500,
+    "harga": 55000
+  },
+  {
+    "item_id": "IMP0099",
+    "nama": "RODA BANTU 12-20 INTER BESI PANJANG",
+    "harga_modal": 30000,
+    "harga": 65000
+  },
+  {
+    "item_id": "003.00071",
+    "nama": "RODA AS",
+    "harga_modal": 270000,
+    "harga": 350000
+  },
+  {
+    "item_id": "015.00009",
+    "nama": "RODA BANTU 12/16 INTER",
+    "harga_modal": 22000,
+    "harga": 40000
+  },
+  {
+    "item_id": "015.00011",
+    "nama": "RODA BANTU EXOTIC",
+    "harga_modal": 22500,
+    "harga": 45000
+  },
+  {
+    "item_id": "015.00010",
+    "nama": "RODA BANTU FWD/GADA MERK",
+    "harga_modal": 21000,
+    "harga": 40000
+  },
+  {
+    "item_id": "IMP0100",
+    "nama": "RODA BANTU MORISON 12",
+    "harga_modal": 14500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0101",
+    "nama": "RODA BANTU INTER 12/20",
+    "harga_modal": 55000,
+    "harga": 28000
+  },
+  {
+    "item_id": "015.00001",
+    "nama": "RODA BANTU TAYA",
+    "harga_modal": 25000,
+    "harga": 45000
+  },
+  {
+    "item_id": "015.00002",
+    "nama": "RODA BANTU TURANZA",
+    "harga_modal": 32000,
+    "harga": 60000
+  },
+  {
+    "item_id": "015.00003",
+    "nama": "RODA BANTU UNITED",
+    "harga_modal": 48500,
+    "harga": 85000
+  },
+  {
+    "item_id": "003.00187",
+    "nama": "RODA GEROBAK KECIL + TIANG/GETREK",
+    "harga_modal": 110000,
+    "harga": 200000
+  },
+  {
+    "item_id": "015.00007",
+    "nama": "RODA SAMPING 16 MERINO",
+    "harga_modal": 23000,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0102",
+    "nama": "RODA SAMPING 12-20 ROMANO",
+    "harga_modal": 30000,
+    "harga": 65000
+  },
+  {
+    "item_id": "IMP0103",
+    "nama": "RODA SAMPING 12-20 GENIO",
+    "harga_modal": 29500,
+    "harga": 65000
+  },
+  {
+    "item_id": "IMP0104",
+    "nama": "RODA SAMPING 12-16 NIRVANA",
+    "harga_modal": 25500,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0105",
+    "nama": "RODA SAMPING 12-20 GADA MERK",
+    "harga_modal": 30500,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0106",
+    "nama": "RODA SAMPING KHUSUS 16 GADA MERK",
+    "harga_modal": 12500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0107",
+    "nama": "RODA SAMPING 12-20 PACIFIC WITH MERK",
+    "harga_modal": 44000,
+    "harga": 75000
+  },
+  {
+    "item_id": "015.00006",
+    "nama": "RODA SAMPING 20 INTER",
+    "harga_modal": 27000,
+    "harga": 50000
+  },
+  {
+    "item_id": "015.00008",
+    "nama": "RODA SAMPING 20 PACIFIC",
+    "harga_modal": 37500,
+    "harga": 70000
+  },
+  {
+    "item_id": "015.00012",
+    "nama": "RODA SAMPING NYALA LAMPU 12-16 EXOTIC/INTER",
+    "harga_modal": 30000,
+    "harga": 60000
+  },
+  {
+    "item_id": "002.00155",
+    "nama": "ROKOK",
+    "harga_modal": 0,
+    "harga": 16000
+  },
+  {
+    "item_id": "002.00138",
+    "nama": "ROKOK 1 SLUP",
+    "harga_modal": 0,
+    "harga": 150000
+  },
+  {
+    "item_id": "003.00107",
+    "nama": "ROTOR C 160",
+    "harga_modal": 0,
+    "harga": 70000
+  },
+  {
+    "item_id": "016.00001",
+    "nama": "SADEL ARTEX",
+    "harga_modal": 16500,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00002",
+    "nama": "SADEL 12 KARTUN",
+    "harga_modal": 15000,
+    "harga": 30000
+  },
+  {
+    "item_id": "016.00003",
+    "nama": "SADEL 12 TAYA",
+    "harga_modal": 16000,
+    "harga": 30000
+  },
+  {
+    "item_id": "016.00024",
+    "nama": "SADEL 12/16 (DENGAN TIANG SADEL)",
+    "harga_modal": 14500,
+    "harga": 30000
+  },
+  {
+    "item_id": "016.00005",
+    "nama": "SADEL 16 FWD TEBEL",
+    "harga_modal": 22000,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0108",
+    "nama": "SADEL 16 GENIO ANAK",
+    "harga_modal": 16500,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0109",
+    "nama": "SADEL 16 MORISON",
+    "harga_modal": 15000,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0110",
+    "nama": "SADEL 16 UNITED ANAK",
+    "harga_modal": 23500,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00019",
+    "nama": "SADEL 16 KARTUN INTER",
+    "harga_modal": 17500,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00006",
+    "nama": "SADEL ABU2",
+    "harga_modal": 16000,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00031",
+    "nama": "SADEL ALEXO?",
+    "harga_modal": 0,
+    "harga": 100000
+  },
+  {
+    "item_id": "016.00004",
+    "nama": "SADEL ANAK PINK",
+    "harga_modal": 17500,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00021",
+    "nama": "SADEL BMX INTER EXOTIC ARTEX",
+    "harga_modal": 15500,
+    "harga": 35000
+  },
+  {
+    "item_id": "IMP0111",
+    "nama": "SADEL BMX SPIDERMAN",
+    "harga_modal": 21000,
+    "harga": 40000
+  },
+  {
+    "item_id": "IMP0112",
+    "nama": "SADEL BMX MORISON",
+    "harga_modal": 16500,
+    "harga": 35000
+  },
+  {
+    "item_id": "IMP0113",
+    "nama": "SADEL BMX PHIRO",
+    "harga_modal": 20000,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00029",
+    "nama": "SADEL BMX TAYA PACIFIC",
+    "harga_modal": 18000,
+    "harga": 36000
+  },
+  {
+    "item_id": "016.00007",
+    "nama": "SADEL BMX EXOTIC BARU",
+    "harga_modal": 21000,
+    "harga": 35000
+  },
+  {
+    "item_id": "IMP0114",
+    "nama": "SADEL PER LAMPU PACIFIC/GENIO",
+    "harga_modal": 21000,
+    "harga": 75000
+  },
+  {
+    "item_id": "016.00008",
+    "nama": "SADEL HI",
+    "harga_modal": 21500,
+    "harga": 65000
+  },
+  {
+    "item_id": "016.00009",
+    "nama": "SADEL KARTUN",
+    "harga_modal": 15000,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00025",
+    "nama": "SADEL KULIT ONTHEL",
+    "harga_modal": 66000,
+    "harga": 100000
+  },
+  {
+    "item_id": "016.00010",
+    "nama": "SADEL LABA2",
+    "harga_modal": 0,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00011",
+    "nama": "SADEL LIPAT ODDYSEY BESAR",
+    "harga_modal": 32000,
+    "harga": 70000
+  },
+  {
+    "item_id": "016.00026",
+    "nama": "SADEL LIPAT TURANZA BESAR",
+    "harga_modal": 39000,
+    "harga": 70000
+  },
+  {
+    "item_id": "016.00012",
+    "nama": "SADEL MINI HT / STARBIKE",
+    "harga_modal": 33000,
+    "harga": 65000
+  },
+  {
+    "item_id": "016.00022",
+    "nama": "SADEL MINI PER - AX HITAM",
+    "harga_modal": 25000,
+    "harga": 50000
+  },
+  {
+    "item_id": "016.00023",
+    "nama": "SADEL MINI PER - TX",
+    "harga_modal": 24000,
+    "harga": 50000
+  },
+  {
+    "item_id": "016.00013",
+    "nama": "SADEL MTB ATLANTIS",
+    "harga_modal": 21000,
+    "harga": 65000
+  },
+  {
+    "item_id": "IMP0115",
+    "nama": "SADEL MTB BOLONG",
+    "harga_modal": 65000,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00020",
+    "nama": "SADEL MTB INT II",
+    "harga_modal": 17500,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00014",
+    "nama": "SADEL MTB ODDYSEY HITAM PER",
+    "harga_modal": 32000,
+    "harga": 65000
+  },
+  {
+    "item_id": "016.00015",
+    "nama": "SADEL MTB PACIFIC",
+    "harga_modal": 27500,
+    "harga": 60000
+  },
+  {
+    "item_id": "016.00028",
+    "nama": "SADEL MTB TURANZA (SEPERTI PASIFIC) TANPA PER",
+    "harga_modal": 0,
+    "harga": 60000
+  },
+  {
+    "item_id": "016.00016",
+    "nama": "SADEL MUSTANG",
+    "harga_modal": 14000,
+    "harga": 35000
+  },
+  {
+    "item_id": "016.00032",
+    "nama": "SADEL PER AX",
+    "harga_modal": 27000,
+    "harga": 55000
+  },
+  {
+    "item_id": "016.00030",
+    "nama": "SADEL PER KAYA MOTOR BESAR",
+    "harga_modal": 80000,
+    "harga": 115000
+  },
+  {
+    "item_id": "016.00018",
+    "nama": "SADEL PER WARNA",
+    "harga_modal": 26500,
+    "harga": 65000
+  },
+  {
+    "item_id": "016.00017",
+    "nama": "SADEL UNITED",
+    "harga_modal": 52500,
+    "harga": 100000
+  },
+  {
+    "item_id": "003.00060",
+    "nama": "SAMBUNGAN RANTE",
+    "harga_modal": 1500,
+    "harga": 5000
+  },
+  {
+    "item_id": "003.00086",
+    "nama": "SARUNG / COVER JOK 3D SEPEDA GUNUNG",
+    "harga_modal": 12000,
+    "harga": 30000
+  },
+  {
+    "item_id": "003.00092",
+    "nama": "SEAT CLAMP 25./28.6(PALING KECIL)",
+    "harga_modal": 23000,
+    "harga": 45000
+  },
+  {
+    "item_id": "003.00093",
+    "nama": "SEAT CLAMP 31.8",
+    "harga_modal": 25000,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00094",
+    "nama": "SEAT CLAMP 34.9",
+    "harga_modal": 25000,
+    "harga": 50000
+  },
+  {
+    "item_id": "020.00011",
+    "nama": "SEATPOST ALLOY 28.6 X 25 TAYA",
+    "harga_modal": 33000,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00095",
+    "nama": "SEATPOST ALLOY UNITED 30.9X400",
+    "harga_modal": 125000,
+    "harga": 160000
+  },
+  {
+    "item_id": "002.00139",
+    "nama": "SELANG KOMPA PLASTIK",
+    "harga_modal": 4000,
+    "harga": 20000
+  },
+  {
+    "item_id": "002.00140",
+    "nama": "SELANG KOMPA TABUNG",
+    "harga_modal": 4750,
+    "harga": 25000
+  },
+  {
+    "item_id": "011.00018",
+    "nama": "SHIFTER + HANDLE MTB SET",
+    "harga_modal": 82500,
+    "harga": 170000
+  },
+  {
+    "item_id": "011.00005",
+    "nama": "SHIFTER 3X7 PER PAIR",
+    "harga_modal": 70900,
+    "harga": 150000
+  },
+  {
+    "item_id": "011.00004",
+    "nama": "SHIFTER 7 SPEED ALEVIO",
+    "harga_modal": 0,
+    "harga": 170000
+  },
+  {
+    "item_id": "011.00011",
+    "nama": "SHIFTER ALTUS M2000 3X9",
+    "harga_modal": 275000,
+    "harga": 375000
+  },
+  {
+    "item_id": "011.00019",
+    "nama": "SHIFTER MODEL LAMA/PSG",
+    "harga_modal": 28200,
+    "harga": 60000
+  },
+  {
+    "item_id": "011.00014",
+    "nama": "SHIFTER T X 35 KANAN",
+    "harga_modal": 27500,
+    "harga": 105000
+  },
+  {
+    "item_id": "002.00141",
+    "nama": "SOBREKER",
+    "harga_modal": 0,
+    "harga": 100000
+  },
+  {
+    "item_id": "003.00074",
+    "nama": "SOK BREKER 26",
+    "harga_modal": 210000,
+    "harga": 260000
+  },
+  {
+    "item_id": "IMP0116",
+    "nama": "SPAK 12 X 28 PACIFIC 1/2 GROSS",
+    "harga_modal": 52000,
+    "harga": 0
+  },
+  {
+    "item_id": "IMP0117",
+    "nama": "SPAK 12 X 28 UNITED 1 GROSS",
+    "harga_modal": 78000,
+    "harga": 130000
+  },
+  {
+    "item_id": "017.00002",
+    "nama": "SPAK 12 X 28 MAYA / GROSS",
+    "harga_modal": 62500,
+    "harga": 108000
+  },
+  {
+    "item_id": "IMP0118",
+    "nama": "SPAK 12 X 28 UNITY CELCIUS / GROSS",
+    "harga_modal": 78500,
+    "harga": 130000
+  },
+  {
+    "item_id": "020.00043",
+    "nama": "SPAK 12 X 28 SUPER / GROSS",
+    "harga_modal": 70000,
+    "harga": 110000
+  },
+  {
+    "item_id": "017.00003",
+    "nama": "SPAK 13 X 28 MAYA / GROSS",
+    "harga_modal": 52500,
+    "harga": 100000
+  },
+  {
+    "item_id": "IMP0119",
+    "nama": "SPAK 13 X 28 UNITY / GROSS",
+    "harga_modal": 68750,
+    "harga": 100000
+  },
+  {
+    "item_id": "017.00001",
+    "nama": "SPAK 14 X 12 MAYA",
+    "harga_modal": 33500,
+    "harga": 60000
+  },
+  {
+    "item_id": "020.00008",
+    "nama": "SPAK 14 X 16 MAYA",
+    "harga_modal": 32000,
+    "harga": 64000
+  },
+  {
+    "item_id": "020.00017",
+    "nama": "SPAK 14 X 18 MAYA",
+    "harga_modal": 33000,
+    "harga": 66000
+  },
+  {
+    "item_id": "017.00004",
+    "nama": "SPAK 14 X 20 MAYA PER GORSS",
+    "harga_modal": 34000,
+    "harga": 68000
+  },
+  {
+    "item_id": "020.00013",
+    "nama": "SPAK 14 X 24 MAYA / GROSS",
+    "harga_modal": 37000,
+    "harga": 74000
+  },
+  {
+    "item_id": "017.00005",
+    "nama": "SPAK 16",
+    "harga_modal": 25000,
+    "harga": 55000
+  },
+  {
+    "item_id": "017.00006",
+    "nama": "SPAK 18",
+    "harga_modal": 25000,
+    "harga": 55000
+  },
+  {
+    "item_id": "017.00007",
+    "nama": "SPAK 20",
+    "harga_modal": 25000,
+    "harga": 60000
+  },
+  {
+    "item_id": "017.00008",
+    "nama": "SPAK 24 MTB 1 GROSS/144",
+    "harga_modal": 50000,
+    "harga": 100000
+  },
+  {
+    "item_id": "020.00032",
+    "nama": "SPAK 26 1 3/8 STAR / GROSS",
+    "harga_modal": 55000,
+    "harga": 105000
+  },
+  {
+    "item_id": "017.00009",
+    "nama": "SPAK 26 MTB 1 GROSS/144",
+    "harga_modal": 50000,
+    "harga": 100000
+  },
+  {
+    "item_id": "002.00142",
+    "nama": "SPAKBOR BESAR PLASTIK",
+    "harga_modal": 6000,
+    "harga": 35000
+  },
+  {
+    "item_id": "018.00008",
+    "nama": "SPAKBOR BESI 24",
+    "harga_modal": 30000,
+    "harga": 65000
+  },
+  {
+    "item_id": "003.00156",
+    "nama": "SPAKBOR BESI 26",
+    "harga_modal": 62500,
+    "harga": 100000
+  },
+  {
+    "item_id": "002.00143",
+    "nama": "SPAKBOR KECIL PLASTIK",
+    "harga_modal": 0,
+    "harga": 20000
+  },
+  {
+    "item_id": "002.00144",
+    "nama": "SPAKBOR SCORPION",
+    "harga_modal": 10000,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00145",
+    "nama": "SPAKBOR WARNA",
+    "harga_modal": 6000,
+    "harga": 25000
+  },
+  {
+    "item_id": "011.00017",
+    "nama": "SPROCKET DIAMOND 7 SPEED",
+    "harga_modal": 54500,
+    "harga": 110000
+  },
+  {
+    "item_id": "011.00016",
+    "nama": "SPROCKET PACIFIC 8 SPEED ULIR",
+    "harga_modal": 140500,
+    "harga": 300000
+  },
+  {
+    "item_id": "011.00013",
+    "nama": "SPROCKET SHIMANO 6S MF-TZ20",
+    "harga_modal": 90000,
+    "harga": 175000
+  },
+  {
+    "item_id": "011.00015",
+    "nama": "SPROCKET SHIMANO 8S 11-34 ALTUS",
+    "harga_modal": 165000,
+    "harga": 350000
+  },
+  {
+    "item_id": "011.00010",
+    "nama": "SPROCKET SHIMANO TIAGRA 10S 11-34T",
+    "harga_modal": 0,
+    "harga": 460000
+  },
+  {
+    "item_id": "018.00001",
+    "nama": "STANDAR 12",
+    "harga_modal": 6000,
+    "harga": 25000
+  },
+  {
+    "item_id": "018.00002",
+    "nama": "STANDAR 16",
+    "harga_modal": 7500,
+    "harga": 30000
+  },
+  {
+    "item_id": "018.00003",
+    "nama": "STANDAR 20 ATL",
+    "harga_modal": 8000,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0120",
+    "nama": "STANDAR 20 PACIFIC",
+    "harga_modal": 12000,
+    "harga": 30000
+  },
+  {
+    "item_id": "018.00018",
+    "nama": "STANDAR 16-20 EXOTIC ADJUSTABLE",
+    "harga_modal": 28500,
+    "harga": 60000
+  },
+  {
+    "item_id": "018.00017",
+    "nama": "STANDAR 16-20 TENGAH PACIFIC ADJUSTABLE",
+    "harga_modal": 35000,
+    "harga": 70000
+  },
+  {
+    "item_id": "018.00004",
+    "nama": "STANDAR 20 INT NK",
+    "harga_modal": 11500,
+    "harga": 30000
+  },
+  {
+    "item_id": "018.00019",
+    "nama": "STANDAR 20-27.5 EXOTIC ADJUSTABLE",
+    "harga_modal": 30000,
+    "harga": 65000
+  },
+  {
+    "item_id": "IMP0121",
+    "nama": "STANDAR 20 KUNCI",
+    "harga_modal": 9750,
+    "harga": 30000
+  },
+  {
+    "item_id": "018.00005",
+    "nama": "STANDAR 24",
+    "harga_modal": 11000,
+    "harga": 35000
+  },
+  {
+    "item_id": "018.00006",
+    "nama": "STANDAR 26",
+    "harga_modal": 11000,
+    "harga": 40000
+  },
+  {
+    "item_id": "018.00016",
+    "nama": "STANDAR 26 BAUT DUA UNICYLE",
+    "harga_modal": 13500,
+    "harga": 40000
+  },
+  {
+    "item_id": "IMP0122",
+    "nama": "STANDAR 24-28 BAUT DUA UNITED",
+    "harga_modal": 41500,
+    "harga": 80000
+  },
+  {
+    "item_id": "IMP0123",
+    "nama": "STANDAR BAUT DUA PACIFIC",
+    "harga_modal": 27500,
+    "harga": 80000
+  },
+  {
+    "item_id": "IMP0124",
+    "nama": "STANDAR BAUT DUA 26 EXOTIC",
+    "harga_modal": 9750,
+    "harga": 70000
+  },
+  {
+    "item_id": "IMP0125",
+    "nama": "STANDAR JEPIT 26 ALLOY",
+    "harga_modal": 38500,
+    "harga": 80000
+  },
+  {
+    "item_id": "018.00015",
+    "nama": "STANDAR 27,5 INTER",
+    "harga_modal": 16000,
+    "harga": 40000
+  },
+  {
+    "item_id": "018.00013",
+    "nama": "STANDAR BAUT ALLOY PASIFIC/NO MERK",
+    "harga_modal": 42500,
+    "harga": 80000
+  },
+  {
+    "item_id": "018.00007",
+    "nama": "STANDAR DIRI/TENGAH 20 UN ITED",
+    "harga_modal": 54000,
+    "harga": 85000
+  },
+  {
+    "item_id": "018.00014",
+    "nama": "STANDAR EXOTIC",
+    "harga_modal": 49000,
+    "harga": 79000
+  },
+  {
+    "item_id": "018.00009",
+    "nama": "STANDAR HT/HITAM",
+    "harga_modal": 0,
+    "harga": 30000
+  },
+  {
+    "item_id": "018.00012",
+    "nama": "STANDAR ONTHEL",
+    "harga_modal": 60000,
+    "harga": 80000
+  },
+  {
+    "item_id": "003.00073",
+    "nama": "STANDAR ONTHEL",
+    "harga_modal": 0,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0126",
+    "nama": "STANDAR U LISTRIK",
+    "harga_modal": 66000,
+    "harga": 100000
+  },
+  {
+    "item_id": "018.00010",
+    "nama": "STANDAR PASIFIC 26 ALLOY PSP MODEL BARU",
+    "harga_modal": 44000,
+    "harga": 80000
+  },
+  {
+    "item_id": "018.00011",
+    "nama": "STANDAR TENGAH MINI 24, 26",
+    "harga_modal": 37500,
+    "harga": 80000
+  },
+  {
+    "item_id": "019.00009",
+    "nama": "STANG 16",
+    "harga_modal": 23000,
+    "harga": 60000
+  },
+  {
+    "item_id": "019.00001",
+    "nama": "STANG BMX BAGUS",
+    "harga_modal": 0,
+    "harga": 70000
+  },
+  {
+    "item_id": "019.00002",
+    "nama": "STANG BMX BIASA HITAM",
+    "harga_modal": 28000,
+    "harga": 70000
+  },
+  {
+    "item_id": "019.00003",
+    "nama": "STANG JENGKI (PUTIH AKI2)",
+    "harga_modal": 20000,
+    "harga": 60000
+  },
+  {
+    "item_id": "019.00004",
+    "nama": "STANG JEPIT",
+    "harga_modal": 22500,
+    "harga": 40000
+  },
+  {
+    "item_id": "019.00012",
+    "nama": "STANG LIPAT/MTB/MINION 57CM",
+    "harga_modal": 27000,
+    "harga": 65000
+  },
+  {
+    "item_id": "019.00005",
+    "nama": "STANG MTB BAGUS",
+    "harga_modal": 0,
+    "harga": 135000
+  },
+  {
+    "item_id": "019.00006",
+    "nama": "STANG MTB BIASA LURUS",
+    "harga_modal": 0,
+    "harga": 75000
+  },
+  {
+    "item_id": "019.00007",
+    "nama": "STANG UNITED HITAM",
+    "harga_modal": 105000,
+    "harga": 160000
+  },
+  {
+    "item_id": "019.00008",
+    "nama": "STANG X CROSS",
+    "harga_modal": 65000,
+    "harga": 125000
+  },
+  {
+    "item_id": "019.00011",
+    "nama": "STANG ZOOM UNITED PUTIH",
+    "harga_modal": 117000,
+    "harga": 170000
+  },
+  {
+    "item_id": "019.00010",
+    "nama": "STANG/HANDLE BAR AXG",
+    "harga_modal": 105000,
+    "harga": 135000
+  },
+  {
+    "item_id": "IMP0127",
+    "nama": "STANG ONTHEL",
+    "harga_modal": 81500,
+    "harga": 165000
+  },
+  {
+    "item_id": "003.00112",
+    "nama": "STAR PADDOCK PACIFIC",
+    "harga_modal": 60000,
+    "harga": 100000
+  },
+  {
+    "item_id": "020.00031",
+    "nama": "STEM BMX LIMITLESS",
+    "harga_modal": 33000,
+    "harga": 70000
+  },
+  {
+    "item_id": "003.00091",
+    "nama": "STEM BMX PASIFIC 22.2",
+    "harga_modal": 45000,
+    "harga": 90000
+  },
+  {
+    "item_id": "003.00148",
+    "nama": "STEM MTB ZOOM WARNA",
+    "harga_modal": 115000,
+    "harga": 165000
+  },
+  {
+    "item_id": "011.00009",
+    "nama": "STEM OXO MODEL ZOOM",
+    "harga_modal": 50000,
+    "harga": 90000
+  },
+  {
+    "item_id": "003.00130",
+    "nama": "STICKER KECIL",
+    "harga_modal": 3500,
+    "harga": 5000
+  },
+  {
+    "item_id": "IMP0128",
+    "nama": "STICKER BESAR",
+    "harga_modal": 7500,
+    "harga": 15000
+  },
+  {
+    "item_id": "002.00146",
+    "nama": "TALI REM BELAKANG",
+    "harga_modal": 6500,
+    "harga": 20000
+  },
+  {
+    "item_id": "002.00147",
+    "nama": "TALI REM DEPAN",
+    "harga_modal": 2750,
+    "harga": 15000
+  },
+  {
+    "item_id": "002.00148",
+    "nama": "TALI TIS PENDEK",
+    "harga_modal": 15000,
+    "harga": 25000
+  },
+  {
+    "item_id": "002.00149",
+    "nama": "TALI/KABEL TIS PANJANG",
+    "harga_modal": 0,
+    "harga": 35000
+  },
+  {
+    "item_id": "020.00015",
+    "nama": "TAS SEPEDA ZACRO",
+    "harga_modal": 7000,
+    "harga": 30000
+  },
+  {
+    "item_id": "003.00089",
+    "nama": "TERPEDO / TORPEDO",
+    "harga_modal": 51000,
+    "harga": 100000
+  },
+  {
+    "item_id": "002.00150",
+    "nama": "TIANG SADEL 3/4 (UK. 12)",
+    "harga_modal": 7000,
+    "harga": 25000
+  },
+  {
+    "item_id": "003.00125",
+    "nama": "TIANG SADEL 40CM",
+    "harga_modal": 10000,
+    "harga": 40000
+  },
+  {
+    "item_id": "003.00149",
+    "nama": "TIANG SADEL LIPAT PANJANG HITAM",
+    "harga_modal": 25000,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00193",
+    "nama": "TIANG STANG BMX JUMBO",
+    "harga_modal": 35000,
+    "harga": 60000
+  },
+  {
+    "item_id": "003.00180",
+    "nama": "TIANG STANG BMX KOTAK",
+    "harga_modal": 19250,
+    "harga": 38000
+  },
+  {
+    "item_id": "002.00151",
+    "nama": "TIANG STANG JENGKI",
+    "harga_modal": 14000,
+    "harga": 30000
+  },
+  {
+    "item_id": "IMP0129",
+    "nama": "TIANG STANG JEPIT LIPET HT",
+    "harga_modal": 27500,
+    "harga": 55000
+  },
+  {
+    "item_id": "002.00152",
+    "nama": "TROMOL BESAR ATLANTIS",
+    "harga_modal": 16500,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0130",
+    "nama": "TROMOL KECIL GADA MERK",
+    "harga_modal": 13000,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00153",
+    "nama": "TROMOL PSP KECIL",
+    "harga_modal": 22750,
+    "harga": 50000
+  },
+  {
+    "item_id": "IMP0131",
+    "nama": "TROMOL PSP BESAR",
+    "harga_modal": 24750,
+    "harga": 50000
+  },
+  {
+    "item_id": "003.00088",
+    "nama": "TROMPET TW",
+    "harga_modal": 28750,
+    "harga": 55000
+  },
+  {
+    "item_id": "003.00057",
+    "nama": "TUTUP PENTIL",
+    "harga_modal": 0,
+    "harga": 5000
+  },
+  {
+    "item_id": "003.00096",
+    "nama": "TUTUP PENTIL LED SEPASANG",
+    "harga_modal": 9000,
+    "harga": 35000
+  },
+  {
+    "item_id": "002.00154",
+    "nama": "TUTUP SADEL UNITED",
+    "harga_modal": 52500,
+    "harga": 100000
+  },
+  {
+    "item_id": "004.00001",
+    "nama": "VELG 12 BUSA",
+    "harga_modal": 25000,
+    "harga": 55000
+  },
+  {
+    "item_id": "IMP0132",
+    "nama": "VELG 12 KOSONG ODDESY",
+    "harga_modal": 17000,
+    "harga": 35000
+  },
+  {
+    "item_id": "004.00002",
+    "nama": "VELG 12 JADI BELAKANG",
+    "harga_modal": 0,
+    "harga": 120000
+  },
+  {
+    "item_id": "004.00003",
+    "nama": "VELG 12 JADI DEPAN",
+    "harga_modal": 0,
+    "harga": 120000
+  },
+  {
+    "item_id": "004.00004",
+    "nama": "VELG 12 KOSONG MAYA",
+    "harga_modal": 17000,
+    "harga": 45000
+  },
+  {
+    "item_id": "004.00005",
+    "nama": "VELG 12 KOSONG UNITED",
+    "harga_modal": 19750,
+    "harga": 70000
+  },
+  {
+    "item_id": "004.00006",
+    "nama": "VELG 12 PLASTIK KOSONG",
+    "harga_modal": 0,
+    "harga": 150000
+  },
+  {
+    "item_id": "004.00008",
+    "nama": "VELG 16 JADI BELAKANG",
+    "harga_modal": 0,
+    "harga": 120000
+  },
+  {
+    "item_id": "004.00009",
+    "nama": "VELG 16 JADI DEPAN",
+    "harga_modal": 0,
+    "harga": 120000
+  },
+  {
+    "item_id": "004.00007",
+    "nama": "VELG 16 KOSONG",
+    "harga_modal": 25000,
+    "harga": 55000
+  },
+  {
+    "item_id": "004.00010",
+    "nama": "VELG 16 KOSONG BESI WARNA BIRU",
+    "harga_modal": 23500,
+    "harga": 40000
+  },
+  {
+    "item_id": "004.00011",
+    "nama": "VELG 18 JADI BELAKANG",
+    "harga_modal": 0,
+    "harga": 130000
+  },
+  {
+    "item_id": "004.00012",
+    "nama": "VELG 18 JADI DEPAN",
+    "harga_modal": 0,
+    "harga": 120000
+  },
+  {
+    "item_id": "004.00013",
+    "nama": "VELG 18 KOSONG BAGUS",
+    "harga_modal": 0,
+    "harga": 85000
+  },
+  {
+    "item_id": "004.00014",
+    "nama": "VELG 18 KOSONG MAYA",
+    "harga_modal": 23500,
+    "harga": 60000
+  },
+  {
+    "item_id": "IMP0133",
+    "nama": "VELG 20 BESI UNITED",
+    "harga_modal": 28750,
+    "harga": 70000
+  },
+  {
+    "item_id": "004.00043",
+    "nama": "VELG 20 ALLOY HITAM UNITED",
+    "harga_modal": 38500,
+    "harga": 80000
+  },
+  {
+    "item_id": "004.00042",
+    "nama": "VELG 20 ATL BESI",
+    "harga_modal": 26500,
+    "harga": 55000
+  },
+  {
+    "item_id": "004.00015",
+    "nama": "VELG 20 JADI DEPAN",
+    "harga_modal": 0,
+    "harga": 150000
+  },
+  {
+    "item_id": "004.00016",
+    "nama": "VELG 20 JADI UNITED",
+    "harga_modal": 0,
+    "harga": 150000
+  },
+  {
+    "item_id": "004.00017",
+    "nama": "VELG 20 KOSONG ARAYA",
+    "harga_modal": 0,
+    "harga": 100000
+  },
+  {
+    "item_id": "004.00018",
+    "nama": "VELG 20 KOSONG MAYA",
+    "harga_modal": 25000,
+    "harga": 60000
+  },
+  {
+    "item_id": "004.00036",
+    "nama": "VELG 20 TORPEDO L36",
+    "harga_modal": 0,
+    "harga": 179000
+  },
+  {
+    "item_id": "004.00019",
+    "nama": "VELG 24 BIASA MAYA KOSONG",
+    "harga_modal": 30000,
+    "harga": 65000
+  },
+  {
+    "item_id": "004.00020",
+    "nama": "VELG 24, 26 JADI DEPAN 1",
+    "harga_modal": 0,
+    "harga": 150000
+  },
+  {
+    "item_id": "004.00021",
+    "nama": "VELG 24, 26 JADI DEPAN 2",
+    "harga_modal": 0,
+    "harga": 180000
+  },
+  {
+    "item_id": "004.00022",
+    "nama": "VELG 24, 26 JADI DEPAN 3",
+    "harga_modal": 0,
+    "harga": 200000
+  },
+  {
+    "item_id": "004.00023",
+    "nama": "VELG 24, 26 KOSONG",
+    "harga_modal": 0,
+    "harga": 90000
+  },
+  {
+    "item_id": "IMP0134",
+    "nama": "VELG 26 KOSONG ODDESY",
+    "harga_modal": 34000,
+    "harga": 75000
+  },
+  {
+    "item_id": "IMP0135",
+    "nama": "VELG 26 KOSONG UNITED BESI",
+    "harga_modal": 41250,
+    "harga": 80000
+  },
+  {
+    "item_id": "IMP0136",
+    "nama": "VELG 26 UNITED JADI",
+    "harga_modal": 95000,
+    "harga": 200000
+  },
+  {
+    "item_id": "IMP0137",
+    "nama": "VELG 26 JENGKI JADI ALUMUNIUM",
+    "harga_modal": 110000,
+    "harga": 210000
+  },
+  {
+    "item_id": "004.00038",
+    "nama": "VELG 26 KOSONG ALLOY/ALUMUNIUM",
+    "harga_modal": 40000,
+    "harga": 80000
+  },
+  {
+    "item_id": "IMP0138",
+    "nama": "VELG 28 ARAYA SUPER HITAM KOSONG",
+    "harga_modal": 112500,
+    "harga": 150000
+  },
+  {
+    "item_id": "004.00024",
+    "nama": "VELG 28 ARAYA STICKER (KOSONG)",
+    "harga_modal": 95000,
+    "harga": 150000
+  },
+  {
+    "item_id": "004.00035",
+    "nama": "VELG 28 BECAK SAMPING ARAYA JADI",
+    "harga_modal": 0,
+    "harga": 269000
+  },
+  {
+    "item_id": "004.00025",
+    "nama": "VELG 28 BECAK SAMPING MAYA SUPER JADI",
+    "harga_modal": 0,
+    "harga": 244000
+  },
+  {
+    "item_id": "IMP0139",
+    "nama": "VELG 28 SAMPING ODDESY JADI",
+    "harga_modal": 160000,
+    "harga": 270000
+  },
+  {
+    "item_id": "004.00026",
+    "nama": "VELG 28 JADI BELAKANG ARAYA ITEM",
+    "harga_modal": 0,
+    "harga": 250000
+  },
+  {
+    "item_id": "004.00028",
+    "nama": "VELG 28 MAYA SUPER (KOSONG)",
+    "harga_modal": 85000,
+    "harga": 140000
+  },
+  {
+    "item_id": "004.00044",
+    "nama": "VELG 28 ODESSY (KOSONG)",
+    "harga_modal": 65000,
+    "harga": 135000
+  },
+  {
+    "item_id": "004.00029",
+    "nama": "VELG 28 UNITED KOSONG",
+    "harga_modal": 62500,
+    "harga": 130000
+  },
+  {
+    "item_id": "004.00039",
+    "nama": "VELG ALLOY 16 KOSONG HITAM",
+    "harga_modal": 23000,
+    "harga": 46000
+  },
+  {
+    "item_id": "004.00030",
+    "nama": "VELG ARAYA SUPER",
+    "harga_modal": 0,
+    "harga": 150000
+  },
+  {
+    "item_id": "004.00041",
+    "nama": "VELG GEROBAK JARI2 BESI BIRU SEPASANG",
+    "harga_modal": 600000,
+    "harga": 300000
+  },
+  {
+    "item_id": "004.00040",
+    "nama": "VELG GEROBAK JARI2 MOTOR SEPASANG",
+    "harga_modal": 600000,
+    "harga": 320000
+  },
+  {
+    "item_id": "004.00031",
+    "nama": "VELG JENGKI 26 KOSONG",
+    "harga_modal": 54000,
+    "harga": 100000
+  },
+  {
+    "item_id": "004.00032",
+    "nama": "VELG KOSONG UNITED",
+    "harga_modal": 0,
+    "harga": 90000
+  },
+  {
+    "item_id": "004.00033",
+    "nama": "VELG MAYA SUPER",
+    "harga_modal": 0,
+    "harga": 100000
+  },
+  {
+    "item_id": "004.00034",
+    "nama": "VELG SINCAN SATU SET KOMPLIT/BAN MATI",
+    "harga_modal": 60000,
+    "harga": 130000
+  },
+  {
+    "item_id": "003.00085",
+    "nama": "WALL HANGER 30KG",
+    "harga_modal": 38500,
+    "harga": 60000
+  },
+  {
+    "item_id": "020.00044",
+    "nama": "WD",
+    "harga_modal": 20000,
+    "harga": 30000
+  }
+]

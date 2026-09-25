@@ -1,0 +1,675 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  min-height: 100%;
+  background: #f8fafc;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-height: 100%;
+  margin: 0;
+  overscroll-behavior-y: none;
+  background: #f8fafc;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  touch-action: manipulation;
+}
+
+@media (max-width: 767px) {
+  .app-shell {
+    background-image: none !important;
+  }
+
+  .app-header {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .app-content > main,
+  .app-content > div > main {
+    min-height: calc(100dvh - 8rem);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .app-content table {
+    font-size: 0.8125rem;
+  }
+
+  .app-content input,
+  .app-content select,
+  .app-content textarea {
+    font-size: 16px;
+  }
+
+  @media (display-mode: standalone) {
+    .app-shell {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .app-content input,
+    .app-content textarea {
+      user-select: text;
+      -webkit-user-select: text;
+    }
+  }
+}
+/* Alkes Medika clinical design system */
+:root {
+  --medical-navy: #12304a;
+  --medical-blue: #176b87;
+  --medical-teal: #159895;
+  --medical-mint: #e8f7f4;
+  --medical-sky: #eef8fb;
+  --medical-line: #d9e8ed;
+  --medical-surface: #ffffff;
+  --medical-muted: #607887;
+}
+
+html,
+body {
+  color: var(--medical-navy);
+  background: #f3f8fa;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(21, 152, 149, 0.09), transparent 25rem),
+    radial-gradient(circle at 92% 18%, rgba(23, 107, 135, 0.08), transparent 28rem),
+    linear-gradient(180deg, #f8fcfd 0%, #f1f7f9 100%);
+}
+
+::selection {
+  color: #fff;
+  background: var(--medical-teal);
+}
+
+.app-shell {
+  background: transparent !important;
+}
+
+.app-shell > .pointer-events-none.fixed.inset-0 {
+  background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(240,248,250,.3)) !important;
+}
+
+.app-header {
+  border-bottom-color: rgba(191, 219, 226, 0.92) !important;
+  background: rgba(255, 255, 255, 0.94) !important;
+  box-shadow: 0 10px 35px -28px rgba(18, 48, 74, 0.75) !important;
+}
+
+.app-header > div > div:first-child > span:first-child {
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, var(--medical-blue), var(--medical-teal)) !important;
+  box-shadow: 0 10px 24px -10px rgba(21, 152, 149, 0.8) !important;
+}
+
+.app-header nav {
+  border-color: var(--medical-line) !important;
+  background: #f3f8fa !important;
+}
+
+.app-header nav button[class*="bg-white"] {
+  color: var(--medical-blue) !important;
+  box-shadow: 0 5px 15px -10px rgba(18, 48, 74, 0.7) !important;
+}
+
+.app-content {
+  isolation: isolate;
+}
+
+.app-content > main,
+.app-content > div > main {
+  border-color: rgba(217, 232, 237, 0.9) !important;
+  background: rgba(255, 255, 255, 0.88) !important;
+  box-shadow: 0 22px 60px -42px rgba(18, 48, 74, 0.65) !important;
+}
+
+.app-content section[class*="border-slate-200"],
+.app-content div[class*="border-slate-200"][class*="bg-white"] {
+  border-color: var(--medical-line) !important;
+}
+
+.app-content thead[class*="bg-slate-50"] {
+  background: #f1f8fa !important;
+}
+
+.app-content th {
+  color: #527081 !important;
+  letter-spacing: 0.055em;
+}
+
+.app-content tbody tr {
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.app-content tbody tr:hover {
+  background-color: #f1fbfa;
+}
+
+.app-content input:focus,
+.app-content select:focus,
+.app-content textarea:focus {
+  border-color: var(--medical-teal) !important;
+  box-shadow: 0 0 0 4px rgba(21, 152, 149, 0.12) !important;
+}
+
+.app-content button[class*="bg-blue-600"],
+.app-content a[class*="bg-blue-600"] {
+  background-color: var(--medical-blue) !important;
+}
+
+.app-content button[class*="bg-blue-600"]:hover,
+.app-content a[class*="bg-blue-600"]:hover {
+  background-color: #125b73 !important;
+}
+
+.app-content [class*="text-blue-600"],
+.app-content [class*="text-blue-700"] {
+  color: var(--medical-blue) !important;
+}
+
+.app-content [class*="bg-blue-50"] {
+  background-color: var(--medical-sky) !important;
+}
+
+.app-content [class*="border-blue-100"],
+.app-content [class*="border-blue-200"] {
+  border-color: #b9dce5 !important;
+}
+
+.app-bottom-nav {
+  border-top-color: var(--medical-line) !important;
+  background: rgba(255, 255, 255, 0.96) !important;
+}
+
+.app-bottom-nav button[aria-current="page"] {
+  color: var(--medical-blue) !important;
+  background: var(--medical-mint) !important;
+}
+
+.app-bottom-nav button[aria-current="page"] > span:last-child {
+  background: var(--medical-teal) !important;
+}
+
+.medical-cross-pattern {
+  background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+@media (max-width: 767px) {
+  .app-content > main,
+  .app-content > div > main {
+    background: rgba(255, 255, 255, 0.96) !important;
+  }
+}
+/* Desktop medical operations sidebar */
+@media (min-width: 768px) {
+  .app-header {
+    right: auto !important;
+    bottom: 0;
+    width: 252px;
+    border-right: 1px solid var(--medical-line);
+    border-bottom: 0 !important;
+  }
+
+  .app-header > div {
+    box-sizing: border-box;
+    height: 100%;
+    min-height: 0;
+    max-width: none !important;
+    flex-direction: column;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    padding: 1.25rem 1rem !important;
+  }
+
+  .app-header > div > div:first-child {
+    min-height: 58px;
+    padding: 0 .4rem 1.2rem;
+    border-bottom: 1px solid var(--medical-line);
+  }
+
+  .app-header nav {
+    order: 2;
+    display: flex !important;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .35rem;
+    margin-top: 1.25rem;
+    padding: .45rem;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  .app-header nav::before {
+    content: "OPERASIONAL";
+    padding: .35rem .65rem .55rem;
+    color: #8aa0ad;
+    font-size: .64rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+  }
+
+  .app-header nav button {
+    width: 100%;
+    min-height: 44px;
+    justify-content: flex-start;
+    border-radius: 12px !important;
+    padding-inline: .8rem !important;
+  }
+
+  .app-header nav button[class*="bg-white"] {
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--medical-blue), var(--medical-teal)) !important;
+    box-shadow: 0 12px 24px -14px rgba(21, 152, 149, .9) !important;
+  }
+
+  .app-header > div > div:last-child {
+    order: 3;
+    display: flex;
+    width: 100%;
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: .65rem;
+    margin-top: auto;
+    padding-top: .85rem;
+    padding-bottom: .1rem;
+    border-top: 1px solid var(--medical-line);
+  }
+
+  .sidebar-user-trigger {
+    width: 100%;
+    min-height: 48px;
+    justify-content: flex-start;
+  }
+
+  .sidebar-user-actions {
+    width: 100%;
+  }
+
+  .app-header nav {
+    min-height: 0;
+    flex: 1 1 auto;
+    overflow-y: auto;
+    margin-bottom: .75rem;
+  }
+
+  .app-content {
+    max-width: none !important;
+    margin-left: 252px !important;
+    padding: 1.25rem 1.5rem 1.5rem !important;
+  }
+
+  .app-content > main,
+  .app-content > div > main {
+    min-height: calc(100vh - 2.5rem) !important;
+  }
+}
+
+/* Shared clinical interaction and accessibility polish */
+.app-content button,
+.app-header button,
+.app-bottom-nav button {
+  min-height: 40px;
+}
+
+.app-content button:focus-visible,
+.app-header button:focus-visible,
+.app-bottom-nav button:focus-visible,
+.app-content a:focus-visible {
+  outline: 3px solid rgba(21, 152, 149, .28);
+  outline-offset: 2px;
+}
+
+.app-content section,
+.app-content article {
+  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.app-content [class*="shadow-sm"]:hover {
+  border-color: #c6e0e6;
+  box-shadow: 0 14px 35px -28px rgba(18, 48, 74, .55);
+}
+
+.clinical-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(14px);
+}
+
+.product-stock-track {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7eef1;
+}
+
+.product-stock-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--medical-teal), #42b9ae);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+/* Animated medical dashboard hero */
+.medical-hero-visual::before {
+  content: "";
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(21, 152, 149, .16), rgba(23, 107, 135, .04) 48%, transparent 70%);
+  animation: medical-breathe 4.5s ease-in-out infinite;
+}
+
+.medical-monitor {
+  animation: medical-float 5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.medical-monitor::before {
+  content: "+";
+  position: absolute;
+  right: -8px;
+  bottom: -42px;
+  color: rgba(21, 152, 149, .06);
+  font-size: 11rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.medical-live-dot {
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, .5);
+  animation: medical-live 1.8s ease-out infinite;
+}
+
+.medical-heart {
+  animation: medical-heartbeat 1.55s ease-in-out infinite;
+}
+
+.medical-heart-ring {
+  animation: medical-ring 1.55s ease-out infinite;
+}
+
+.medical-ecg {
+  position: relative;
+  background-image: linear-gradient(rgba(21,152,149,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(21,152,149,.08) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.medical-ecg-track {
+  animation: medical-ecg-slide 3.2s linear infinite;
+}
+
+.medical-ecg-scan {
+  position: absolute;
+  inset-block: 0;
+  width: 42px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.85), transparent);
+  animation: medical-scan 2.8s linear infinite;
+}
+
+.medical-orbit {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,255,255,.85);
+  border-radius: 14px;
+  color: var(--medical-teal);
+  background: rgba(255,255,255,.78);
+  box-shadow: 0 14px 30px -18px rgba(18,48,74,.55);
+  backdrop-filter: blur(10px);
+}
+
+.medical-orbit-one {
+  right: 7%;
+  top: 13%;
+  animation: medical-orbit-one 7s ease-in-out infinite;
+}
+
+.medical-orbit-two {
+  right: 72%;
+  bottom: 12%;
+  animation: medical-orbit-two 6s ease-in-out infinite;
+}
+
+@keyframes medical-heartbeat {
+  0%, 38%, 70%, 100% { transform: scale(1); }
+  12% { transform: scale(1.14); }
+  24% { transform: scale(.98); }
+  50% { transform: scale(1.08); }
+}
+
+@keyframes medical-ring {
+  0%, 35% { opacity: .8; transform: scale(.88); }
+  75%, 100% { opacity: 0; transform: scale(1.28); }
+}
+
+@keyframes medical-live {
+  0% { box-shadow: 0 0 0 0 rgba(16,185,129,.5); }
+  100% { box-shadow: 0 0 0 9px rgba(16,185,129,0); }
+}
+
+@keyframes medical-ecg-slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes medical-scan {
+  from { left: -45px; }
+  to { left: 100%; }
+}
+
+@keyframes medical-float {
+  0%, 100% { transform: translateY(0) rotate(-.35deg); }
+  50% { transform: translateY(-8px) rotate(.35deg); }
+}
+
+@keyframes medical-breathe {
+  0%, 100% { opacity: .6; transform: scale(.92); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+@keyframes medical-orbit-one {
+  0%, 100% { transform: translate(0, 0) rotate(-4deg); }
+  50% { transform: translate(-12px, 10px) rotate(5deg); }
+}
+
+@keyframes medical-orbit-two {
+  0%, 100% { transform: translate(0, 0) rotate(5deg); }
+  50% { transform: translate(10px, -12px) rotate(-5deg); }
+}
+/* Premium navigation icons and clinical charts */
+@media (min-width: 768px) {
+  .app-header nav button > svg {
+    width: 32px;
+    height: 32px;
+    margin-left: -.25rem;
+    padding: 7px;
+    border-radius: 10px;
+    color: var(--medical-blue);
+    background: #eaf6f7;
+    transition: transform 180ms ease, color 180ms ease, background 180ms ease;
+  }
+
+  .app-header nav button:hover > svg {
+    transform: translateY(-1px) scale(1.05);
+    background: #dff2f1;
+  }
+
+  .app-header nav button[class*="bg-white"] > svg {
+    color: #fff;
+    background: rgba(255,255,255,.16);
+  }
+}
+
+.medical-kpi-icon {
+  position: relative;
+  overflow: hidden;
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.medical-kpi-icon::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(110deg, transparent 35%, rgba(255,255,255,.75) 50%, transparent 65%);
+  transform: translateX(-70%) rotate(8deg);
+  transition: transform 600ms ease;
+}
+
+.group:hover .medical-kpi-icon {
+  transform: translateY(-2px) rotate(-3deg) scale(1.06);
+  box-shadow: 0 12px 24px -16px currentColor;
+}
+
+.group:hover .medical-kpi-icon::after {
+  transform: translateX(70%) rotate(8deg);
+}
+
+.group:hover .medical-kpi-icon svg {
+  animation: medical-icon-pulse 1.1s ease-in-out infinite;
+}
+
+.clinical-bar {
+  position: relative;
+  transform-origin: left;
+  animation: clinical-bar-grow .75s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.clinical-bar-primary {
+  background: linear-gradient(90deg, #176b87, #21a7a1);
+  box-shadow: 0 3px 10px -4px rgba(23,107,135,.8);
+}
+
+.clinical-bar-secondary {
+  background: linear-gradient(90deg, #10b981, #5ed5b7);
+  box-shadow: 0 3px 10px -4px rgba(16,185,129,.8);
+}
+
+.clinical-column {
+  transform-origin: bottom;
+  background: linear-gradient(180deg, #25b3ac 0%, #176b87 100%);
+  box-shadow: 0 8px 18px -10px rgba(23,107,135,.8);
+  animation: clinical-column-grow .75s cubic-bezier(.2,.8,.2,1) both;
+  transition: filter 180ms ease, transform 180ms ease;
+}
+
+.clinical-column:hover {
+  filter: brightness(1.08);
+  transform: scaleX(1.06);
+}
+
+@keyframes clinical-bar-grow {
+  from { transform: scaleX(0); opacity: .3; }
+  to { transform: scaleX(1); opacity: 1; }
+}
+
+@keyframes clinical-column-grow {
+  from { transform: scaleY(0); opacity: .3; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+
+@keyframes medical-icon-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+/* Integrated dashboard hero composition */
+.dashboard-hero::before {
+  content: "";
+  position: absolute;
+  left: -8rem;
+  bottom: -12rem;
+  width: 28rem;
+  height: 28rem;
+  border-radius: 999px;
+  background: rgba(23, 107, 135, .055);
+}
+
+.dashboard-hero::after {
+  content: "+";
+  position: absolute;
+  right: 42%;
+  top: -2.4rem;
+  color: rgba(21, 152, 149, .055);
+  font-size: 10rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+@media (max-width: 1199px) and (min-width: 1024px) {
+  .medical-monitor {
+    max-width: 285px !important;
+    padding: 1rem !important;
+  }
+
+  .medical-orbit {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .dashboard-hero {
+    min-height: auto;
+  }
+
+  .dashboard-hero::after {
+    right: -1rem;
+  }
+}
+/* Login clinical pulse */
+.medical-pulse-grid {
+  background-image: linear-gradient(rgba(21, 152, 149, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(21, 152, 149, .08) 1px, transparent 1px);
+  background-size: 12px 12px;
+}
+.medical-pulse-trail {
+  fill: none; stroke: #159895; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 3px rgba(21, 152, 149, .35));
+  animation: login-pulse-draw 2.8s linear infinite;
+}
+.medical-pulse-dot { box-shadow: 0 0 0 0 rgba(21, 152, 149, .4); animation: login-pulse-dot 1.4s ease-out infinite; }
+@keyframes login-pulse-draw {
+  0% { stroke-dashoffset: 1; opacity: .25; }
+  18% { opacity: 1; }
+  72%, 100% { stroke-dashoffset: -1; opacity: .85; }
+}
+@keyframes login-pulse-dot {
+  0% { box-shadow: 0 0 0 0 rgba(21, 152, 149, .42); }
+  70%, 100% { box-shadow: 0 0 0 8px rgba(21, 152, 149, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .medical-pulse-trail, .medical-pulse-dot { animation: none; stroke-dashoffset: 0; }
+}

@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: alkes-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: onpos-backend-node
+    buildCommand: npm ci
+    startCommand: npm run db:migrate && npm run seed && npm start
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_SSL
+        value: "true"
+      - key: DATABASE_POOL_MAX
+        value: "10"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false
+      - key: TRUST_PROXY
+        value: "true"
+      - key: JSON_BODY_LIMIT
+        value: 256kb
+      - key: API_RATE_LIMIT
+        value: "600"
+      - key: LOGIN_RATE_LIMIT
+        value: "10"
+      - key: SENTRY_DSN
+        sync: false
+      - key: SENTRY_ENVIRONMENT
+        value: production
+      - key: SENTRY_TRACES_SAMPLE_RATE
+        value: "0.1"

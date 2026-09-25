@@ -1,0 +1,242 @@
+CREATE TABLE IF NOT EXISTS departemen (
+  departemen_id VARCHAR(6) PRIMARY KEY,
+  nama VARCHAR(25) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS jabatan (
+  jabatan_id VARCHAR(6) PRIMARY KEY,
+  nama VARCHAR(25) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS grup (
+  grup_id VARCHAR(6) PRIMARY KEY,
+  nama VARCHAR(25) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS satuan_barang (
+  satuan_id VARCHAR(6) PRIMARY KEY,
+  nama VARCHAR(30) NOT NULL UNIQUE,
+  keterangan VARCHAR(100) NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS kategori_barang (
+  kategori_id VARCHAR(6) PRIMARY KEY,
+  nama VARCHAR(40) NOT NULL UNIQUE,
+  keterangan VARCHAR(100) NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS inventory_items (
+  item_id VARCHAR(10) PRIMARY KEY,
+  nama VARCHAR(80) NOT NULL,
+  satuan_id VARCHAR(6) REFERENCES satuan_barang(satuan_id),
+  kategori_id VARCHAR(6) REFERENCES kategori_barang(kategori_id),
+  locator VARCHAR(80) NOT NULL DEFAULT '',
+  merek VARCHAR(80) NOT NULL DEFAULT '',
+  principal VARCHAR(120) NOT NULL DEFAULT '',
+  nomor_izin_edar VARCHAR(100) NOT NULL DEFAULT '',
+  nomor_batch VARCHAR(80) NOT NULL DEFAULT '',
+  tanggal_kedaluwarsa DATE,
+  gambar_url TEXT NOT NULL DEFAULT '',
+  stok NUMERIC(14, 2) NOT NULL DEFAULT 0,
+  harga_modal NUMERIC(14, 2) NOT NULL DEFAULT 0,
+  harga NUMERIC(14, 2) NOT NULL DEFAULT 0,
+  minimum_stock NUMERIC(14, 2) NOT NULL DEFAULT 5,
+  is_aktif BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS kategori_id VARCHAR(6) REFERENCES kategori_barang(kategori_id);
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS locator VARCHAR(80) NOT NULL DEFAULT '';
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS harga_modal NUMERIC(14, 2) NOT NULL DEFAULT 0;
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS minimum_stock NUMERIC(14, 2) NOT NULL DEFAULT 5;
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS merek VARCHAR(80) NOT NULL DEFAULT '';
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS principal VARCHAR(120) NOT NULL DEFAULT '';
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS nomor_izin_edar VARCHAR(100) NOT NULL DEFAULT '';
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS nomor_batch VARCHAR(80) NOT NULL DEFAULT '';
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS tanggal_kedaluwarsa DATE;
+ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS gambar_url TEXT NOT NULL DEFAULT '';
+
+CREATE INDEX IF NOT EXISTS idx_inventory_items_search
+  ON inventory_items (is_aktif, item_id, locator, nama);
+
+CREATE TABLE IF NOT EXISTS inventory_transactions (
+  transaksi_id SERIAL PRIMARY KEY,
+  item_id VARCHAR(10) NOT NULL REFERENCES inventory_items(item_id),
+  tipe VARCHAR(10) NOT NULL,
+  qty NUMERIC(14, 2) NOT NULL,
+  harga NUMERIC(14, 2),
+  stok_sebelum NUMERIC(14, 2) NOT NULL,
+  stok_sesudah NUMERIC(14, 2) NOT NULL,
+  catatan VARCHAR(150) NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS inventory_price_history (
+  history_id SERIAL PRIMARY KEY,
+  item_id VARCHAR(10) NOT NULL REFERENCES inventory_items(item_id),
+  harga_lama NUMERIC(14, 2) NOT NULL,
+  harga_baru NUMERIC(14, 2) NOT NULL,
+  catatan VARCHAR(150) NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS sales_orders (
+  sales_id VARCHAR(10) PRIMARY KEY,
+  subtotal NUMERIC(14, 2) NOT NULL,
+  diskon NUMERIC(14, 2) NOT NULL DEFAULT 0,
+  total NUMERIC(14, 2) NOT NULL,
+  metode_pembayaran VARCHAR(30) NOT NULL,
+  bayar NUMERIC(14, 2) NOT NULL DEFAULT 0,
+  kembalian NUMERIC(14, 2) NOT NULL DEFAULT 0,
+  status VARCHAR(20) NOT NULL DEFAULT 'SELESAI',
+  cancelled_at TIMESTAMPTZ,
+  cancelled_by VARCHAR(100),
+  cancel_reason TEXT,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE sales_orders ADD COLUMN IF NOT EXISTS bayar NUMERIC(14, 2);
+ALTER TABLE sales_orders ADD COLUMN IF NOT EXISTS kembalian NUMERIC(14, 2);
+ALTER TABLE sales_orders ADD COLUMN IF NOT EXISTS status VARCHAR(20) NOT NULL DEFAULT 'SELESAI';
+ALTER TABLE sales_orders ADD COLUMN IF NOT EXISTS cancelled_at TIMESTAMPTZ;
+ALTER TABLE sales_orders ADD COLUMN IF NOT EXISTS cancelled_by VARCHAR(100);
+ALTER TABLE sales_orders ADD COLUMN IF NOT EXISTS cancel_reason TEXT;
+UPDATE sales_orders SET bayar = total WHERE bayar IS NULL;
+UPDATE sales_orders SET kembalian = 0 WHERE kembalian IS NULL;
+ALTER TABLE sales_orders ALTER COLUMN bayar SET NOT NULL;
+ALTER TABLE sales_orders ALTER COLUMN kembalian SET NOT NULL;
+
+CREATE TABLE IF NOT EXISTS sales_order_items (
+  sales_item_id SERIAL PRIMARY KEY,
+  sales_id VARCHAR(10) NOT NULL REFERENCES sales_orders(sales_id),
+  item_id VARCHAR(10) NOT NULL REFERENCES inventory_items(item_id),
+  qty NUMERIC(14, 2) NOT NULL,
+  harga NUMERIC(14, 2) NOT NULL,
+  subtotal NUMERIC(14, 2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS menu (
+  menu_id VARCHAR(10) PRIMARY KEY,
+  nama VARCHAR(60) NOT NULL,
+  is_aktif BOOLEAN NOT NULL DEFAULT TRUE,
+  path VARCHAR(100) NOT NULL DEFAULT '',
+  parent_id VARCHAR(10) NOT NULL DEFAULT '',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+ALTER TABLE menu ALTER COLUMN nama TYPE VARCHAR(60);
+ALTER TABLE menu ALTER COLUMN path TYPE VARCHAR(100);
+
+CREATE TABLE IF NOT EXISTS hak_akses (
+  akses_id SERIAL PRIMARY KEY,
+  grup_id VARCHAR(6) NOT NULL REFERENCES grup(grup_id),
+  menu_item_id VARCHAR(10) NOT NULL REFERENCES menu(menu_id),
+  granted BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  UNIQUE (grup_id, menu_item_id)
+);
+
+CREATE TABLE IF NOT EXISTS users (
+  user_id VARCHAR(10) PRIMARY KEY,
+  username VARCHAR(30) UNIQUE NOT NULL,
+  nama VARCHAR(50) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  email VARCHAR(50) UNIQUE NOT NULL,
+  is_aktif BOOLEAN NOT NULL DEFAULT TRUE,
+  grup_id VARCHAR(6) NOT NULL REFERENCES grup(grup_id),
+  dept_id VARCHAR(6) NOT NULL REFERENCES departemen(departemen_id),
+  jabatan_id VARCHAR(6) NOT NULL REFERENCES jabatan(jabatan_id),
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS perusahaan (
+  perusahaan_id VARCHAR(10) PRIMARY KEY,
+  nama VARCHAR(50) NOT NULL,
+  no_izin VARCHAR(20) NOT NULL,
+  alamat TEXT NOT NULL,
+  kota VARCHAR(20) NOT NULL,
+  kodepos VARCHAR(5) NOT NULL,
+  telepon VARCHAR(16) NOT NULL,
+  fax VARCHAR(30) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  pemilik VARCHAR(50) NOT NULL,
+  logo VARCHAR(100) NOT NULL,
+  token VARCHAR NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS penomoran (
+  penomoran_id SERIAL PRIMARY KEY,
+  kategori VARCHAR(10),
+  nomor INTEGER NOT NULL DEFAULT 1,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS log_audit_trail (
+  log_users_id SERIAL PRIMARY KEY,
+  aktor_name VARCHAR(30) NOT NULL,
+  target_name VARCHAR(30) NOT NULL,
+  kategori VARCHAR(15) NOT NULL,
+  keterangan VARCHAR(70) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- Backend menggunakan koneksi PostgreSQL langsung. RLS tanpa policy mencegah
+-- tabel public diakses melalui Data API/anon key Supabase.
+ALTER TABLE departemen ENABLE ROW LEVEL SECURITY;
+ALTER TABLE jabatan ENABLE ROW LEVEL SECURITY;
+ALTER TABLE grup ENABLE ROW LEVEL SECURITY;
+ALTER TABLE satuan_barang ENABLE ROW LEVEL SECURITY;
+ALTER TABLE kategori_barang ENABLE ROW LEVEL SECURITY;
+ALTER TABLE inventory_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE inventory_transactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE inventory_price_history ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sales_orders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE sales_order_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE menu ENABLE ROW LEVEL SECURITY;
+ALTER TABLE hak_akses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE perusahaan ENABLE ROW LEVEL SECURITY;
+ALTER TABLE penomoran ENABLE ROW LEVEL SECURITY;
+ALTER TABLE log_audit_trail ENABLE ROW LEVEL SECURITY;
+
+CREATE TABLE IF NOT EXISTS purchases (
+  purchase_id VARCHAR(10) PRIMARY KEY,
+  supplier_name VARCHAR(120) NOT NULL,
+  invoice_number VARCHAR(80) NOT NULL DEFAULT '',
+  purchase_date DATE NOT NULL DEFAULT CURRENT_DATE,
+  status VARCHAR(20) NOT NULL DEFAULT 'DRAFT' CHECK (status IN ('DRAFT', 'RECEIVED', 'CANCELLED')),
+  notes VARCHAR(250) NOT NULL DEFAULT '',
+  total NUMERIC(16, 2) NOT NULL DEFAULT 0,
+  created_by VARCHAR(100) NOT NULL DEFAULT 'SYSTEM',
+  received_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS purchase_items (
+  purchase_item_id BIGSERIAL PRIMARY KEY,
+  purchase_id VARCHAR(10) NOT NULL REFERENCES purchases(purchase_id) ON DELETE CASCADE,
+  item_id VARCHAR(10) NOT NULL REFERENCES inventory_items(item_id),
+  qty NUMERIC(14, 2) NOT NULL CHECK (qty > 0),
+  unit_cost NUMERIC(14, 2) NOT NULL CHECK (unit_cost >= 0),
+  subtotal NUMERIC(16, 2) NOT NULL CHECK (subtotal >= 0)
+);
+
+CREATE INDEX IF NOT EXISTS idx_purchases_date_status ON purchases (purchase_date DESC, status);
+CREATE INDEX IF NOT EXISTS idx_purchase_items_purchase ON purchase_items (purchase_id);

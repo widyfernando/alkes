@@ -1,0 +1,28 @@
+{
+  "name": "onpos-backend-node",
+  "version": "1.0.0",
+  "description": "Node.js migration of ONPOS Flask backend",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "db:migrate": "node src/migrate.js",
+    "seed": "node src/seed.js",
+    "check": "node --check src/server.js && node --check src/routes.js && node --check src/controllers/coreController.js && node --check src/utils/security.js && node --check src/migrate.js && node --check src/seed.js",
+    "test": "node --test test/security.test.js",
+    "test:integration": "node --test test/integration.test.js"
+  },
+  "dependencies": {
+    "@sentry/node": "^10.70.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.6.2",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

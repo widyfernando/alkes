@@ -1,0 +1,13 @@
+{
+  "appId": "com.alkes.pos",
+  "appName": "Alkes POS",
+  "webDir": "build",
+  "server": {
+    "url": "https://alkes-pos.vercel.app/",
+    "androidScheme": "https",
+    "cleartext": false
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}
