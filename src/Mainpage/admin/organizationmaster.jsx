@@ -3,7 +3,7 @@ import { Building2, BriefcaseBusiness, ChevronLeft, ChevronRight, Edit, Loader2,
 import Swal from "sweetalert2";
 import API from "../../utils/axiosInstance";
 
-const PAGE_SIZE = 8;
+const PAGE_SIZE = 10;
 
 const OrganizationMaster = ({ type, onClose }) => {
   const isDepartment = type === "departemen";

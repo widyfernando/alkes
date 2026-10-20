@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Activity,
   AlertCircle,
   BarChart3,
   Boxes,
@@ -51,13 +50,7 @@ const Login = ({ onLoginSuccess }) => {
         <section className="relative hidden overflow-hidden px-12 py-10 text-[#12304a] lg:flex lg:flex-col lg:justify-between">
 
           <div className="relative z-10 flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#e8f7f4] text-[#159895] shadow-sm">
-              <Activity size={22} strokeWidth={2.4} />
-            </div>
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-wide text-[#12304a]">ALKES MEDIKA</p>
-              <p className="text-xs text-[#607887]">Sistem Operasional Alat Kesehatan</p>
-            </div>
+            <img src="/logo-panamed.png" alt="Panamed" className="h-14 w-auto max-w-[230px] object-contain" />
           </div>
 
           <div className="relative z-10 max-w-2xl">
@@ -69,7 +62,7 @@ const Login = ({ onLoginSuccess }) => {
               Persediaan medis, lebih tertib dan mudah dipantau.
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#607887]">
-              Pantau ketersediaan produk medis, pengadaan, penjualan, dan akses tim dalam sistem yang aman dan terintegrasi.
+              Pantau ketersediaan produk medis, pengadaan, pengeluaran barang, dan akses tim dalam sistem yang aman dan terintegrasi.
             </p>
 
             <div className="mt-10 grid max-w-xl grid-cols-3 gap-4">
@@ -86,7 +79,7 @@ const Login = ({ onLoginSuccess }) => {
               <div className="rounded-2xl border border-[#d9e8ed] bg-white/90 p-4 shadow-sm">
                 <BarChart3 className="mb-4 text-[#176b87]" size={24} />
                 <p className="text-lg font-bold">Terpadu</p>
-                <p className="mt-1 text-xs text-[#607887]">Penjualan</p>
+                <p className="mt-1 text-xs text-[#607887]">Pengeluaran</p>
               </div>
             </div>
           </div>
@@ -113,13 +106,7 @@ const Login = ({ onLoginSuccess }) => {
             <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-cyan-400 via-blue-500 to-indigo-500" />
             <div className="pointer-events-none absolute right-7 top-5 h-8 w-24 opacity-30 sm:hidden"><svg viewBox="0 0 120 35" className="h-full w-full" aria-hidden="true"><path className="medical-pulse-trail" pathLength="1" d="M0 19H24L31 9L40 29L51 3L63 19H84L91 12L99 25L108 19H120" /></svg></div>
             <div className="mb-9 flex items-center gap-3 lg:hidden">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e8f7f4] text-[#159895]">
-                <Activity size={20} />
-              </div>
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-wide text-slate-700">ALKES MEDIKA</p>
-                <p className="text-xs text-slate-500">Sistem Operasional Alat Kesehatan</p>
-              </div>
+              <img src="/logo-panamed.png" alt="Panamed" className="h-12 w-auto max-w-[190px] object-contain" />
             </div>
 
             <div className="mb-8">

@@ -1,7 +1,7 @@
 {
   "id": "/",
-  "short_name": "Alkes POS",
-  "name": "Alkes POS",
+  "short_name": "Panamed",
+  "name": "Panamed Alkes Medika",
   "description": "Aplikasi point of sale dan manajemen Alkes.",
   "icons": [
     { "src": "favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon" },

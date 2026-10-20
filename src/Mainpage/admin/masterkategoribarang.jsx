@@ -4,12 +4,14 @@ import Swal from "sweetalert2";
 import API from "../../utils/axiosInstance";
 
 const emptyForm = { kategori_id: "", nama: "", keterangan: "" };
+const PAGE_SIZE = 10;
 
 const MasterKategoriBarang = ({ onClose }) => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
   const [modalMode, setModalMode] = useState(null);
   const [formData, setFormData] = useState(emptyForm);
 
@@ -32,6 +34,10 @@ const MasterKategoriBarang = ({ onClose }) => {
   }, [fetchItems]);
 
   const filteredItems = useMemo(() => items, [items]);
+  const totalPages = Math.max(1, Math.ceil(filteredItems.length / PAGE_SIZE));
+  const visibleItems = filteredItems.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  useEffect(() => { if (page > totalPages) setPage(totalPages); }, [page, totalPages]);
 
   const openAdd = () => {
     setFormData(emptyForm);
@@ -141,7 +147,7 @@ const MasterKategoriBarang = ({ onClose }) => {
             </div>
             <div className="relative w-full sm:w-80">
               <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={17} />
-              <input value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} placeholder="Cari kategori..." className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+              <input value={searchTerm} onChange={(event) => { setSearchTerm(event.target.value); setPage(1); }} placeholder="Cari kategori..." className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
             </div>
           </div>
 
@@ -163,7 +169,7 @@ const MasterKategoriBarang = ({ onClose }) => {
                     </td>
                   </tr>
                 ) : filteredItems.length ? (
-                  filteredItems.map((item) => (
+                  visibleItems.map((item) => (
                     <tr key={item.kategori_id} className="hover:bg-blue-50/40">
                       <td className="whitespace-nowrap px-5 py-4">
                         <span className="rounded-md bg-slate-100 px-2 py-1 font-mono text-xs font-semibold text-slate-700">{item.kategori_id}</span>
@@ -190,6 +196,7 @@ const MasterKategoriBarang = ({ onClose }) => {
               </tbody>
             </table>
           </div>
+          <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 text-sm text-slate-500"><span>Halaman {page} dari {totalPages} · maksimal 10 data</span><div className="flex gap-2"><button disabled={page <= 1} onClick={() => setPage((value) => value - 1)} className="rounded-lg border bg-white px-3 py-2 disabled:opacity-40">Sebelumnya</button><button disabled={page >= totalPages} onClick={() => setPage((value) => value + 1)} className="rounded-lg border bg-white px-3 py-2 disabled:opacity-40">Berikutnya</button></div></div>
         </section>
       </section>
 

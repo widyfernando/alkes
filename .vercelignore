@@ -1,0 +1,6 @@
+build/
+onpos-backend-node/
+problem/
+*.log
+backend.err
+frontend.err

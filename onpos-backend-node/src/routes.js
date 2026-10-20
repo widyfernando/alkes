@@ -143,10 +143,18 @@ router.put('/inventory/items', controller.updateInventoryItem);
 router.delete('/inventory/items', controller.deleteInventoryItem);
 router.put('/inventory/price', controller.updateInventoryPrice);
 router.post('/inventory/transactions', controller.addInventoryTransaction);
+router.post('/inventory/issues', controller.addInventoryIssue);
+router.get('/inventory/issues', controller.getInventoryIssues);
+router.get('/inventory/issues/:issueId', controller.getInventoryIssue);
+router.post('/inventory/issues/:issueId/approve', controller.approveInventoryIssue);
 router.post('/inventory/transactions/bulk-incoming', controller.addBulkInventoryIncoming);
 router.post('/inventory/stock-opname', controller.addStockOpname);
 router.post('/inventory/stock-opname/bulk', controller.addBulkStockOpname);
 router.get('/inventory/history', controller.getInventoryHistory);
+router.get('/inventory/reasons', controller.getInventoryReasons);
+router.post('/inventory/reasons', controller.addInventoryReason);
+router.put('/inventory/reasons/:reasonId', controller.updateInventoryReason);
+router.put('/inventory/restock-plan/:itemId', controller.updateRestockPlan);
 
 router.get('/purchases', purchaseController.list);
 router.get('/purchases/:purchaseId', purchaseController.detail);

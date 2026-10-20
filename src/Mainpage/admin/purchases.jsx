@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Edit3, Loader2, PackageCheck, Plus, Search, Trash2, X } from "lucide-react";
+import { Edit3, Eye, Loader2, PackageCheck, Plus, Search, Trash2, X } from "lucide-react";
 import Swal from "sweetalert2";
 import API from "../../utils/axiosInstance";
 
 const money = (value) => "Rp " + Number(value || 0).toLocaleString("id-ID");
-const emptyForm = () => ({ supplier_name: "", invoice_number: "", purchase_date: new Date().toISOString().slice(0, 10), notes: "", items: [{ item_id: "", qty: 1, unit_cost: 0 }] });
+const emptyForm = () => ({ supplier_name: "", invoice_number: "", spb_number: "", po_number: "", purchase_date: new Date().toISOString().slice(0, 10), notes: "", items: [{ item_id: "", qty: 1, unit_cost: 0, serial_number: "" }] });
 
 export default function Purchases() {
   const [rows, setRows] = useState([]);
@@ -30,7 +30,7 @@ export default function Purchases() {
   }, [load]);
 
   useEffect(() => {
-    API.get("/inventory/items", { params: { limit: 100, sort: "name" } }).then((response) => setItems(response.data.data || []));
+    API.get("/inventory/items", { params: { limit: 5000, sort: "name" } }).then((response) => setItems(response.data.data || []));
   }, []);
 
   const closeForm = () => {
@@ -53,9 +53,11 @@ export default function Purchases() {
       setForm({
         supplier_name: data.supplier_name || "",
         invoice_number: data.invoice_number || "",
+        spb_number: data.spb_number || "",
+        po_number: data.po_number || "",
         purchase_date: String(data.purchase_date || "").slice(0, 10),
         notes: data.notes || "",
-        items: (data.items || []).map((item) => ({ item_id: item.item_id, qty: item.qty, unit_cost: item.unit_cost })),
+        items: (data.items || []).map((item) => ({ item_id: item.item_id, qty: item.qty, unit_cost: item.unit_cost, serial_number: item.serial_number || "" })),
       });
       setEditingId(id);
       setShowForm(true);
@@ -116,6 +118,17 @@ export default function Purchases() {
     }
   };
 
+  const viewDetail = async (id) => {
+    try {
+      const response = await API.get("/purchases/" + id);
+      const data = response.data.data || {};
+      const itemRows = (data.items || []).map((item) => "<tr><td style='padding:6px;border:1px solid #ddd'>" + item.item_id + " - " + item.nama + "</td><td style='padding:6px;border:1px solid #ddd'>" + (item.serial_number || "-") + "</td><td style='padding:6px;border:1px solid #ddd;text-align:right'>" + Number(item.qty).toLocaleString("id-ID") + "</td><td style='padding:6px;border:1px solid #ddd;text-align:right'>" + money(item.unit_cost) + "</td></tr>").join("");
+      await Swal.fire({ title: "Detail " + id, width: 760, html: "<div style='text-align:left'><p><b>SPB:</b> " + (data.spb_number || "-") + " &nbsp; <b>PO:</b> " + (data.po_number || "-") + "</p><p><b>Supplier:</b> " + data.supplier_name + "</p><table style='width:100%;border-collapse:collapse;margin-top:12px'><thead><tr><th style='padding:6px;border:1px solid #ddd'>Barang</th><th style='padding:6px;border:1px solid #ddd'>SN/Batch</th><th style='padding:6px;border:1px solid #ddd'>Qty</th><th style='padding:6px;border:1px solid #ddd'>Harga</th></tr></thead><tbody>" + itemRows + "</tbody></table></div>" });
+    } catch (error) {
+      Swal.fire("Gagal", error.response?.data?.message || "Detail SPB gagal dimuat", "error");
+    }
+  };
+
   const receive = async (id) => {
     const confirmation = await Swal.fire({ icon: "question", title: "Terima barang?", text: "Stok akan langsung bertambah dan pembelian tidak dapat diedit lagi.", showCancelButton: true, confirmButtonText: "Terima" });
     if (!confirmation.isConfirmed) return;
@@ -142,16 +155,22 @@ export default function Purchases() {
         {showForm && (
           <form onSubmit={save} className="mb-6 space-y-4 rounded-xl border border-teal-100 bg-slate-50 p-5 shadow-sm">
             <div className="flex items-center justify-between"><div><p className="font-bold text-slate-900">{editingId ? `Edit ${editingId}` : "Draft Pembelian Baru"}</p><p className="text-xs text-slate-500">Hanya draft yang dapat diedit.</p></div>{editingId && <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-700">DRAFT</span>}</div>
-            <div className="grid gap-3 md:grid-cols-3">
+            <div className="grid gap-3 md:grid-cols-5">
               <input aria-label="Supplier" required placeholder="Supplier" value={form.supplier_name} onChange={(event) => setForm({ ...form, supplier_name: event.target.value })} className="rounded-lg border p-2" />
+              <input aria-label="Nomor SPB" required placeholder="Nomor SPB, contoh SPB 001" value={form.spb_number} onChange={(event) => setForm({ ...form, spb_number: event.target.value })} className="rounded-lg border p-2" />
+              <input aria-label="Nomor PO" placeholder="Nomor PO" value={form.po_number} onChange={(event) => setForm({ ...form, po_number: event.target.value })} className="rounded-lg border p-2" />
               <input aria-label="Nomor faktur" placeholder="Nomor faktur" value={form.invoice_number} onChange={(event) => setForm({ ...form, invoice_number: event.target.value })} className="rounded-lg border p-2" />
               <input aria-label="Tanggal pembelian" required type="date" value={form.purchase_date} onChange={(event) => setForm({ ...form, purchase_date: event.target.value })} className="rounded-lg border p-2" />
             </div>
             <textarea aria-label="Catatan" placeholder="Catatan pembelian" value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} className="min-h-20 w-full rounded-lg border p-2" />
             <div className="space-y-2">
               {form.items.map((line, index) => (
-                <div key={index} className="grid gap-2 rounded-lg border border-slate-200 bg-white p-2 md:grid-cols-[1fr_120px_180px_42px]">
-                  <select aria-label={`Barang baris ${index + 1}`} required value={line.item_id} onChange={(event) => updateLine(index, "item_id", event.target.value)} className="rounded-lg border p-2"><option value="">Pilih barang</option>{items.map((item) => <option key={item.item_id} value={item.item_id}>{item.item_id} - {item.nama}</option>)}</select>
+                <div key={index} className="grid gap-2 rounded-lg border border-slate-200 bg-white p-2 md:grid-cols-[1fr_150px_100px_160px_42px]">
+                  <select aria-label={`Barang baris ${index + 1}`} required value={line.item_id} onChange={(event) => updateLine(index, "item_id", event.target.value)} className="w-full rounded-lg border bg-white p-2">
+                    <option value="">Pilih barang</option>
+                    {items.map((item) => <option key={item.item_id} value={item.item_id}>{item.nama} ({item.item_id})</option>)}
+                  </select>
+                  <input aria-label={`SN batch baris ${index + 1}`} placeholder="SN / Batch" value={line.serial_number || ""} onChange={(event) => updateLine(index, "serial_number", event.target.value)} className="rounded-lg border p-2" />
                   <input aria-label={`Jumlah baris ${index + 1}`} required min="0.01" step="0.01" type="number" value={line.qty} onChange={(event) => updateLine(index, "qty", event.target.value)} className="rounded-lg border p-2" />
                   <input aria-label={`Harga beli baris ${index + 1}`} required min="0" step="0.01" type="number" value={line.unit_cost} onChange={(event) => updateLine(index, "unit_cost", event.target.value)} className="rounded-lg border p-2" />
                   <button type="button" onClick={() => removeLine(index)} disabled={form.items.length === 1} aria-label="Hapus item" className="flex items-center justify-center rounded-lg text-red-600 hover:bg-red-50 disabled:opacity-30"><Trash2 size={16} /></button>
@@ -159,23 +178,23 @@ export default function Purchases() {
               ))}
             </div>
             <div className="flex flex-col justify-between gap-3 sm:flex-row">
-              <button type="button" onClick={() => setForm({ ...form, items: [...form.items, { item_id: "", qty: 1, unit_cost: 0 }] })} className="font-bold text-blue-600">+ Tambah Item</button>
+              <button type="button" onClick={() => setForm({ ...form, items: [...form.items, { item_id: "", qty: 1, unit_cost: 0, serial_number: "" }] })} className="font-bold text-blue-600">+ Tambah Item</button>
               <button disabled={saving} className="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-5 py-2 font-bold text-white disabled:opacity-50">{saving && <Loader2 size={16} className="animate-spin" />}{editingId ? "Simpan Perubahan" : "Simpan Draft"}</button>
             </div>
           </form>
         )}
 
-        <div className="relative mb-3 max-w-sm"><Search className="absolute left-3 top-3 text-slate-400" size={16} /><input value={search} onChange={(event) => { setSearch(event.target.value); setPage(1); }} placeholder="Cari nomor, faktur, atau supplier" className="w-full rounded-lg border py-2 pl-9 pr-3" /></div>
+        <div className="relative mb-3 max-w-sm"><Search className="absolute left-3 top-3 text-slate-400" size={16} /><input value={search} onChange={(event) => { setSearch(event.target.value); setPage(1); }} placeholder="Cari nomor, SPB, PO, faktur, supplier" className="w-full rounded-lg border py-2 pl-9 pr-3" /></div>
         <div className="overflow-x-auto rounded-xl border">
           <table className="min-w-full divide-y text-sm">
             <thead className="bg-slate-50"><tr>{["Nomor", "Tanggal", "Supplier", "Item", "Total", "Status", "Aksi"].map((label) => <th key={label} className="p-3 text-left text-xs uppercase text-slate-500">{label}</th>)}</tr></thead>
             <tbody className="divide-y">
               {rows.length ? rows.map((row) => (
                 <tr key={row.purchase_id}>
-                  <td className="p-3 font-mono font-bold">{row.purchase_id}<p className="mt-1 text-[10px] font-normal text-slate-400">{row.invoice_number || "Tanpa faktur"}</p></td>
+                  <td className="p-3 font-mono font-bold">{row.spb_number || row.purchase_id}<p className="mt-1 text-[10px] font-normal text-slate-400">PO: {row.po_number || "-"} | {row.purchase_id}</p></td>
                   <td className="p-3">{String(row.purchase_date).slice(0, 10)}</td><td className="p-3">{row.supplier_name}</td><td className="p-3">{row.item_count}</td><td className="p-3 font-bold">{money(row.total)}</td>
                   <td className="p-3"><span className={`rounded-full px-2 py-1 text-xs font-bold ${row.status === "DRAFT" ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700"}`}>{row.status}</span></td>
-                  <td className="p-3"><div className="flex flex-wrap gap-1.5">{row.status === "DRAFT" && <><button onClick={() => openEdit(row.purchase_id)} disabled={loadingEdit} className="flex items-center gap-1 rounded border border-blue-200 px-2.5 py-2 text-xs font-bold text-blue-700 hover:bg-blue-50"><Edit3 size={14} /> Edit</button><button onClick={() => removePurchase(row)} className="flex items-center gap-1 rounded border border-red-200 px-2.5 py-2 text-xs font-bold text-red-700 hover:bg-red-50"><Trash2 size={14} /> Hapus</button><button onClick={() => receive(row.purchase_id)} className="flex items-center gap-1 rounded bg-emerald-600 px-3 py-2 text-xs font-bold text-white"><PackageCheck size={14} /> Terima</button></>}</div></td>
+                  <td className="p-3"><div className="flex flex-wrap gap-1.5"><button onClick={() => viewDetail(row.purchase_id)} className="flex items-center gap-1 rounded border border-slate-200 px-2.5 py-2 text-xs font-bold text-slate-700"><Eye size={14} /> Detail</button>{row.status === "DRAFT" && <><button onClick={() => openEdit(row.purchase_id)} disabled={loadingEdit} className="flex items-center gap-1 rounded border border-blue-200 px-2.5 py-2 text-xs font-bold text-blue-700 hover:bg-blue-50"><Edit3 size={14} /> Edit</button><button onClick={() => removePurchase(row)} className="flex items-center gap-1 rounded border border-red-200 px-2.5 py-2 text-xs font-bold text-red-700 hover:bg-red-50"><Trash2 size={14} /> Hapus</button><button onClick={() => receive(row.purchase_id)} className="flex items-center gap-1 rounded bg-emerald-600 px-3 py-2 text-xs font-bold text-white"><PackageCheck size={14} /> Terima</button></>}</div></td>
                 </tr>
               )) : <tr><td colSpan="7" className="p-12 text-center text-slate-500">Belum ada data pembelian.</td></tr>}
             </tbody>

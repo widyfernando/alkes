@@ -11,16 +11,13 @@ import {
   HeartPulse,
   Loader2,
   PackageCheck,
-  ShoppingCart,
   Stethoscope,
   UsersRound,
-  WalletCards,
 } from "lucide-react";
 import API from "../utils/axiosInstance";
 
 const colors = ["#2563eb", "#10b981", "#f59e0b", "#8b5cf6", "#ef4444", "#06b6d4", "#64748b", "#ec4899"];
 const formatNumber = (value) => Number(value || 0).toLocaleString("id-ID");
-const formatMoney = (value) => `Rp ${Number(value || 0).toLocaleString("id-ID")}`;
 
 const emptyData = {
   inventory: { summary: {}, by_category: [], stock_status: [], low_stock: [], transaction_types: [] },
@@ -65,12 +62,9 @@ const Dashboard = ({ onSelectMenu }) => {
     const sales = data.sales || emptyData.sales;
     const users = data.users || emptyData.users;
     const inv = inventory.summary || {};
-    const sale = sales.summary || {};
     const purchase = data.purchases?.summary || {};
     const menu = data.menu || {};
     const master = data.master_counts || {};
-    const estimasiModal = Number(inv.estimasi_modal || 0);
-    const estimasiJual = Number(inv.estimasi_jual || 0);
 
     return {
       inventory,
@@ -79,15 +73,10 @@ const Dashboard = ({ onSelectMenu }) => {
       menu,
       master,
       stats: [
-        { label: "Penjualan Hari Ini", value: formatMoney(sale.sales_today), note: `${formatNumber(sale.orders_today)} transaksi hari ini`, icon: WalletCards, tone: "text-emerald-600 bg-emerald-50" },
+        { label: "Total Item", value: formatNumber(inv.total_items), note: "Produk medis aktif", icon: PackageCheck, tone: "text-emerald-600 bg-emerald-50" },
         { label: "Total Stok", value: formatNumber(inv.total_stok), note: `${formatNumber(inv.total_items)} produk medis aktif`, icon: Boxes, tone: "text-blue-600 bg-blue-50" },
         { label: "Stok Perlu Perhatian", value: formatNumber(inv.stok_rendah), note: "Stok rendah atau kosong", icon: AlertTriangle, tone: "text-amber-600 bg-amber-50" },
-        { label: "Pembelian Tertunda", value: formatNumber(purchase.pending_purchases), note: formatMoney(purchase.pending_value), icon: ClipboardList, tone: "text-violet-600 bg-violet-50" },
-      ],
-      stockValue: [
-        { label: "Modal", value: estimasiModal },
-        { label: "Nilai Jual", value: estimasiJual },
-        { label: "Potensi Margin", value: estimasiJual - estimasiModal },
+        { label: "Pembelian Tertunda", value: formatNumber(purchase.pending_purchases), note: "Perlu ditindaklanjuti", icon: ClipboardList, tone: "text-violet-600 bg-violet-50" },
       ],
     };
   }, [data]);
@@ -107,8 +96,8 @@ const Dashboard = ({ onSelectMenu }) => {
               Pantau persediaan alat kesehatan, transaksi, pengadaan, dan aktivitas tim dalam satu tampilan.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <button onClick={() => handleOpen("transaksi-penjualan")} className="inline-flex h-10 items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 px-4 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5">
-                <ShoppingCart size={17} /> Transaksi Baru
+              <button onClick={() => handleOpen("inventory")} className="inline-flex h-10 items-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 px-4 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:-translate-y-0.5">
+                <PackageCheck size={17} /> Pengeluaran Barang
               </button>
               <button onClick={() => handleOpen("inventory")} className="inline-flex h-10 items-center gap-2 rounded-xl border border-blue-200 bg-white/90 px-4 text-sm font-semibold text-blue-700 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
                 <Boxes size={17} /> Buka Inventory
@@ -191,8 +180,8 @@ const Dashboard = ({ onSelectMenu }) => {
         ) : (
           <>
             <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-              <ChartPanel title="Distribusi Stok per Kategori" subtitle="Bar biru = estimasi modal, bar hijau = qty stok." action={() => handleOpen("inventory")}>
-                <BarChart rows={report.inventory.by_category} valueKey="estimasi_modal" secondaryKey="total_stok" valueFormatter={formatMoney} secondaryFormatter={formatNumber} />
+              <ChartPanel title="Distribusi Stok per Kategori" subtitle="Bar biru = jumlah item, bar hijau = qty stok." action={() => handleOpen("inventory")}>
+                <BarChart rows={report.inventory.by_category} valueKey="item_count" secondaryKey="total_stok" valueFormatter={formatNumber} secondaryFormatter={formatNumber} />
               </ChartPanel>
 
               <ChartPanel title="Status Ketersediaan Stok" subtitle="Pembagian barang aman, rendah, dan kosong.">
@@ -200,19 +189,6 @@ const Dashboard = ({ onSelectMenu }) => {
               </ChartPanel>
             </div>
 
-            <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
-              <ChartPanel title="Tren Penjualan 7 Hari" subtitle="Total transaksi penjualan per hari.">
-                <LineChart rows={report.sales.by_day} />
-              </ChartPanel>
-
-              <ChartPanel title="Metode Pembayaran" subtitle="Pie chart nilai transaksi per metode.">
-                <PieChart rows={report.sales.payment_methods} />
-              </ChartPanel>
-
-              <ChartPanel title="Modal Estimasi" subtitle="Nilai modal, nilai jual, dan margin stok.">
-                <ValueStack rows={report.stockValue} />
-              </ChartPanel>
-            </div>
 
             <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[1fr_1fr]">
               <ChartPanel title="Pergerakan Stok 30 Hari" subtitle="Jumlah transaksi inventory berdasarkan tipe.">
@@ -224,8 +200,7 @@ const Dashboard = ({ onSelectMenu }) => {
               </ChartPanel>
             </div>
 
-            <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-[1.2fr_0.8fr]">
-              <RecentOrders rows={report.sales.recent_orders} />
+            <div className="mt-6 grid grid-cols-1 gap-6">
               <LowStock rows={report.inventory.low_stock} onOpen={() => handleOpen("stock-opname")} />
             </div>
 
@@ -326,74 +301,6 @@ const PieChart = ({ rows = [] }) => {
     </div>
   );
 };
-
-const LineChart = ({ rows = [] }) => {
-  const max = Math.max(...rows.map((row) => Number(row.total || 0)), 1);
-  if (!rows.length) return <EmptyChart />;
-
-  return (
-    <div className="flex h-64 items-end gap-3">
-      {rows.map((row) => {
-        const height = Math.max(4, (Number(row.total || 0) / max) * 100);
-        return (
-          <div key={row.label} className="flex flex-1 flex-col items-center gap-2">
-            <div className="flex h-44 w-full items-end rounded-lg bg-slate-50 px-1">
-              <div className="clinical-column w-full rounded-t-xl" style={{ height: `${height}%` }} title={formatMoney(row.total)} />
-            </div>
-            <p className="text-center text-[11px] font-semibold text-slate-500">{row.label}</p>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
-const ValueStack = ({ rows }) => (
-  <div className="space-y-4">
-    {rows.map((row, index) => (
-      <div key={row.label} className="rounded-lg p-4" style={{ backgroundColor: `${colors[index % colors.length]}12` }}>
-        <p className="text-sm font-medium" style={{ color: colors[index % colors.length] }}>{row.label}</p>
-        <p className="mt-2 text-2xl font-bold text-slate-950">{formatMoney(row.value)}</p>
-      </div>
-    ))}
-  </div>
-);
-
-const RecentOrders = ({ rows }) => (
-  <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-    <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-      <div>
-        <h2 className="text-lg font-bold text-slate-950">Order Terbaru</h2>
-        <p className="mt-1 text-sm text-slate-500">Data dari tabel sales_orders.</p>
-      </div>
-      <FileText className="text-slate-400" size={23} />
-    </div>
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-slate-200">
-        <thead className="bg-slate-50">
-          <tr>
-            <th className="px-5 py-3 text-left text-xs font-semibold uppercase text-slate-500">Order</th>
-            <th className="px-5 py-3 text-left text-xs font-semibold uppercase text-slate-500">Item</th>
-            <th className="px-5 py-3 text-left text-xs font-semibold uppercase text-slate-500">Metode</th>
-            <th className="px-5 py-3 text-right text-xs font-semibold uppercase text-slate-500">Total</th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-slate-100 bg-white">
-          {rows.length ? rows.map((order) => (
-            <tr key={order.sales_id} className="hover:bg-slate-50">
-              <td className="whitespace-nowrap px-5 py-4"><p className="text-sm font-semibold text-slate-900">{order.sales_id}</p><p className="text-xs text-slate-500">{order.created_at}</p>{order.status === "BATAL" && <span className="mt-1 inline-flex rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-bold text-red-700">BATAL</span>}</td>
-              <td className="max-w-[320px] truncate px-5 py-4 text-sm text-slate-600">{order.items}</td>
-              <td className="whitespace-nowrap px-5 py-4 text-sm text-slate-600">{order.metode_pembayaran}</td>
-              <td className={`whitespace-nowrap px-5 py-4 text-right text-sm font-bold ${order.status === "BATAL" ? "text-slate-400 line-through" : "text-slate-950"}`}>{formatMoney(order.total)}</td>
-            </tr>
-          )) : (
-            <tr><td colSpan="4" className="px-5 py-12 text-center text-sm text-slate-500">Belum ada transaksi.</td></tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  </section>
-);
 
 const LowStock = ({ rows, onOpen }) => (
   <section className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">

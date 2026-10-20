@@ -6,6 +6,25 @@ const { getSecretKey } = require('../config');
 
 const SECRET_KEY = getSecretKey();
 
+let inventoryIssueSchemaPromise;
+async function ensureInventoryIssueSchema() {
+  if (!inventoryIssueSchemaPromise) {
+    inventoryIssueSchemaPromise = Promise.all([
+      query("CREATE TABLE IF NOT EXISTS inventory_issues (issue_id BIGSERIAL PRIMARY KEY, spb_number VARCHAR(100) NOT NULL UNIQUE, issue_date DATE NOT NULL DEFAULT CURRENT_DATE, recipient VARCHAR(150) NOT NULL DEFAULT '', destination VARCHAR(200) NOT NULL DEFAULT '', reason_id BIGINT NOT NULL REFERENCES inventory_reasons(reason_id), notes TEXT NOT NULL DEFAULT '', created_by VARCHAR(100) NOT NULL DEFAULT 'SYSTEM', created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())"),
+      query("CREATE TABLE IF NOT EXISTS inventory_issue_items (issue_item_id BIGSERIAL PRIMARY KEY, issue_id BIGINT NOT NULL REFERENCES inventory_issues(issue_id) ON DELETE CASCADE, item_id VARCHAR(20) NOT NULL REFERENCES inventory_items(item_id), serial_number VARCHAR(100) NOT NULL DEFAULT '', qty NUMERIC(14, 2) NOT NULL, stock_before NUMERIC(14, 2) NOT NULL, stock_after NUMERIC(14, 2) NOT NULL)"),
+      query("ALTER TABLE inventory_issues ADD COLUMN IF NOT EXISTS status VARCHAR(20) NOT NULL DEFAULT 'APPROVED'"),
+      query("ALTER TABLE inventory_issues ADD COLUMN IF NOT EXISTS approved_by VARCHAR(100)"),
+      query("ALTER TABLE inventory_issues ADD COLUMN IF NOT EXISTS approved_at TIMESTAMPTZ"),
+      query("ALTER TABLE inventory_issues ADD COLUMN IF NOT EXISTS revision_of BIGINT REFERENCES inventory_issues(issue_id)"),
+    ]).then(() => Promise.all([
+      query("CREATE INDEX IF NOT EXISTS idx_inventory_issue_items_issue_id ON inventory_issue_items(issue_id)"),
+      query("CREATE INDEX IF NOT EXISTS idx_inventory_issues_revision_of ON inventory_issues(revision_of)"),
+    ]))
+      .catch((error) => { inventoryIssueSchemaPromise = null; throw error; });
+  }
+  return inventoryIssueSchemaPromise;
+}
+
 function actorName(req) {
   return req.user?.nama || req.user?.username || 'SYSTEM';
 }
@@ -600,7 +619,7 @@ const getInventoryItems = asyncHandler(async (req, res) => {
   const stockStatus = String(req.query.stock_status || 'all').trim();
   const sort = String(req.query.sort || 'created').trim();
   const page = Math.max(Number.parseInt(req.query.page, 10) || 1, 1);
-  const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 10, 10), 100);
+  const limit = Math.min(Math.max(Number.parseInt(req.query.limit, 10) || 10, 10), 5000);
   const offset = (page - 1) * limit;
   const params = [];
   const conditions = ['i.is_aktif = true'];
@@ -642,7 +661,7 @@ const getInventoryItems = asyncHandler(async (req, res) => {
 
   const countResult = await query(
     `SELECT COUNT(*)::int AS total FROM inventory_items i ${joins} ${whereSql}`,
-    params
+    search ? params.slice(0, -1) : params
   );
 
   const dataParams = [...params, limit, offset];
@@ -650,7 +669,8 @@ const getInventoryItems = asyncHandler(async (req, res) => {
   const offsetParam = params.length + 2;
   const result = await query(
     `SELECT i.item_id, i.nama, i.satuan_id, s.nama AS satuan, i.kategori_id, k.nama AS kategori,
-            i.locator, i.merek, i.principal, i.nomor_izin_edar, i.nomor_batch, TO_CHAR(i.tanggal_kedaluwarsa, 'YYYY-MM-DD') AS tanggal_kedaluwarsa, i.gambar_url, i.stok, i.harga_modal, i.harga, i.minimum_stock, i.created_at
+            i.locator, i.merek, i.principal, i.nomor_izin_edar, i.nomor_batch, TO_CHAR(i.tanggal_kedaluwarsa, 'YYYY-MM-DD') AS tanggal_kedaluwarsa, i.gambar_url, i.stok, i.harga_modal, i.harga, i.minimum_stock, i.created_at,
+            COALESCE((SELECT json_agg(json_build_object('serial_number', l.serial_number, 'qty', l.qty) ORDER BY l.serial_number) FROM inventory_lots l WHERE l.item_id = i.item_id AND l.qty > 0), '[]'::json) AS lots
        FROM inventory_items i
        ${joins}
        ${whereSql}
@@ -804,23 +824,43 @@ const addInventoryTransaction = asyncHandler(async (req, res) => {
   const qty = Number(data.qty || 0);
   const harga = data.harga === '' || data.harga === undefined || data.harga === null ? null : Number(data.harga);
   const catatan = String(data.catatan || '').trim();
+  const serialNumber = String(data.serial_number || '').trim();
+  const reasonId = data.reason_id === '' || data.reason_id === undefined || data.reason_id === null ? null : Number(data.reason_id);
 
   if (!['MASUK', 'KELUAR'].includes(tipe)) return res.json({ status: 2, message: 'Tipe transaksi tidak valid' });
   if (Number.isNaN(qty) || qty <= 0) return res.json({ status: 2, message: 'Qty harus lebih dari 0' });
   if (harga !== null && (Number.isNaN(harga) || harga < 0)) return res.json({ status: 2, message: 'Harga tidak valid' });
+  if (tipe === 'KELUAR' && (!Number.isInteger(reasonId) || reasonId <= 0)) return res.json({ status: 2, message: 'Alasan pengeluaran wajib dipilih' });
 
   await withTransaction(async (client) => {
     const item = await client.query('SELECT item_id, stok, harga_modal, harga FROM inventory_items WHERE item_id = $1 AND is_aktif = true FOR UPDATE', [itemId]);
     if (!item.rows[0]) throw Object.assign(new Error('Data barang tidak ditemukan'), { statusCode: 404 });
 
+    if (tipe === 'KELUAR') {
+      const reason = await client.query('SELECT reason_id FROM inventory_reasons WHERE reason_id = $1 AND is_active = true', [reasonId]);
+      if (!reason.rows[0]) throw Object.assign(new Error('Alasan pengeluaran tidak valid atau sudah dinonaktifkan'), { statusCode: 400 });
+    }
+
     const stokSebelum = Number(item.rows[0].stok || 0);
     const stokSesudah = tipe === 'MASUK' ? stokSebelum + qty : stokSebelum - qty;
     if (stokSesudah < 0) throw Object.assign(new Error('Stok tidak mencukupi'), { statusCode: 400 });
 
+    if (serialNumber) {
+      const lot = await client.query('SELECT qty FROM inventory_lots WHERE item_id = $1 AND serial_number = $2 FOR UPDATE', [itemId, serialNumber]);
+      const lotBefore = Number(lot.rows[0]?.qty || 0);
+      const lotAfter = tipe === 'MASUK' ? lotBefore + qty : lotBefore - qty;
+      if (lotAfter < 0) throw Object.assign(new Error('Stok SN/batch tidak mencukupi'), { statusCode: 400 });
+      await client.query(
+        `INSERT INTO inventory_lots(item_id, serial_number, qty) VALUES($1, $2, $3)
+         ON CONFLICT(item_id, serial_number) DO UPDATE SET qty = EXCLUDED.qty, updated_at = NOW()`,
+        [itemId, serialNumber, lotAfter]
+      );
+    }
+
     await client.query(
-      `INSERT INTO inventory_transactions (item_id, tipe, qty, harga, stok_sebelum, stok_sesudah, catatan)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-      [itemId, tipe, qty, harga, stokSebelum, stokSesudah, catatan]
+      `INSERT INTO inventory_transactions (item_id, tipe, qty, harga, stok_sebelum, stok_sesudah, catatan, reason_id)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [itemId, tipe, qty, harga, stokSebelum, stokSesudah, catatan, tipe === 'KELUAR' ? reasonId : null]
     );
     await client.query('UPDATE inventory_items SET stok = $1, updated_at = NOW() WHERE item_id = $2', [stokSesudah, itemId]);
 
@@ -834,6 +874,204 @@ const addInventoryTransaction = asyncHandler(async (req, res) => {
   return res.json({ status: 1, message: `Transaksi barang ${tipe.toLowerCase()} berhasil disimpan` });
 });
 
+const getInventoryIssue = asyncHandler(async (req, res) => {
+  await ensureInventoryIssueSchema();
+  const issue = await query(
+    `SELECT x.issue_id, x.spb_number, TO_CHAR(x.issue_date, 'YYYY-MM-DD') AS issue_date,
+            x.recipient, x.destination, x.notes, x.created_by, x.created_at, x.status,
+            x.approved_by, x.approved_at, x.revision_of, x.reason_id, r.name AS reason
+       FROM inventory_issues x
+       JOIN inventory_reasons r ON r.reason_id = x.reason_id
+      WHERE x.issue_id = $1`,
+    [req.params.issueId]
+  );
+  if (!issue.rows[0]) return res.status(404).json({ status: 0, message: 'SPB tidak ditemukan' });
+  const items = await query(
+    `SELECT d.item_id, i.nama, COALESCE(s.nama, '') AS satuan, d.serial_number,
+            d.qty::float, d.stock_before::float, d.stock_after::float
+       FROM inventory_issue_items d
+       JOIN inventory_items i ON i.item_id = d.item_id
+       LEFT JOIN satuan_barang s ON s.satuan_id = i.satuan_id
+      WHERE d.issue_id = $1 ORDER BY d.issue_item_id`,
+    [req.params.issueId]
+  );
+  return res.json({ status: 1, data: { ...issue.rows[0], items: items.rows } });
+});
+
+const getInventoryIssues = asyncHandler(async (req, res) => {
+  await ensureInventoryIssueSchema();
+  const search = String(req.query.search || '').trim();
+  const page = Math.max(1, Number.parseInt(req.query.page, 10) || 1);
+  const limit = Math.min(50, Math.max(1, Number.parseInt(req.query.limit, 10) || 10));
+  const offset = (page - 1) * limit;
+  const params = search ? [`%${search}%`] : [];
+  const where = search ? `WHERE x.spb_number ILIKE $1 OR x.recipient ILIKE $1 OR x.destination ILIKE $1 OR x.notes ILIKE $1 OR r.name ILIKE $1` : '';
+  const count = await query(`SELECT COUNT(*)::int AS total FROM inventory_issues x JOIN inventory_reasons r ON r.reason_id = x.reason_id ${where}`, params);
+  const rows = await query(
+    `SELECT x.issue_id, x.spb_number, TO_CHAR(x.issue_date, 'YYYY-MM-DD') AS issue_date,
+            x.recipient, x.destination, x.created_by, x.created_at, x.status, x.approved_by,
+            x.approved_at, x.revision_of, r.name AS reason,
+            COUNT(d.issue_item_id)::int AS item_count, COALESCE(SUM(d.qty), 0)::float AS total_qty
+       FROM inventory_issues x JOIN inventory_reasons r ON r.reason_id = x.reason_id
+       LEFT JOIN inventory_issue_items d ON d.issue_id = x.issue_id ${where}
+      GROUP BY x.issue_id, r.name ORDER BY x.issue_date DESC, x.issue_id DESC
+      LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+    [...params, limit, offset]
+  );
+  const total = Number(count.rows[0]?.total || 0);
+  return res.json({ status: 1, data: rows.rows, total, page, limit, total_pages: Math.max(1, Math.ceil(total / limit)) });
+});
+
+function revisionSuffix(number) {
+  let value = number;
+  let suffix = '';
+  while (value > 0) {
+    value -= 1;
+    suffix = String.fromCharCode(65 + (value % 26)) + suffix;
+    value = Math.floor(value / 26);
+  }
+  return suffix;
+}
+
+const addInventoryIssue = asyncHandler(async (req, res) => {
+  await ensureInventoryIssueSchema();
+  const data = req.body || {};
+  let spbNumber = String(data.spb_number || '').trim();
+  const issueDate = data.issue_date || null;
+  const recipient = String(data.recipient || '').trim();
+  const destination = String(data.destination || '').trim();
+  const notes = String(data.notes || '').trim();
+  const reasonId = Number(data.reason_id);
+  const revisionOf = Number(data.revision_of) || null;
+  const items = Array.isArray(data.items) ? data.items.map((item) => ({
+    itemId: String(item.item_id || '').trim(),
+    serialNumber: String(item.serial_number || '').trim(),
+    qty: Number(item.qty),
+  })) : [];
+
+  if (!spbNumber) return res.status(400).json({ status: 0, message: 'Nomor SPB wajib diisi' });
+  if (issueDate && !/^\d{4}-\d{2}-\d{2}$/.test(String(issueDate))) return res.status(400).json({ status: 0, message: 'Format tanggal SPB tidak valid' });
+  if (!recipient) return res.status(400).json({ status: 0, message: 'No. PO customer wajib diisi' });
+  if (!notes) return res.status(400).json({ status: 0, message: 'No. NIE/AKL wajib diisi' });
+  if (!Number.isInteger(reasonId) || reasonId <= 0) return res.status(400).json({ status: 0, message: 'Alasan pengantaran wajib dipilih' });
+  if (!items.length || items.length > 10) return res.status(400).json({ status: 0, message: 'SPB harus berisi 1 sampai 10 item' });
+  if (items.some((item) => !item.itemId || !Number.isFinite(item.qty) || item.qty <= 0)) return res.status(400).json({ status: 0, message: 'Barang dan qty setiap baris wajib valid' });
+  const itemKeys = items.map((item) => item.itemId + '|' + item.serialNumber);
+  if (new Set(itemKeys).size !== itemKeys.length) return res.status(400).json({ status: 0, message: 'Barang dengan SN/batch yang sama tidak boleh duplikat' });
+
+  let issueId;
+  await withTransaction(async (client) => {
+    const reason = await client.query('SELECT reason_id FROM inventory_reasons WHERE reason_id = $1 AND is_active = true', [reasonId]);
+    if (!reason.rows[0]) throw Object.assign(new Error('Alasan pengantaran tidak valid atau sudah dinonaktifkan'), { statusCode: 400 });
+
+    if (revisionOf) {
+      const source = await client.query('SELECT issue_id, spb_number, status FROM inventory_issues WHERE issue_id = $1 FOR UPDATE', [revisionOf]);
+      if (!source.rows[0]) throw Object.assign(new Error('SPB sumber revisi tidak ditemukan'), { statusCode: 404 });
+      if (source.rows[0].status !== 'APPROVED') throw Object.assign(new Error('Hanya SPB yang sudah disetujui yang dapat direvisi'), { statusCode: 400 });
+      const baseNumber = source.rows[0].spb_number.replace(/[A-Z]+$/i, '');
+      let revision = 1;
+      while (true) {
+        const candidate = `${baseNumber}${revisionSuffix(revision)}`;
+        const exists = await client.query('SELECT 1 FROM inventory_issues WHERE LOWER(spb_number) = LOWER($1)', [candidate]);
+        if (!exists.rows[0]) { spbNumber = candidate; break; }
+        revision += 1;
+      }
+    } else {
+      const duplicate = await client.query('SELECT issue_id FROM inventory_issues WHERE LOWER(spb_number) = LOWER($1)', [spbNumber]);
+      if (duplicate.rows[0]) throw Object.assign(new Error('Nomor SPB sudah digunakan'), { statusCode: 409 });
+    }
+
+    const created = await client.query(
+      `INSERT INTO inventory_issues(spb_number, issue_date, recipient, destination, reason_id, notes, created_by, status, revision_of)
+       VALUES($1, COALESCE($2::date, CURRENT_DATE), $3, $4, $5, $6, $7, 'PENDING', $8) RETURNING issue_id`,
+      [spbNumber, issueDate, recipient, destination, reasonId, notes, actorName(req), revisionOf]
+    );
+    issueId = created.rows[0].issue_id;
+
+    for (const line of items) {
+      const item = await client.query('SELECT item_id, stok FROM inventory_items WHERE item_id = $1 AND is_aktif = true', [line.itemId]);
+      if (!item.rows[0]) throw Object.assign(new Error(`Barang ${line.itemId} tidak ditemukan`), { statusCode: 404 });
+      const stockBefore = Number(item.rows[0].stok || 0);
+      if (stockBefore < line.qty) throw Object.assign(new Error(`Stok barang ${line.itemId} tidak mencukupi`), { statusCode: 400 });
+      if (line.serialNumber) {
+        const lot = await client.query('SELECT qty FROM inventory_lots WHERE item_id = $1 AND serial_number = $2', [line.itemId, line.serialNumber]);
+        if (!lot.rows[0] || Number(lot.rows[0].qty || 0) < line.qty) throw Object.assign(new Error(`Stok SN/batch ${line.serialNumber} tidak mencukupi`), { statusCode: 400 });
+      }
+      await client.query(
+        `INSERT INTO inventory_issue_items(issue_id, item_id, serial_number, qty, stock_before, stock_after)
+         VALUES($1, $2, $3, $4, $5, $6)`,
+        [issueId, line.itemId, line.serialNumber, line.qty, stockBefore, stockBefore - line.qty]
+      );
+    }
+    await addLog(client, actorName(req), spbNumber, 'INVENTORY', `Pengajuan SPB ${spbNumber} menunggu approval`);
+  });
+
+  const detail = await query(
+    `SELECT x.issue_id, x.spb_number, TO_CHAR(x.issue_date, 'YYYY-MM-DD') AS issue_date,
+            x.recipient, x.destination, x.notes, x.created_by, x.created_at, x.status,
+            x.approved_by, x.approved_at, x.revision_of, x.reason_id, r.name AS reason
+       FROM inventory_issues x JOIN inventory_reasons r ON r.reason_id = x.reason_id WHERE x.issue_id = $1`,
+    [issueId]
+  );
+  const detailItems = await query(
+    `SELECT d.item_id, i.nama, COALESCE(s.nama, '') AS satuan, d.serial_number,
+            d.qty::float, d.stock_before::float, d.stock_after::float
+       FROM inventory_issue_items d JOIN inventory_items i ON i.item_id = d.item_id
+       LEFT JOIN satuan_barang s ON s.satuan_id = i.satuan_id WHERE d.issue_id = $1 ORDER BY d.issue_item_id`,
+    [issueId]
+  );
+  return res.json({ status: 1, message: `SPB ${spbNumber} diajukan untuk approval`, data: { ...detail.rows[0], items: detailItems.rows } });
+});
+
+const approveInventoryIssue = asyncHandler(async (req, res) => {
+  await ensureInventoryIssueSchema();
+  const issueId = Number(req.params.issueId);
+  let approvedNumber = '';
+  await withTransaction(async (client) => {
+    const issue = await client.query('SELECT * FROM inventory_issues WHERE issue_id = $1 FOR UPDATE', [issueId]);
+    const row = issue.rows[0];
+    if (!row) throw Object.assign(new Error('SPB tidak ditemukan'), { statusCode: 404 });
+    if (row.status !== 'PENDING') throw Object.assign(new Error('SPB ini tidak sedang menunggu approval'), { statusCode: 409 });
+    if (String(row.created_by).toLowerCase() === actorName(req).toLowerCase()) throw Object.assign(new Error('Pembuat SPB tidak dapat menyetujui pengajuannya sendiri'), { statusCode: 403 });
+    approvedNumber = row.spb_number;
+
+    if (row.revision_of) {
+      const previous = await client.query('SELECT status, spb_number FROM inventory_issues WHERE issue_id = $1 FOR UPDATE', [row.revision_of]);
+      if (!previous.rows[0] || previous.rows[0].status !== 'APPROVED') throw Object.assign(new Error('SPB sumber revisi sudah tidak aktif'), { statusCode: 409 });
+      const previousItems = await client.query('SELECT * FROM inventory_issue_items WHERE issue_id = $1 ORDER BY issue_item_id FOR UPDATE', [row.revision_of]);
+      for (const line of previousItems.rows) {
+        const item = await client.query('SELECT stok FROM inventory_items WHERE item_id = $1 FOR UPDATE', [line.item_id]);
+        const before = Number(item.rows[0].stok || 0);
+        const after = before + Number(line.qty);
+        await client.query('UPDATE inventory_items SET stok = $1, updated_at = NOW() WHERE item_id = $2', [after, line.item_id]);
+        if (line.serial_number) await client.query(`INSERT INTO inventory_lots(item_id, serial_number, qty) VALUES($1,$2,$3) ON CONFLICT(item_id,serial_number) DO UPDATE SET qty=inventory_lots.qty+EXCLUDED.qty, updated_at=NOW()`, [line.item_id, line.serial_number, line.qty]);
+        await client.query(`INSERT INTO inventory_transactions(item_id, tipe, qty, harga, stok_sebelum, stok_sesudah, catatan) VALUES($1,'MASUK',$2,NULL,$3,$4,$5)`, [line.item_id, line.qty, before, after, `Pembatalan ${previous.rows[0].spb_number} karena revisi ${row.spb_number}`]);
+      }
+      await client.query("UPDATE inventory_issues SET status = 'REVISED' WHERE issue_id = $1", [row.revision_of]);
+    }
+
+    const lines = await client.query('SELECT * FROM inventory_issue_items WHERE issue_id = $1 ORDER BY issue_item_id FOR UPDATE', [issueId]);
+    for (const line of lines.rows) {
+      const item = await client.query('SELECT stok FROM inventory_items WHERE item_id = $1 AND is_aktif = true FOR UPDATE', [line.item_id]);
+      if (!item.rows[0]) throw Object.assign(new Error(`Barang ${line.item_id} tidak ditemukan`), { statusCode: 404 });
+      const before = Number(item.rows[0].stok || 0);
+      const after = before - Number(line.qty);
+      if (after < 0) throw Object.assign(new Error(`Stok barang ${line.item_id} tidak mencukupi saat approval`), { statusCode: 400 });
+      if (line.serial_number) {
+        const lot = await client.query('SELECT qty FROM inventory_lots WHERE item_id = $1 AND serial_number = $2 FOR UPDATE', [line.item_id, line.serial_number]);
+        const lotAfter = Number(lot.rows[0]?.qty || 0) - Number(line.qty);
+        if (!lot.rows[0] || lotAfter < 0) throw Object.assign(new Error(`Stok SN/batch ${line.serial_number} tidak mencukupi saat approval`), { statusCode: 400 });
+        await client.query('UPDATE inventory_lots SET qty = $1, updated_at = NOW() WHERE item_id = $2 AND serial_number = $3', [lotAfter, line.item_id, line.serial_number]);
+      }
+      await client.query('UPDATE inventory_items SET stok = $1, updated_at = NOW() WHERE item_id = $2', [after, line.item_id]);
+      await client.query('UPDATE inventory_issue_items SET stock_before = $1, stock_after = $2 WHERE issue_item_id = $3', [before, after, line.issue_item_id]);
+      await client.query(`INSERT INTO inventory_transactions(item_id, tipe, qty, harga, stok_sebelum, stok_sesudah, catatan, reason_id) VALUES($1,'KELUAR',$2,NULL,$3,$4,$5,$6)`, [line.item_id, line.qty, before, after, `SPB ${row.spb_number}: ${row.notes}`, row.reason_id]);
+    }
+    await client.query("UPDATE inventory_issues SET status='APPROVED', approved_by=$1, approved_at=NOW() WHERE issue_id=$2", [actorName(req), issueId]);
+    await addLog(client, actorName(req), row.spb_number, 'INVENTORY', `Approval SPB ${row.spb_number}`);
+  });
+  return res.json({ status: 1, message: `SPB ${approvedNumber} telah disetujui dan siap dicetak` });
+});
 const addBulkInventoryIncoming = asyncHandler(async (req, res) => {
   const rows = Array.isArray(req.body?.rows) ? req.body.rows : [];
   const catatan = String(req.body?.catatan || '').trim() || 'Upload barang masuk Master_Barang';
@@ -1008,7 +1246,10 @@ const addBulkInventoryIncoming = asyncHandler(async (req, res) => {
 const addStockOpname = asyncHandler(async (req, res) => {
   const data = req.body || {};
   const itemId = data.item_id;
-  const stokFisik = Number(data.stok_fisik);
+  const lots = Array.isArray(data.lots) ? data.lots.map((lot) => ({ serialNumber: String(lot.serial_number || '').trim(), qty: Number(lot.qty) })) : [];
+  const invalidLot = lots.find((lot) => !lot.serialNumber || !Number.isFinite(lot.qty) || lot.qty < 0);
+  if (invalidLot) return res.json({ status: 2, message: 'Stok fisik SN/batch tidak valid' });
+  const stokFisik = lots.length ? lots.reduce((total, lot) => total + lot.qty, 0) : Number(data.stok_fisik);
   const catatan = String(data.catatan || '').trim();
   if (Number.isNaN(stokFisik) || stokFisik < 0) return res.json({ status: 2, message: 'Stok fisik tidak valid' });
 
@@ -1018,6 +1259,16 @@ const addStockOpname = asyncHandler(async (req, res) => {
 
     const stokSebelum = Number(item.rows[0].stok || 0);
     const selisih = stokFisik - stokSebelum;
+    if (lots.length) {
+      await client.query('UPDATE inventory_lots SET qty = 0, updated_at = NOW() WHERE item_id = $1', [itemId]);
+      for (const lot of lots) {
+        await client.query(
+          `INSERT INTO inventory_lots(item_id, serial_number, qty) VALUES($1, $2, $3)
+           ON CONFLICT(item_id, serial_number) DO UPDATE SET qty = EXCLUDED.qty, updated_at = NOW()`,
+          [itemId, lot.serialNumber, lot.qty]
+        );
+      }
+    }
     await client.query(
       `INSERT INTO inventory_transactions (item_id, tipe, qty, harga, stok_sebelum, stok_sesudah, catatan)
        VALUES ($1, 'OPNAME', $2, NULL, $3, $4, $5)`,
@@ -1036,10 +1287,11 @@ const addBulkStockOpname = asyncHandler(async (req, res) => {
 
   const normalized = rows.map((row) => ({
     itemId: String(row.item_id || '').trim(),
-    stokFisik: Number(row.stok_fisik),
+    lots: Array.isArray(row.lots) ? row.lots.map((lot) => ({ serialNumber: String(lot.serial_number || '').trim(), qty: Number(lot.qty) })) : [],
+    stokFisik: Array.isArray(row.lots) && row.lots.length ? row.lots.reduce((total, lot) => total + Number(lot.qty || 0), 0) : Number(row.stok_fisik),
     catatan: String(row.catatan || '').trim(),
   }));
-  const invalid = normalized.find((row) => !row.itemId || Number.isNaN(row.stokFisik) || row.stokFisik < 0);
+  const invalid = normalized.find((row) => !row.itemId || Number.isNaN(row.stokFisik) || row.stokFisik < 0 || row.lots.some((lot) => !lot.serialNumber || !Number.isFinite(lot.qty) || lot.qty < 0));
   if (invalid) return res.json({ status: 2, message: 'Data stock opname tidak valid' });
 
   const duplicated = normalized.find((row, index) => normalized.findIndex((candidate) => candidate.itemId === row.itemId) !== index);
@@ -1052,6 +1304,16 @@ const addBulkStockOpname = asyncHandler(async (req, res) => {
 
       const stokSebelum = Number(item.rows[0].stok || 0);
       const selisih = row.stokFisik - stokSebelum;
+      if (row.lots.length) {
+        await client.query('UPDATE inventory_lots SET qty = 0, updated_at = NOW() WHERE item_id = $1', [row.itemId]);
+        for (const lot of row.lots) {
+          await client.query(
+            `INSERT INTO inventory_lots(item_id, serial_number, qty) VALUES($1, $2, $3)
+             ON CONFLICT(item_id, serial_number) DO UPDATE SET qty = EXCLUDED.qty, updated_at = NOW()`,
+            [row.itemId, lot.serialNumber, lot.qty]
+          );
+        }
+      }
       await client.query(
         `INSERT INTO inventory_transactions (item_id, tipe, qty, harga, stok_sebelum, stok_sesudah, catatan)
          VALUES ($1, 'OPNAME', $2, NULL, $3, $4, $5)`,
@@ -1065,13 +1327,54 @@ const addBulkStockOpname = asyncHandler(async (req, res) => {
   return res.json({ status: 1, message: `${normalized.length} stock opname berhasil disimpan` });
 });
 
+const getInventoryReasons = asyncHandler(async (req, res) => {
+  const includeInactive = String(req.query.include_inactive || '') === 'true';
+  const result = await query(
+    'SELECT reason_id, name, is_active FROM inventory_reasons WHERE ($1::boolean = true OR is_active = true) ORDER BY name',
+    [includeInactive]
+  );
+  return res.json({ status: 1, data: result.rows });
+});
+
+const addInventoryReason = asyncHandler(async (req, res) => {
+  const name = String(req.body?.name || '').trim().toUpperCase();
+  if (name.length < 2 || name.length > 100) return res.status(400).json({ status: 0, message: 'Nama alasan harus 2-100 karakter' });
+  const result = await query(
+    'INSERT INTO inventory_reasons(name) VALUES($1) ON CONFLICT(name) DO UPDATE SET is_active = true, updated_at = NOW() RETURNING reason_id, name, is_active',
+    [name]
+  );
+  return res.json({ status: 1, message: 'Alasan berhasil disimpan', data: result.rows[0] });
+});
+
+const updateInventoryReason = asyncHandler(async (req, res) => {
+  const reasonId = Number(req.params.reasonId);
+  const isActive = req.body?.is_active !== false;
+  const result = await query('UPDATE inventory_reasons SET is_active = $1, updated_at = NOW() WHERE reason_id = $2 RETURNING reason_id, name, is_active', [isActive, reasonId]);
+  if (!result.rows[0]) return res.status(404).json({ status: 0, message: 'Alasan tidak ditemukan' });
+  return res.json({ status: 1, message: 'Status alasan diperbarui', data: result.rows[0] });
+});
+
+const updateRestockPlan = asyncHandler(async (req, res) => {
+  const itemId = String(req.params.itemId || '').trim();
+  const plannedQty = Number(req.body?.planned_qty);
+  if (!itemId || !Number.isFinite(plannedQty) || plannedQty < 0) return res.status(400).json({ status: 0, message: 'Qty rencana tidak valid' });
+  await query(
+    `INSERT INTO inventory_restock_plans(item_id, planned_qty, updated_by) VALUES($1, $2, $3)
+     ON CONFLICT(item_id) DO UPDATE SET planned_qty = EXCLUDED.planned_qty, updated_by = EXCLUDED.updated_by, updated_at = NOW()`,
+    [itemId, plannedQty, actorName(req)]
+  );
+  return res.json({ status: 1, message: 'Qty rencana pembelian tersimpan', item_id: itemId, planned_qty: plannedQty });
+});
+
 const getInventoryHistory = asyncHandler(async (req, res) => {
   const { item_id: itemId } = req.query;
   const transactions = await query(
-    `SELECT transaksi_id, tipe, qty, harga, stok_sebelum, stok_sesudah, catatan, created_at
-       FROM inventory_transactions
-      WHERE item_id = $1
-      ORDER BY created_at DESC, transaksi_id DESC
+    `SELECT it.transaksi_id, it.tipe, it.qty, it.harga, it.stok_sebelum, it.stok_sesudah, it.catatan,
+            ir.name AS alasan, it.created_at
+       FROM inventory_transactions it
+       LEFT JOIN inventory_reasons ir ON ir.reason_id = it.reason_id
+      WHERE it.item_id = $1
+      ORDER BY it.created_at DESC, it.transaksi_id DESC
       LIMIT 50`,
     [itemId]
   );
@@ -1264,9 +1567,8 @@ const getReport = asyncHandler(async (req, res) => {
   if (type === 'stock') {
     const result = await query(
       `SELECT i.item_id, i.nama, COALESCE(k.nama, 'Tanpa Kategori') AS kategori, COALESCE(s.nama, '-') AS satuan,
-              i.locator, i.stok, i.minimum_stock, i.harga_modal, i.harga,
-              (i.stok * i.harga_modal)::float AS nilai_modal,
-              (i.stok * i.harga)::float AS nilai_jual,
+              i.locator, i.stok, i.minimum_stock, i.harga_modal,
+              (i.stok * i.harga_modal)::float AS nilai_persediaan,
               CASE WHEN i.stok <= 0 THEN 'Kosong'
                    WHEN i.stok <= i.minimum_stock THEN 'Mau Habis'
                    ELSE 'Aman' END AS status_stok
@@ -1287,10 +1589,12 @@ const getReport = asyncHandler(async (req, res) => {
     const result = await query(
       `SELECT i.item_id, i.nama, COALESCE(k.nama, 'Tanpa Kategori') AS kategori, COALESCE(s.nama, '-') AS satuan,
               i.locator, i.stok, i.minimum_stock,
-              GREATEST(i.minimum_stock - i.stok, 0)::float AS rekomendasi_restock
+              GREATEST(i.minimum_stock - i.stok, 0)::float AS rekomendasi_restock,
+              COALESCE(rp.planned_qty, GREATEST(i.minimum_stock - i.stok, 0))::float AS qty_rencana
          FROM inventory_items i
          LEFT JOIN kategori_barang k ON k.kategori_id = i.kategori_id
          LEFT JOIN satuan_barang s ON s.satuan_id = i.satuan_id
+         LEFT JOIN inventory_restock_plans rp ON rp.item_id = i.item_id
         WHERE i.is_aktif = true AND i.stok <= i.minimum_stock
           AND ($1 = '' OR i.item_id ILIKE $2 OR i.nama ILIKE $2 OR i.locator ILIKE $2 OR k.nama ILIKE $2)
         ORDER BY i.stok ASC, i.nama ASC`,
@@ -1581,9 +1885,17 @@ module.exports = {
   deleteInventoryItem,
   updateInventoryPrice,
   addInventoryTransaction,
+  addInventoryIssue,
+  approveInventoryIssue,
+  getInventoryIssue,
+  getInventoryIssues,
   addBulkInventoryIncoming,
   addStockOpname,
   addBulkStockOpname,
+  getInventoryReasons,
+  addInventoryReason,
+  updateInventoryReason,
+  updateRestockPlan,
   getInventoryHistory,
   getDashboardSummary,
   getReport,

@@ -3,14 +3,19 @@ import { Edit, Loader2, Package, Plus, Save, Search, Trash2, X } from "lucide-re
 import Swal from "sweetalert2";
 import API from "../../utils/axiosInstance";
 
-const emptyForm = { item_id: "", nama: "", satuan_id: "", kategori_id: "", locator: "", merek: "", principal: "", nomor_izin_edar: "", nomor_batch: "", tanggal_kedaluwarsa: "", gambar_url: "", harga_modal: "", harga: "", minimum_stock: "5" };
-const money = (value) => `Rp ${Number(value || 0).toLocaleString("id-ID")}`;
+const BRANDS = ["Nihon Kohden", "ANT Neuro", "Yingchi", "Oryx", "NMS"];
+const PURCHASE_TYPES = ["Impor", "Lokal"];
+
+const emptyForm = { item_id: "", nama: "", satuan_id: "", kategori_id: "", locator: "", merek: "", principal: "", nomor_izin_edar: "", nomor_batch: "", tanggal_kedaluwarsa: "", gambar_url: "", harga_modal: "0", minimum_stock: "5" };
 
 const MasterBarang = ({ onClose }) => {
   const [items, setItems] = useState([]);
   const [units, setUnits] = useState([]);
   const [categories, setCategories] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [modalMode, setModalMode] = useState(null);
@@ -19,15 +24,17 @@ const MasterBarang = ({ onClose }) => {
   const fetchItems = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await API.get("/inventory/items", { params: { search: searchTerm, limit: 120 } });
+      const response = await API.get("/inventory/items", { params: { search: searchTerm, page, limit: 10 } });
       setItems(response.data.data || []);
+      setTotalItems(Number(response.data.total || 0));
+      setTotalPages(Number(response.data.total_pages || 1));
     } catch (err) {
       console.error("Gagal memuat master barang:", err);
       Swal.fire("Error", "Gagal memuat master barang.", "error");
     } finally {
       setLoading(false);
     }
-  }, [searchTerm]);
+  }, [page, searchTerm]);
 
   useEffect(() => {
     const timer = setTimeout(fetchItems, 150);
@@ -61,8 +68,6 @@ const MasterBarang = ({ onClose }) => {
       nomor_batch: item.nomor_batch || "",
       tanggal_kedaluwarsa: item.tanggal_kedaluwarsa || "",
       gambar_url: item.gambar_url || "",
-      harga_modal: item.harga_modal || "",
-      harga: item.harga || "",
       minimum_stock: item.minimum_stock ?? "5",
     });
     setModalMode("edit");
@@ -83,8 +88,6 @@ const MasterBarang = ({ onClose }) => {
         nomor_batch: formData.nomor_batch || "",
         tanggal_kedaluwarsa: formData.tanggal_kedaluwarsa || null,
         gambar_url: formData.gambar_url || "",
-        harga_modal: formData.harga_modal || 0,
-        harga: formData.harga || 0,
         minimum_stock: formData.minimum_stock || 0,
       };
       const response =
@@ -136,17 +139,17 @@ const MasterBarang = ({ onClose }) => {
   return (
     <main className="min-h-[calc(100vh-4rem)] rounded-2xl border border-white/80 bg-white/82 px-4 py-6 shadow-xl shadow-slate-900/5 backdrop-blur-sm sm:px-6 lg:px-8">
       <section className="mx-auto max-w-7xl">
-        <Header title="Master Barang" desc="Kelola identitas produk medis, izin edar, batch, kedaluwarsa, lokasi, dan harga." onClose={() => onClose?.("master")} onAdd={openAdd} />
+        <Header title="Master Barang" desc="Kelola identitas produk medis, izin edar, batch, kedaluwarsa, lokasi, HPP, dan stok minimum." onClose={() => onClose?.("master")} onAdd={openAdd} />
 
         <section className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
           <div className="flex flex-col gap-3 border-b border-slate-200 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-lg font-bold text-slate-950">Daftar Barang</h2>
-              <p className="mt-1 text-sm text-slate-500">Total {items.length} barang aktif.</p>
+              <p className="mt-1 text-sm text-slate-500">Total {totalItems} barang aktif.</p>
             </div>
             <div className="relative w-full sm:w-80">
               <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={17} />
-              <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Cari barang..." className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
+              <input value={searchTerm} onChange={(e) => { setSearchTerm(e.target.value); setPage(1); }} placeholder="Cari barang..." className="h-10 w-full rounded-lg border border-slate-200 bg-slate-50 pl-10 pr-3 text-sm outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100" />
             </div>
           </div>
 
@@ -158,23 +161,19 @@ const MasterBarang = ({ onClose }) => {
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase text-slate-500">Kategori</th>
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase text-slate-500">Satuan</th>
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase text-slate-500">Locator</th>
-                  <th className="px-5 py-3 text-right text-xs font-semibold uppercase text-slate-500">Harga Modal</th>
-                  <th className="px-5 py-3 text-right text-xs font-semibold uppercase text-slate-500">Harga Jual</th>
                   <th className="px-5 py-3 text-right text-xs font-semibold uppercase text-slate-500">Min Stok</th>
                   <th className="px-5 py-3 text-right text-xs font-semibold uppercase text-slate-500">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 bg-white">
                 {loading ? (
-                  <tr><td colSpan="8" className="px-5 py-16 text-center"><Loader2 className="mx-auto animate-spin text-blue-600" /></td></tr>
+                  <tr><td colSpan="6" className="px-5 py-16 text-center"><Loader2 className="mx-auto animate-spin text-blue-600" /></td></tr>
                 ) : items.length ? items.map((item) => (
                   <tr key={item.item_id} className="hover:bg-blue-50/40">
                                         <td className="px-5 py-4"><div className="flex items-center gap-3">{item.gambar_url ? <img src={item.gambar_url} alt="" className="h-11 w-11 rounded-lg border border-slate-200 object-cover" /> : <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-teal-50 text-teal-700"><Package size={18} /></span>}<div><p className="font-semibold text-slate-950">{item.nama}</p><p className="mt-1 font-mono text-xs text-slate-500">{item.item_id} · {item.merek || "Tanpa merek"}</p><p className="mt-1 text-[11px] text-slate-400">{item.nomor_izin_edar ? `NIE ${item.nomor_izin_edar}` : "Izin edar belum diisi"}</p></div></div></td>
                     <td className="px-5 py-4 text-sm text-slate-600">{item.kategori || "-"}</td>
                     <td className="px-5 py-4 text-sm text-slate-600">{item.satuan || "-"}</td>
                     <td className="px-5 py-4 text-sm text-slate-600"><p>{item.locator || "-"}</p><p className="mt-1 text-xs text-slate-400">Batch {item.nomor_batch || "-"}</p><p className="mt-1 text-xs font-semibold text-amber-700">Exp {item.tanggal_kedaluwarsa || "-"}</p></td>
-                    <td className="px-5 py-4 text-right text-sm font-semibold text-slate-700">{money(item.harga_modal)}</td>
-                    <td className="px-5 py-4 text-right text-sm font-semibold text-slate-900">{money(item.harga)}</td>
                     <td className="px-5 py-4 text-right text-sm font-semibold text-slate-700">{Number(item.minimum_stock || 0).toLocaleString("id-ID")}</td>
                     <td className="px-5 py-4">
                       <div className="flex justify-end gap-2">
@@ -184,16 +183,17 @@ const MasterBarang = ({ onClose }) => {
                     </td>
                   </tr>
                 )) : (
-                  <tr><td colSpan="8" className="px-5 py-16 text-center"><Package className="mx-auto text-teal-600" size={34} /><p className="mt-3 font-bold text-slate-800">Belum ada produk medis</p><p className="mt-1 text-sm text-slate-500">Tambahkan produk pertama untuk mulai mengelola inventory.</p><button type="button" onClick={openAdd} className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white">Tambah Barang Pertama</button></td></tr>
+                  <tr><td colSpan="6" className="px-5 py-16 text-center"><Package className="mx-auto text-teal-600" size={34} /><p className="mt-3 font-bold text-slate-800">Belum ada produk medis</p><p className="mt-1 text-sm text-slate-500">Tambahkan produk pertama untuk mulai mengelola inventory.</p><button type="button" onClick={openAdd} className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white">Tambah Barang Pertama</button></td></tr>
                 )}
               </tbody>
             </table>
           </div>
+          <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 text-sm text-slate-500"><span>Halaman {page} dari {totalPages} · maksimal 10 data</span><div className="flex gap-2"><button disabled={page <= 1} onClick={() => setPage((value) => value - 1)} className="rounded-lg border bg-white px-3 py-2 disabled:opacity-40">Sebelumnya</button><button disabled={page >= totalPages} onClick={() => setPage((value) => value + 1)} className="rounded-lg border bg-white px-3 py-2 disabled:opacity-40">Berikutnya</button></div></div>
         </section>
       </section>
 
       {modalMode && (
-        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[999] flex items-start justify-center overflow-y-auto bg-black/50 p-4 pt-6 backdrop-blur-sm sm:pt-10">
           <div className="w-full max-w-3xl overflow-hidden rounded-xl bg-white shadow-2xl">
             <div className="flex items-center justify-between border-b bg-gray-50 px-6 py-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-gray-700">{modalMode === "edit" ? "Edit Barang" : "Tambah Barang"}</h3>
@@ -216,14 +216,13 @@ const MasterBarang = ({ onClose }) => {
                 </select>
               </div>
               <Field label="Lokasi Locator" value={formData.locator} onChange={(value) => setFormData((c) => ({ ...c, locator: value }))} placeholder="Contoh: Gudang A / Rak 01" />
-              <Field label="Merek" value={formData.merek} onChange={(value) => setFormData((c) => ({ ...c, merek: value }))} placeholder="Contoh: OneMed" />
-              <Field label="Principal / Produsen" value={formData.principal} onChange={(value) => setFormData((c) => ({ ...c, principal: value }))} />
+              <SelectField label="Merek" value={formData.merek} options={BRANDS} onChange={(value) => setFormData((c) => ({ ...c, merek: value }))} />
+              <SelectField label="Type Pembelian" value={formData.principal} options={PURCHASE_TYPES} onChange={(value) => setFormData((c) => ({ ...c, principal: value }))} />
               <Field label="Nomor Izin Edar" value={formData.nomor_izin_edar} onChange={(value) => setFormData((c) => ({ ...c, nomor_izin_edar: value }))} placeholder="AKL / AKD" />
               <Field label="Nomor Batch / Lot" value={formData.nomor_batch} onChange={(value) => setFormData((c) => ({ ...c, nomor_batch: value }))} />
               <Field label="Tanggal Kedaluwarsa" type="date" value={formData.tanggal_kedaluwarsa} onChange={(value) => setFormData((c) => ({ ...c, tanggal_kedaluwarsa: value }))} />
               <div className="md:col-span-2"><Field label="URL Gambar Produk" type="url" value={formData.gambar_url} onChange={(value) => setFormData((c) => ({ ...c, gambar_url: value }))} placeholder="https://..." /></div>
-              <Field label="Harga Modal" type="number" value={formData.harga_modal} onChange={(value) => setFormData((c) => ({ ...c, harga_modal: value }))} />
-              <Field label="Harga Jual" type="number" value={formData.harga} onChange={(value) => setFormData((c) => ({ ...c, harga: value }))} />
+              <Field label="HPP / Harga Modal" type="number" value={formData.harga_modal} onChange={(value) => setFormData((c) => ({ ...c, harga_modal: value }))} />
               <Field label="Minimum Stok" type="number" value={formData.minimum_stock} onChange={(value) => setFormData((c) => ({ ...c, minimum_stock: value }))} />
               <div className="md:col-span-2"><Actions saving={saving} onCancel={() => setModalMode(null)} /></div>
             </form>
@@ -248,6 +247,15 @@ const Header = ({ title, desc, onClose, onAdd }) => (
   </div>
 );
 
+const SelectField = ({ label, value, options, onChange }) => (
+  <div>
+    <label className="mb-1 block text-[10px] font-bold uppercase text-gray-500">{label}</label>
+    <select required value={value} onChange={(event) => onChange(event.target.value)} className="w-full rounded-lg border bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+      <option value="">Pilih {label}</option>
+      {options.map((option) => <option key={option} value={option}>{option}</option>)}
+    </select>
+  </div>
+);
 const Field = ({ label, value, onChange, type = "text", required = false, placeholder = "" }) => (
   <div>
     <label className="mb-1 block text-[10px] font-bold uppercase text-gray-500">{label}</label>

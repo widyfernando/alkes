@@ -19,12 +19,14 @@ function normalizePurchase(body = {}) {
       throw Object.assign(new Error('Item pembelian tidak valid'), { statusCode: 400 });
     }
     total += qty * unitCost;
-    return { itemId, qty, unitCost };
+    return { itemId, qty, unitCost, serialNumber: String(entry.serial_number || '').trim() };
   });
 
   return {
     supplier,
     invoiceNumber: String(body.invoice_number || '').trim(),
+    spbNumber: String(body.spb_number || '').trim(),
+    poNumber: String(body.po_number || '').trim(),
     purchaseDate: body.purchase_date || new Date().toISOString().slice(0, 10),
     notes: String(body.notes || '').trim(),
     items,
@@ -39,7 +41,7 @@ const list = wrap(async (req, res) => {
   const where = ['1=1'];
   if (search) {
     values.push(`%${search}%`);
-    where.push(`(p.purchase_id ILIKE $${values.length} OR p.supplier_name ILIKE $${values.length} OR p.invoice_number ILIKE $${values.length})`);
+    where.push(`(p.purchase_id ILIKE $${values.length} OR p.supplier_name ILIKE $${values.length} OR p.invoice_number ILIKE $${values.length} OR p.spb_number ILIKE $${values.length} OR p.po_number ILIKE $${values.length})`);
   }
   const clause = ` WHERE ${where.join(' AND ')}`;
   const count = await query(`SELECT COUNT(*)::int AS total FROM purchases p${clause}`, values);
@@ -62,7 +64,7 @@ const detail = wrap(async (req, res) => {
   const purchase = await query('SELECT * FROM purchases WHERE purchase_id = $1', [req.params.purchaseId]);
   if (!purchase.rows[0]) throw Object.assign(new Error('Pembelian tidak ditemukan'), { statusCode: 404 });
   const items = await query(
-    `SELECT pi.purchase_item_id, pi.item_id, pi.qty, pi.unit_cost, pi.subtotal, i.nama
+    `SELECT pi.purchase_item_id, pi.item_id, pi.qty, pi.unit_cost, pi.subtotal, pi.serial_number, i.nama
        FROM purchase_items pi
        JOIN inventory_items i ON i.item_id = pi.item_id
       WHERE pi.purchase_id = $1
@@ -83,14 +85,14 @@ const create = wrap(async (req, res) => {
     else await client.query("INSERT INTO penomoran(kategori, nomor) VALUES('pembelian', $1)", [current + 1]);
 
     await client.query(
-      `INSERT INTO purchases(purchase_id, supplier_name, invoice_number, purchase_date, notes, total, created_by)
-       VALUES($1, $2, $3, $4, $5, $6, $7)`,
-      [id, data.supplier, data.invoiceNumber, data.purchaseDate, data.notes, data.total, req.user?.nama || 'SYSTEM']
+      `INSERT INTO purchases(purchase_id, supplier_name, invoice_number, spb_number, po_number, purchase_date, notes, total, created_by)
+       VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+      [id, data.supplier, data.invoiceNumber, data.spbNumber, data.poNumber, data.purchaseDate, data.notes, data.total, req.user?.nama || 'SYSTEM']
     );
     for (const item of data.items) {
       await client.query(
-        'INSERT INTO purchase_items(purchase_id, item_id, qty, unit_cost, subtotal) VALUES($1, $2, $3, $4, $5)',
-        [id, item.itemId, item.qty, item.unitCost, item.qty * item.unitCost]
+        'INSERT INTO purchase_items(purchase_id, item_id, qty, unit_cost, subtotal, serial_number) VALUES($1, $2, $3, $4, $5, $6)',
+        [id, item.itemId, item.qty, item.unitCost, item.qty * item.unitCost, item.serialNumber]
       );
     }
   });
@@ -105,15 +107,15 @@ const update = wrap(async (req, res) => {
     if (!current.rows[0]) throw Object.assign(new Error('Pembelian tidak ditemukan'), { statusCode: 404 });
     if (current.rows[0].status !== 'DRAFT') throw Object.assign(new Error('Hanya pembelian DRAFT yang dapat diedit'), { statusCode: 409 });
     await client.query(
-      `UPDATE purchases SET supplier_name = $1, invoice_number = $2, purchase_date = $3, notes = $4, total = $5, updated_at = NOW()
-        WHERE purchase_id = $6`,
-      [data.supplier, data.invoiceNumber, data.purchaseDate, data.notes, data.total, id]
+      `UPDATE purchases SET supplier_name = $1, invoice_number = $2, spb_number = $3, po_number = $4, purchase_date = $5, notes = $6, total = $7, updated_at = NOW()
+        WHERE purchase_id = $8`,
+      [data.supplier, data.invoiceNumber, data.spbNumber, data.poNumber, data.purchaseDate, data.notes, data.total, id]
     );
     await client.query('DELETE FROM purchase_items WHERE purchase_id = $1', [id]);
     for (const item of data.items) {
       await client.query(
-        'INSERT INTO purchase_items(purchase_id, item_id, qty, unit_cost, subtotal) VALUES($1, $2, $3, $4, $5)',
-        [id, item.itemId, item.qty, item.unitCost, item.qty * item.unitCost]
+        'INSERT INTO purchase_items(purchase_id, item_id, qty, unit_cost, subtotal, serial_number) VALUES($1, $2, $3, $4, $5, $6)',
+        [id, item.itemId, item.qty, item.unitCost, item.qty * item.unitCost, item.serialNumber]
       );
     }
   });
@@ -144,6 +146,13 @@ const receive = wrap(async (req, res) => {
       const before = Number(stock.rows[0].stok);
       const after = before + Number(line.qty);
       await client.query('UPDATE inventory_items SET stok = $1, harga_modal = $2, updated_at = NOW() WHERE item_id = $3', [after, line.unit_cost, line.item_id]);
+      if (line.serial_number) {
+        await client.query(
+          `INSERT INTO inventory_lots(item_id, serial_number, qty) VALUES($1, $2, $3)
+           ON CONFLICT(item_id, serial_number) DO UPDATE SET qty = inventory_lots.qty + EXCLUDED.qty, updated_at = NOW()`,
+          [line.item_id, line.serial_number, line.qty]
+        );
+      }
       await client.query(
         "INSERT INTO inventory_transactions(item_id, tipe, qty, harga, stok_sebelum, stok_sesudah, catatan) VALUES($1, 'MASUK', $2, $3, $4, $5, $6)",
         [line.item_id, line.qty, line.unit_cost, before, after, `Penerimaan ${id}`]

@@ -20,6 +20,7 @@ const defaultOrigins = [
   'http://localhost:3003',
   'http://127.0.0.1:3003',
   'https://alkes-pos.vercel.app',
+  'https://alkes-web-fawn.vercel.app',
 ];
 const origins = [...defaultOrigins, ...(process.env.CORS_ORIGINS || '').split(',')]
   .map((origin) => origin.trim())
@@ -85,6 +86,7 @@ app.use((error, _req, res, _next) => {
   if (error?.type === 'entity.too.large') return res.status(413).json({ status: 0, message: 'Ukuran request terlalu besar' });
   if (error instanceof SyntaxError && error.status === 400 && 'body' in error) return res.status(400).json({ status: 0, message: 'Format JSON tidak valid' });
   if (error?.statusCode && error.statusCode < 500) return res.status(error.statusCode).json({ status: 0, message: error.message });
+  if (error?.code === '23505') return res.status(409).json({ status: 0, message: 'Data sudah digunakan. Gunakan nomor atau kode lain.' });
   return res.status(500).json({ status: 0, message: process.env.NODE_ENV === 'production' ? 'Internal server error' : (error.message || 'Internal server error') });
 });
 

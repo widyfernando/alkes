@@ -7,8 +7,8 @@ const reportTypes = [
   { key: "restock", label: "Report Restock" },
   { key: "opname", label: "Report Opname" },
   { key: "movement", label: "Barang Masuk/Keluar" },
-  { key: "sales", label: "Report Penjualan" },
 ];
+const PAGE_SIZE = 10;
 
 const formatValue = (value) => {
   if (value === null || value === undefined) return "";
@@ -32,6 +32,8 @@ const Reports = () => {
   const [tipe, setTipe] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [savingPlan, setSavingPlan] = useState("");
+  const [page, setPage] = useState(1);
 
   const fetchReport = useCallback(async () => {
     setLoading(true);
@@ -45,7 +47,8 @@ const Reports = () => {
           end_date: endDate,
         },
       });
-      setRows(response.data.data || []);
+      const data = response.data.data || [];
+      setRows(type === "restock" ? data.map((row) => ({ ...row, qty_rencana: row.qty_rencana ?? row.rekomendasi_restock })) : data);
     } catch (error) {
       console.error("Gagal memuat report:", error);
       setRows([]);
@@ -63,15 +66,15 @@ const Reports = () => {
     const keys = rows[0] ? Object.keys(rows[0]) : defaultColumns(type);
     return keys;
   }, [rows, type]);
+  const totalPages = Math.max(1, Math.ceil(rows.length / PAGE_SIZE));
+  const visibleRows = rows.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  useEffect(() => { if (page > totalPages) setPage(totalPages); }, [page, totalPages]);
+  useEffect(() => { setPage(1); }, [endDate, search, startDate, status, tipe, type]);
 
   const summary = useMemo(() => {
     const sum = (key) => rows.reduce((total, row) => total + Number(row[key] || 0), 0);
-    if (type === "sales") {
-      const completed = rows.filter((row) => row.status !== "BATAL");
-      const completedSum = (key) => completed.reduce((total, row) => total + Number(row[key] || 0), 0);
-      return [{ label: "Transaksi Selesai", value: completed.length.toLocaleString("id-ID") }, { label: "Omzet Bersih", value: `Rp ${completedSum("total").toLocaleString("id-ID")}` }, { label: "Transaksi Batal", value: (rows.length - completed.length).toLocaleString("id-ID") }];
-    }
-    if (type === "stock") return [{ label: "Total Barang", value: rows.length.toLocaleString("id-ID") }, { label: "Total Stok", value: sum("stok").toLocaleString("id-ID") }, { label: "Nilai Jual", value: `Rp ${sum("nilai_jual").toLocaleString("id-ID")}` }];
+    if (type === "stock") return [{ label: "Total Barang", value: rows.length.toLocaleString("id-ID") }, { label: "Total Stok", value: sum("stok").toLocaleString("id-ID") }, { label: "Nilai Persediaan (HPP)", value: `Rp ${sum("nilai_persediaan").toLocaleString("id-ID")}` }];
     return [{ label: "Total Baris", value: rows.length.toLocaleString("id-ID") }, { label: "Total Qty", value: sum("qty").toLocaleString("id-ID") }, { label: "Jenis Report", value: reportTypes.find((item) => item.key === type)?.label || type }];
   }, [rows, type]);
 
@@ -81,6 +84,15 @@ const Reports = () => {
     start.setDate(end.getDate() - (days - 1));
     setStartDate(toDateInput(start));
     setEndDate(toDateInput(end));
+  };
+
+  const saveRestockPlan = async (row) => {
+    setSavingPlan(row.item_id);
+    try {
+      await API.put("/inventory/restock-plan/" + encodeURIComponent(row.item_id), { planned_qty: Number(row.qty_rencana || 0) });
+    } finally {
+      setSavingPlan("");
+    }
   };
 
   const exportCsv = () => {
@@ -126,7 +138,7 @@ const Reports = () => {
           <div>
             <p className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-blue-600"><FileText size={16} /> Report</p>
             <h1 className="mt-2 text-2xl font-bold text-slate-950 sm:text-3xl">Laporan Operasional</h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">Tarik report stok, restock, opname, pergerakan barang, dan penjualan dari database.</p>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">Tarik report stok, restock, opname, dan pergerakan barang dari database.</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <button onClick={downloadBackup} className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50">
@@ -164,7 +176,7 @@ const Reports = () => {
         </div>
 
         <div className="mb-5 grid grid-cols-1 gap-3 rounded-2xl border border-white/90 bg-white/82 p-4 shadow-sm backdrop-blur-lg md:grid-cols-5">
-          {(type === "movement" || type === "opname" || type === "sales") && (
+          {(type === "movement" || type === "opname") && (
             <div className="flex flex-wrap gap-2 md:col-span-5">
               <span className="mr-1 self-center text-xs font-bold uppercase tracking-wide text-slate-400">Periode cepat</span>
               <button type="button" onClick={() => applyPeriod(1)} className="rounded-lg border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100">Hari Ini</button>
@@ -185,7 +197,7 @@ const Reports = () => {
               <option value="Kosong">Kosong</option>
             </select>
           )}
-          {(type === "movement" || type === "opname" || type === "sales") && (
+          {(type === "movement" || type === "opname") && (
             <>
               <input type="date" value={startDate} onChange={(event) => setStartDate(event.target.value)} className="h-10 rounded-lg border border-slate-200 px-3 text-sm outline-none focus:ring-2 focus:ring-blue-500" />
               <input type="date" value={endDate} onChange={(event) => setEndDate(event.target.value)} className="h-10 rounded-lg border border-slate-200 px-3 text-sm outline-none focus:ring-2 focus:ring-blue-500" />
@@ -215,9 +227,9 @@ const Reports = () => {
               <tbody className="divide-y divide-slate-100">
                 {loading ? (
                   <tr><td colSpan={Math.max(columns.length, 1)} className="px-5 py-16 text-center"><Loader2 className="mx-auto animate-spin text-blue-600" /></td></tr>
-                ) : rows.length ? rows.map((row, index) => (
+                ) : visibleRows.length ? visibleRows.map((row, index) => (
                   <tr key={row.id || row.item_id || row.sales_id || row.transaksi_id || index} className="hover:bg-blue-50/30">
-                    {columns.map((column) => <td key={column} className="whitespace-nowrap px-5 py-4 text-sm text-slate-700">{formatValue(row[column])}</td>)}
+                    {columns.map((column) => <td key={column} className="whitespace-nowrap px-5 py-4 text-sm text-slate-700">{type === "restock" && column === "qty_rencana" ? <div><input type="number" min="0" step="1" value={row.qty_rencana ?? 0} onChange={(event) => setRows((current) => current.map((entry) => entry.item_id === row.item_id ? { ...entry, qty_rencana: event.target.value } : entry))} onBlur={() => saveRestockPlan(row)} className="h-9 w-28 rounded-lg border px-3 text-right font-bold text-blue-700" /><p className="mt-1 text-[10px] text-slate-400">{savingPlan === row.item_id ? "Menyimpan..." : "Tersimpan otomatis"}</p></div> : formatValue(row[column])}</td>)}
                   </tr>
                 )) : (
                   <tr><td colSpan={Math.max(columns.length, 1)} className="px-5 py-16 text-center text-sm text-slate-500">Tidak ada data report.</td></tr>
@@ -225,6 +237,7 @@ const Reports = () => {
               </tbody>
             </table>
           </div>
+          <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 text-sm text-slate-500"><span>Halaman {page} dari {totalPages} · maksimal 10 data</span><div className="flex gap-2"><button disabled={page <= 1} onClick={() => setPage((value) => value - 1)} className="rounded-lg border bg-white px-3 py-2 disabled:opacity-40">Sebelumnya</button><button disabled={page >= totalPages} onClick={() => setPage((value) => value + 1)} className="rounded-lg border bg-white px-3 py-2 disabled:opacity-40">Berikutnya</button></div></div>
         </section>
       </section>
     </main>
@@ -232,10 +245,9 @@ const Reports = () => {
 };
 
 const defaultColumns = (type) => {
-  if (type === "sales") return ["sales_id", "created_at", "metode_pembayaran", "total", "status", "items"];
   if (type === "movement" || type === "opname") return ["transaksi_id", "created_at", "item_id", "nama", "tipe", "qty", "stok_sebelum", "stok_sesudah", "catatan"];
-  if (type === "restock") return ["item_id", "nama", "kategori", "stok", "minimum_stock", "rekomendasi_restock"];
-  return ["item_id", "nama", "kategori", "stok", "minimum_stock", "status_stok", "nilai_modal", "nilai_jual"];
+  if (type === "restock") return ["item_id", "nama", "kategori", "stok", "minimum_stock", "rekomendasi_restock", "qty_rencana"];
+  return ["item_id", "nama", "kategori", "stok", "minimum_stock", "status_stok", "harga_modal", "nilai_persediaan"];
 };
 
 export default Reports;

@@ -85,6 +85,28 @@ async function ensureSchema() {
   await query("ALTER TABLE sales_orders ADD COLUMN IF NOT EXISTS cancelled_at TIMESTAMPTZ");
   await query("ALTER TABLE sales_orders ADD COLUMN IF NOT EXISTS cancelled_by VARCHAR(100)");
   await query("ALTER TABLE sales_orders ADD COLUMN IF NOT EXISTS cancel_reason TEXT");
+  await query("ALTER TABLE purchases ADD COLUMN IF NOT EXISTS spb_number VARCHAR(100) NOT NULL DEFAULT ''");
+  await query("ALTER TABLE purchases ADD COLUMN IF NOT EXISTS po_number VARCHAR(100) NOT NULL DEFAULT ''");
+  await query("CREATE INDEX IF NOT EXISTS idx_purchases_spb_number ON purchases (spb_number)");
+  await query("CREATE INDEX IF NOT EXISTS idx_purchases_po_number ON purchases (po_number)");
+  await query("CREATE TABLE IF NOT EXISTS inventory_lots (lot_id BIGSERIAL PRIMARY KEY, item_id VARCHAR(20) NOT NULL REFERENCES inventory_items(item_id) ON DELETE CASCADE, serial_number VARCHAR(100) NOT NULL, qty NUMERIC(14, 2) NOT NULL DEFAULT 0, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), UNIQUE(item_id, serial_number))");
+  await query("CREATE INDEX IF NOT EXISTS idx_inventory_lots_item_id ON inventory_lots (item_id)");
+  await query("CREATE TABLE IF NOT EXISTS inventory_reasons (reason_id BIGSERIAL PRIMARY KEY, name VARCHAR(100) NOT NULL UNIQUE, is_active BOOLEAN NOT NULL DEFAULT true, created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())");
+  await query("ALTER TABLE inventory_transactions ADD COLUMN IF NOT EXISTS reason_id BIGINT REFERENCES inventory_reasons(reason_id)");
+  await query("INSERT INTO inventory_reasons(name) VALUES ('DEMO'), ('PENJUALAN'), ('TRADE IN RS'), ('RETUR'), ('SAMPLE'), ('RUSAK'), ('KEDALUWARSA') ON CONFLICT(name) DO NOTHING");
+  await query("CREATE TABLE IF NOT EXISTS inventory_issues (issue_id BIGSERIAL PRIMARY KEY, spb_number VARCHAR(100) NOT NULL UNIQUE, issue_date DATE NOT NULL DEFAULT CURRENT_DATE, recipient VARCHAR(150) NOT NULL DEFAULT '', destination VARCHAR(200) NOT NULL DEFAULT '', reason_id BIGINT NOT NULL REFERENCES inventory_reasons(reason_id), notes TEXT NOT NULL DEFAULT '', created_by VARCHAR(100) NOT NULL DEFAULT 'SYSTEM', created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())");
+  await query("CREATE TABLE IF NOT EXISTS inventory_issue_items (issue_item_id BIGSERIAL PRIMARY KEY, issue_id BIGINT NOT NULL REFERENCES inventory_issues(issue_id) ON DELETE CASCADE, item_id VARCHAR(20) NOT NULL REFERENCES inventory_items(item_id), serial_number VARCHAR(100) NOT NULL DEFAULT '', qty NUMERIC(14, 2) NOT NULL, stock_before NUMERIC(14, 2) NOT NULL, stock_after NUMERIC(14, 2) NOT NULL)");
+  await query("CREATE INDEX IF NOT EXISTS idx_inventory_issue_items_issue_id ON inventory_issue_items(issue_id)");
+  await query("ALTER TABLE inventory_issues ADD COLUMN IF NOT EXISTS status VARCHAR(20) NOT NULL DEFAULT 'APPROVED'");
+  await query("ALTER TABLE inventory_issues ADD COLUMN IF NOT EXISTS approved_by VARCHAR(100)");
+  await query("ALTER TABLE inventory_issues ADD COLUMN IF NOT EXISTS approved_at TIMESTAMPTZ");
+  await query("ALTER TABLE inventory_issues ADD COLUMN IF NOT EXISTS revision_of BIGINT REFERENCES inventory_issues(issue_id)");
+  await query("CREATE INDEX IF NOT EXISTS idx_inventory_issues_revision_of ON inventory_issues(revision_of)");
+  await query("CREATE TABLE IF NOT EXISTS inventory_restock_plans (item_id VARCHAR(20) PRIMARY KEY REFERENCES inventory_items(item_id) ON DELETE CASCADE, planned_qty NUMERIC(14, 2) NOT NULL DEFAULT 0, updated_by VARCHAR(100) NOT NULL DEFAULT 'SYSTEM', updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())");
+  await query("ALTER TABLE purchase_items ADD COLUMN IF NOT EXISTS serial_number VARCHAR(100) NOT NULL DEFAULT ''");
+  await query("INSERT INTO kategori_barang (kategori_id, nama, keterangan) SELECT 'K90001', 'Tanpa Kardus', 'Barang tanpa kemasan kardus' WHERE NOT EXISTS (SELECT 1 FROM kategori_barang WHERE LOWER(nama) = LOWER('Tanpa Kardus'))");
+  await query("INSERT INTO kategori_barang (kategori_id, nama, keterangan) SELECT 'K90002', 'Produk Lama / Legacy', 'Barang produksi lama atau legacy stock' WHERE NOT EXISTS (SELECT 1 FROM kategori_barang WHERE LOWER(nama) = LOWER('Produk Lama / Legacy'))");
+  await query("INSERT INTO kategori_barang (kategori_id, nama, keterangan) SELECT 'K90003', 'Trade In RS', 'Barang hasil trade in rumah sakit' WHERE NOT EXISTS (SELECT 1 FROM kategori_barang WHERE LOWER(nama) = LOWER('Trade In RS'))");
   // Alkes starts with its own clean inventory; legacy BikeStore import is intentionally disabled.
   const menus = [
     ['M00001', 'Administration', '', 'M00001'],

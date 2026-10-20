@@ -14,7 +14,6 @@ import OrganizationMaster from "../Mainpage/admin/organizationmaster";
 import Inventory from "../Mainpage/admin/inventory";
 import MasterBarang from "../Mainpage/admin/masterbarang";
 import StockOpname from "../Mainpage/admin/stockopname";
-import SalesTransaction from "../Mainpage/admin/salestransaction";
 import Purchases from "../Mainpage/admin/purchases";
 import Reports from "../Mainpage/admin/reports";
 import Settings from "../components/settings";
@@ -24,8 +23,7 @@ import API from "../utils/axiosInstance";
 
 // Import ikon (sebelumnya di Header.jsx)
 import { FaUsers, FaSignOutAlt } from "react-icons/fa";
-import { FaHeartbeat } from "react-icons/fa";
-import { ArrowLeft, BarChart3, Boxes, ClipboardCheck, FileChartColumn, LayoutDashboard, PackageSearch, Settings2, ShoppingBasket, Tags, Truck } from "lucide-react";
+import { ArrowLeft, ArrowUpFromLine, BarChart3, Boxes, ClipboardCheck, FileChartColumn, LayoutDashboard, PackageSearch, Settings2, Tags, Truck } from "lucide-react";
 
 // Perhatikan: kita tambahkan prop 'user' di sini
 const Home = ({ onLogout, user = {} }) => {
@@ -40,14 +38,13 @@ const Home = ({ onLogout, user = {} }) => {
   const [allowedPages, setAllowedPages] = useState(new Set(["dashboard"]));
   const dropdownRef = useRef(null);
 // Navigasi dikunci selama pengguna menyelesaikan alur kerja modul.
-  const lockedPages = ["master", "data-barang-umum", "master-barang", "master-satuan-barang", "master-kategori-barang", "master-departemen", "master-jabatan", "inventory", "transaksi-penjualan", "purchases", "stock-opname", "reports", "otoritas", "master-group", "pengaturan-pengguna", "master-users"];
-  const inventoryFlowPages = ["inventory", "master-barang", "data-barang-umum", "master-kategori-barang", "master-satuan-barang", "stock-opname"];
+  const lockedPages = ["master", "data-barang-umum", "master-barang", "master-satuan-barang", "master-kategori-barang", "master-departemen", "master-jabatan", "inventory", "pengeluaran-barang", "purchases", "stock-opname", "reports", "otoritas", "master-group", "pengaturan-pengguna", "master-users"];
+  const inventoryFlowPages = ["inventory", "pengeluaran-barang", "master-barang", "data-barang-umum", "master-kategori-barang", "master-satuan-barang", "stock-opname"];
   const isLocked = lockedPages.includes(activePage);
   const allMenuItems = [
     { icon: <LayoutDashboard size={19} strokeWidth={1.9} />, label: "Dashboard", key: "dashboard" },
     { icon: <Truck size={19} strokeWidth={1.9} />, label: "Pembelian", key: "purchases" },
     { icon: <PackageSearch size={19} strokeWidth={1.9} />, label: "Inventory", key: "inventory" },
-    { icon: <ShoppingBasket size={19} strokeWidth={1.9} />, label: "Penjualan", key: "transaksi-penjualan" },
     { icon: <FileChartColumn size={19} strokeWidth={1.9} />, label: "Report", key: "reports" },
     { icon: <Settings2 size={19} strokeWidth={1.9} />, label: "Settings", key: "settings" },
   ];
@@ -59,6 +56,7 @@ const Home = ({ onLogout, user = {} }) => {
   );
   const inventoryTabs = [
     { icon: <Boxes size={17} />, label: "Stok", key: "inventory" },
+    { icon: <ArrowUpFromLine size={17} />, label: "Pengeluaran Barang", key: "pengeluaran-barang" },
     { icon: <PackageSearch size={17} />, label: "Master Barang", key: "master-barang" },
     { icon: <Tags size={17} />, label: "Kategori", key: "master-kategori-barang" },
     { icon: <BarChart3 size={17} />, label: "Satuan", key: "master-satuan-barang" },
@@ -137,8 +135,8 @@ const Home = ({ onLogout, user = {} }) => {
         return renderInventoryModule(<MasterBarang onClose={() => setActivePage("inventory")} />);
       case "inventory":
         return renderInventoryModule(<Inventory onSelectMenu={setActivePage} />);
-      case "transaksi-penjualan":
-        return <SalesTransaction onBack={setActivePage} />;
+      case "pengeluaran-barang":
+        return renderInventoryModule(<Inventory issueMode />);
       case "purchases":
         return <Purchases />;
       case "stock-opname":
@@ -182,13 +180,7 @@ const Home = ({ onLogout, user = {} }) => {
 
           {/* 1. Logo (Sekarang ada di Home.jsx) */}
           <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-cyan-500 text-white shadow-lg shadow-blue-500/20 md:h-10 md:w-10">
-              <FaHeartbeat className="text-xl" />
-            </span>
-            <div>
-              <span className="block text-sm font-extrabold tracking-tight text-slate-900 md:text-base">ALKES MEDIKA</span>
-              <span className="hidden text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400 sm:block">Medical Supply System</span>
-            </div>
+            <img src="/logo-panamed.png" alt="Panamed" className="h-10 w-auto max-w-[170px] object-contain md:h-12" />
           </div>
 
           {/* Desktop Menu */}
