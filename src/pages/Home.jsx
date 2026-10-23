@@ -23,7 +23,7 @@ import API from "../utils/axiosInstance";
 
 // Import ikon (sebelumnya di Header.jsx)
 import { FaUsers, FaSignOutAlt } from "react-icons/fa";
-import { ArrowLeft, ArrowUpFromLine, BarChart3, Boxes, ClipboardCheck, FileChartColumn, LayoutDashboard, PackageSearch, Settings2, Tags, Truck } from "lucide-react";
+import { ArrowLeft, ArrowUpFromLine, BarChart3, Bell, Boxes, ClipboardCheck, FileChartColumn, LayoutDashboard, PackageSearch, Settings2, Tags, Truck } from "lucide-react";
 
 // Perhatikan: kita tambahkan prop 'user' di sini
 const Home = ({ onLogout, user = {} }) => {
@@ -32,6 +32,7 @@ const Home = ({ onLogout, user = {} }) => {
   const displayEmail = activeUser.email || activeUser.username || "-";
   // State halaman aktif (dari Home)
   const [activePage, setActivePage] = useState("dashboard"); // default halaman
+  const [pendingApprovalCount, setPendingApprovalCount] = useState(0);
 
   // State yang dipindahkan dari Header.jsx
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -85,6 +86,34 @@ const Home = ({ onLogout, user = {} }) => {
         setAllowedPages(new Set(["dashboard"]));
       });
   }, [activeUser.grup_id]);
+
+  useEffect(() => {
+    if (!allowedPages.has("inventory") || !activeUser.is_approver) {
+      setPendingApprovalCount(0);
+      return undefined;
+    }
+
+    let active = true;
+    const loadPendingApprovals = async () => {
+      try {
+        const response = await API.get("/inventory/issues", { params: { status: "PENDING", approvable: true, page: 1, limit: 1 } });
+        if (active) setPendingApprovalCount(Number(response.data.total || 0));
+      } catch (error) {
+        if (active) console.error("Gagal memuat notifikasi approval SPB:", error);
+      }
+    };
+
+    loadPendingApprovals();
+    const intervalId = window.setInterval(loadPendingApprovals, 30000);
+    window.addEventListener("focus", loadPendingApprovals);
+    window.addEventListener("spb-approval-updated", loadPendingApprovals);
+    return () => {
+      active = false;
+      window.clearInterval(intervalId);
+      window.removeEventListener("focus", loadPendingApprovals);
+      window.removeEventListener("spb-approval-updated", loadPendingApprovals);
+    };
+  }, [activeUser.is_approver, allowedPages]);
 
   const exitLockedPage = () => {
     setActivePage("dashboard");
@@ -182,6 +211,31 @@ const Home = ({ onLogout, user = {} }) => {
           <div className="flex items-center gap-3">
             <img src="/logo-panamed.png" alt="Panamed" className="h-10 w-auto max-w-[170px] object-contain md:h-12" />
           </div>
+
+            {allowedPages.has("inventory") && pendingApprovalCount > 0 && (
+              <div className="header-notification group/notification relative">
+                <button
+                  type="button"
+                  onClick={() => setActivePage("pengeluaran-barang")}
+                  className="relative inline-flex h-10 w-10 items-center justify-center rounded-xl border border-amber-200 bg-amber-50 text-amber-700 shadow-sm transition hover:border-amber-300 hover:bg-amber-100 focus:outline-none focus:ring-4 focus:ring-amber-100"
+                  aria-label={`${pendingApprovalCount} SPB menunggu approval. Klik untuk membuka Pengeluaran Barang.`}
+                >
+                  <Bell size={19} />
+                  <span className={`absolute -right-1.5 -top-1.5 flex min-h-5 min-w-5 items-center justify-center rounded-full px-1 text-[10px] font-extrabold leading-none text-white ring-2 ring-white ${pendingApprovalCount > 0 ? "bg-red-600" : "bg-slate-400"}`}>
+                    {pendingApprovalCount > 99 ? "99+" : pendingApprovalCount}
+                  </span>
+                </button>
+                <div className="pointer-events-none absolute right-0 top-full z-[70] hidden w-64 pt-2 opacity-0 transition group-hover/notification:block group-hover/notification:opacity-100 group-focus-within/notification:block group-focus-within/notification:opacity-100">
+                  <div className="rounded-xl border border-slate-200 bg-white p-3 text-left shadow-xl shadow-slate-900/10">
+                    <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Approval SPB</p>
+                    <p className="mt-1 text-sm font-semibold text-slate-900">
+                      {pendingApprovalCount > 0 ? `${pendingApprovalCount} SPB menunggu approval` : "Tidak ada SPB yang menunggu approval"}
+                    </p>
+                    <p className="mt-1 text-xs text-slate-500">Klik lonceng untuk membuka Pengeluaran Barang.</p>
+                  </div>
+                </div>
+              </div>
+            )}
 
           {/* Desktop Menu */}
          <nav className="hidden items-center gap-1 rounded-xl border border-slate-200/70 bg-slate-100/70 p-1 md:flex">

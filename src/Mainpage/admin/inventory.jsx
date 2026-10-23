@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
-  Barcode,
   Download,
   History,
   Loader2,
@@ -15,51 +14,29 @@ import {
   X,
 } from "lucide-react";
 import Swal from "sweetalert2";
+import * as XLSX from "xlsx";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 import API from "../../utils/axiosInstance";
 
 const formatNumber = (value) => Number(value || 0).toLocaleString("id-ID");
 const formatMoney = (value) => `Rp ${Number(value || 0).toLocaleString("id-ID")}`;
+const NIE_OPTIONS = [
+  "AKL 21001716307 (Nihon Kohden Neurofax Electroencephalograph)",
+  "AKL 21001716327 (Nihon Kohden Neuropack X1 EMG/EP Measuring System)",
+  "AKL 21001716328 (Nihon Kohden EEG Head Set)",
+  "AKL 21001620033 (Nihon Kohden Neuromaster G1 Neural Function Measuring System)",
+  "AKL 21001420027 (ANT Neuro)",
+  "AKL 21003420096 (Yingchi)",
+  "AKL 21401420010 (Oryx)",
+];
 
 const transactionInitial = { item_id: "", nama: "", tipe: "MASUK", qty: "", reason_id: "", catatan: "", stok_awal: "", nomor_batch: "", serial_number: "", lots: [] };
 const emptySpbLine = () => ({ item_id: "", nama: "", serial_number: "", qty: 1, stok: "", satuan: "", lots: [] });
 const emptySpbForm = () => ({ spb_number: "", issue_date: new Date().toISOString().slice(0, 10), recipient: "", destination: "", reason_id: "", notes: "", revision_of: null, items: [emptySpbLine()] });
 const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
 
-const parseCsv = (text) => {
-  const rows = [];
-  let row = [];
-  let value = "";
-  let quoted = false;
-  const source = String(text || "").replace(/^\uFEFF/, "");
-
-  for (let index = 0; index < source.length; index += 1) {
-    const char = source[index];
-    if (char === '"') {
-      if (quoted && source[index + 1] === '"') {
-        value += '"';
-        index += 1;
-      } else {
-        quoted = !quoted;
-      }
-    } else if (char === "," && !quoted) {
-      row.push(value.trim());
-      value = "";
-    } else if ((char === "\n" || char === "\r") && !quoted) {
-      if (char === "\r" && source[index + 1] === "\n") index += 1;
-      row.push(value.trim());
-      if (row.some((cell) => cell !== "")) rows.push(row);
-      row = [];
-      value = "";
-    } else {
-      value += char;
-    }
-  }
-  row.push(value.trim());
-  if (row.some((cell) => cell !== "")) rows.push(row);
-  return rows;
-};
-
-const csvNumber = (value) => {
+const spreadsheetNumber = (value) => {
   const cleaned = String(value ?? "").trim().replace(/[^0-9,.-]/g, "");
   if (!cleaned) return "";
   const normalized = cleaned.includes(",") && cleaned.includes(".")
@@ -68,61 +45,6 @@ const csvNumber = (value) => {
       : cleaned.replace(/,/g, "")
     : cleaned.replace(",", ".");
   return Number(normalized);
-};
-
-const CODE128_PATTERNS = [
-  "212222", "222122", "222221", "121223", "121322", "131222", "122213", "122312", "132212", "221213",
-  "221312", "231212", "112232", "122132", "122231", "113222", "123122", "123221", "223211", "221132",
-  "221231", "213212", "223112", "312131", "311222", "321122", "321221", "312212", "322112", "322211",
-  "212123", "212321", "232121", "111323", "131123", "131321", "112313", "132113", "132311", "211313",
-  "231113", "231311", "112133", "112331", "132131", "113123", "113321", "133121", "313121", "211331",
-  "231131", "213113", "213311", "213131", "311123", "311321", "331121", "312113", "312311", "332111",
-  "314111", "221411", "431111", "111224", "111422", "121124", "121421", "141122", "141221", "112214",
-  "112412", "122114", "122411", "142112", "142211", "241211", "221114", "413111", "241112", "134111",
-  "111242", "121142", "121241", "114212", "124112", "124211", "411212", "421112", "421211", "212141",
-  "214121", "412121", "111143", "111341", "131141", "114113", "114311", "411113", "411311", "113141",
-  "114131", "311141", "411131", "211412", "211214", "211232", "2331112",
-];
-
-const barcodeSvg = (value, height = 58) => {
-  const text = String(value || "");
-  let checksum = 104;
-  const codes = [104];
-
-  for (let index = 0; index < text.length; index += 1) {
-    const code = text.charCodeAt(index) - 32;
-    if (code < 0 || code > 95) continue;
-    codes.push(code);
-    checksum += code * index + code;
-  }
-
-  codes.push(checksum % 103, 106);
-  let x = 10;
-  const bars = [];
-
-  codes.forEach((code) => {
-    const pattern = CODE128_PATTERNS[code];
-    if (!pattern) return;
-    [...pattern].forEach((width, index) => {
-      const barWidth = Number(width) * 2;
-      if (index % 2 === 0) {
-        bars.push(`<rect x="${x}" y="0" width="${barWidth}" height="${height}" fill="#111827" />`);
-      }
-      x += barWidth;
-    });
-  });
-
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${x + 10}" height="${height}" viewBox="0 0 ${x + 10} ${height}">${bars.join("")}</svg>`;
-};
-
-const uniqueLocators = (items) => {
-  const map = new Map();
-  items.forEach((item) => {
-    const locator = String(item.locator || "").trim();
-    if (!locator || map.has(locator.toLowerCase())) return;
-    map.set(locator.toLowerCase(), locator);
-  });
-  return [...map.values()];
 };
 
 const expiryStatus = (date) => {
@@ -177,6 +99,7 @@ const Inventory = ({ issueMode = false }) => {
   const [issueTotalPages, setIssueTotalPages] = useState(1);
   const [issueTotal, setIssueTotal] = useState(0);
   const [spbSaving, setSpbSaving] = useState(false);
+  const [canApprove, setCanApprove] = useState(false);
 
   const fetchReasons = useCallback(async () => {
     try {
@@ -295,18 +218,128 @@ const Inventory = ({ issueMode = false }) => {
     const rows = (spb.items || []).map((item, index) => `<tr><td>${index + 1}</td><td>${escapeHtml(item.item_id)}</td><td>${escapeHtml(item.nama)}</td><td>${escapeHtml(item.serial_number || "-")}</td><td>${escapeHtml(item.qty)}</td><td>${escapeHtml(item.satuan || "-")}</td></tr>`).join("");
     const printedAt = new Date().toLocaleString("id-ID", { dateStyle: "long", timeStyle: "short" });
     const logoUrl = `${window.location.origin}/logo-panamed.png`;
-    return `<html><head><meta charset="utf-8"><title>SPB ${escapeHtml(spb.spb_number)}</title><style>@page{size:A4 portrait;margin:12mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#111;margin:0;font-size:9.5pt}.header{display:flex;align-items:center;border-bottom:2px solid #222;padding-bottom:10px;margin-bottom:14px}.logo{width:145px;max-height:64px;object-fit:contain}.heading{flex:1;text-align:center;padding-right:145px}h1{font-size:16pt;margin:0}.subtitle{font-size:9pt;margin-top:4px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}.box{border:1px solid #555;padding:7px;min-height:31px}table{border-collapse:collapse;width:100%;font-size:9pt}th,td{border:1px solid #333;padding:6px}th{background:#eee;text-align:center}.sign{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:30px;text-align:center}.space{height:58px}.footer-info{display:flex;justify-content:space-between;border-top:1px solid #777;margin-top:24px;padding-top:7px;font-size:8.5pt}.note{margin-top:12px;border:1px solid #555;padding:8px;min-height:42px;font-size:8.5pt}.note b{display:block;margin-bottom:4px}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="header"><img class="logo" src="${logoUrl}" alt="Panamed"><div class="heading"><h1>SURAT PENGANTARAN BARANG (SPB)</h1><div class="subtitle">PT Panamed</div></div></div><div class="meta"><div class="box"><b>No. PO Customer:</b> ${escapeHtml(spb.recipient)}</div><div class="box"><b>Tujuan/Lokasi:</b> ${escapeHtml(spb.destination || "-")}</div><div class="box"><b>Keperluan:</b> ${escapeHtml(spb.reason)}</div><div class="box"><b>No. NIE/AKL:</b> ${escapeHtml(spb.notes || "-")}</div></div><table><thead><tr><th>No</th><th>Kode</th><th>Nama Barang</th><th>SN/Batch</th><th>Qty</th><th>Satuan</th></tr></thead><tbody>${rows}</tbody></table><div class="sign"><div>Penerima<div class="space"></div>(___________________)</div><div>Penanggung Jawab Teknis<div class="space"></div>(___________________)</div><div>Mengetahui<div class="space"></div>(___________________)</div></div><div class="footer-info"><span><b>Tanggal cetak:</b> ${escapeHtml(printedAt)}</span><span><b>No. SPB:</b> ${escapeHtml(spb.spb_number)}</span></div><div class="note"><b>NOTE:</b>${escapeHtml(spb.print_note || "")}</div></body></html>`;
+    return `<html><head><meta charset="utf-8"><title>SPB ${escapeHtml(spb.spb_number)}</title><style>@page{size:A4 portrait;margin:12mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#111;margin:0;font-size:9.5pt}.header{display:flex;align-items:center;border-bottom:2px solid #222;padding-bottom:10px;margin-bottom:14px}.logo{width:145px;max-height:64px;object-fit:contain}.heading{flex:1;text-align:center;padding-right:145px}h1{font-size:16pt;margin:0}.subtitle{font-size:9pt;margin-top:4px}.meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}.box{border:1px solid #555;padding:7px;min-height:31px}table{border-collapse:collapse;width:100%;font-size:9pt}th,td{border:1px solid #333;padding:6px}th{background:#eee;text-align:center}.sign{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:30px;text-align:center}.space{height:58px}.sign-note{margin-top:7px;text-align:center;font-size:8pt;font-style:italic}.terms{margin-top:20px;border:1px solid #555;padding:9px;font-size:9pt}.terms b{display:block;margin-bottom:5px}.terms ol{margin:0;padding-left:20px}.terms li{margin:3px 0}.print-date{border-top:1px solid #777;margin-top:24px;padding-top:7px;font-size:8.5pt}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="header"><img class="logo" src="${logoUrl}" alt="Panamed"><div class="heading"><h1>SURAT PENGANTARAN BARANG (SPB)</h1><div class="subtitle">PT. Panamed Anugerah Abadi</div></div></div><div class="meta"><div class="box"><b>No. PO Customer:</b> ${escapeHtml(spb.recipient)}</div><div class="box"><b>Tujuan/Lokasi:</b> ${escapeHtml(spb.destination || "-")}</div><div class="box"><b>Keperluan:</b> ${escapeHtml(spb.reason)}</div><div class="box"><b>NIE:</b> ${escapeHtml(spb.notes || "-")}</div></div><table><thead><tr><th>No</th><th>Kode</th><th>Nama Barang</th><th>SN/Batch</th><th>Qty</th><th>Satuan</th></tr></thead><tbody>${rows}</tbody></table><div class="sign"><div>Penerima<div class="space"></div>(___________________)</div><div>Penanggung Jawab Teknis<div class="space"></div>(___________________)</div><div>Gudang<div class="space"></div>(___________________)</div></div><div class="sign-note">* Nama jelas, tanggal terima, dan stempel.</div><div class="terms"><b>TERM &amp; CONDITION:</b><ol><li>Kemasan, plastik, kartu garansi dan Surat Pengantar Barang TIDAK BOLEH dibuang oleh pihak Rumah Sakit atau pihak manapun selama masa garansi barang.</li><li>Apabila barang tidak dalam keadaan lengkap, retur/penukaran barang tidak dapat dilakukan.</li></ol></div><div class="print-date"><b>Tanggal cetak:</b> ${escapeHtml(printedAt)}</div></body></html>`;
   };
-  const downloadSpb = (spb) => {
+  const downloadSpb = async (spb) => {
     if (spb.status !== "APPROVED") return Swal.fire("Belum dapat dicetak", "SPB harus disetujui atasan terlebih dahulu.", "warning");
-    const html = buildSpbDocument(spb);
-    const blob = new Blob(["\ufeff", html], { type: "application/msword" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = `SPB-${String(spb.spb_number || "pengantaran").replace(/[^a-z0-9_-]/gi, "-")}.doc`;
-    anchor.click();
-    URL.revokeObjectURL(url);
+
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 14;
+    const contentWidth = pageWidth - (margin * 2);
+    const printedAt = new Date().toLocaleString("id-ID", { dateStyle: "long", timeStyle: "short" });
+
+    try {
+      const logoBlob = await fetch(`${window.location.origin}/logo-panamed.png`).then((response) => response.blob());
+      const logoData = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(logoBlob);
+      });
+      const logoProperties = doc.getImageProperties(logoData);
+      const logoWidth = 40;
+      const logoHeight = Math.min(18, (logoProperties.height * logoWidth) / logoProperties.width);
+      doc.addImage(logoData, "PNG", margin, 12, logoWidth, logoHeight);
+    } catch (error) {
+      console.warn("Logo tidak dapat dimuat ke PDF SPB:", error);
+    }
+
+    doc.setTextColor(17, 24, 39);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(15);
+    doc.text("SURAT PENGANTARAN BARANG (SPB)", pageWidth / 2, 18, { align: "center" });
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.5);
+    doc.text("PT. Panamed Anugerah Abadi", pageWidth / 2, 24, { align: "center" });
+    doc.setLineWidth(0.6);
+    doc.line(margin, 35, pageWidth - margin, 35);
+
+    const drawMetaBox = (x, y, width, label, value) => {
+      doc.setDrawColor(100, 116, 139);
+      doc.setLineWidth(0.25);
+      doc.rect(x, y, width, 14);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(8);
+      doc.text(label, x + 2.5, y + 4.5);
+      doc.setFont("helvetica", "normal");
+      const lines = doc.splitTextToSize(String(value || "-"), width - 5);
+      doc.text(lines.slice(0, 2), x + 2.5, y + 9);
+    };
+
+    const gap = 3;
+    const boxWidth = (contentWidth - gap) / 2;
+    drawMetaBox(margin, 40, boxWidth, "No. PO Customer", spb.recipient);
+    drawMetaBox(margin + boxWidth + gap, 40, boxWidth, "Tujuan / Lokasi", spb.destination);
+    drawMetaBox(margin, 57, boxWidth, "Keperluan", spb.reason);
+    drawMetaBox(margin + boxWidth + gap, 57, boxWidth, "NIE", spb.notes);
+
+    autoTable(doc, {
+      startY: 75,
+      margin: { left: margin, right: margin },
+      head: [["No", "Kode", "Nama Barang", "SN / Batch", "Qty", "Satuan"]],
+      body: (spb.items || []).map((item, index) => [
+        index + 1,
+        String(item.item_id || "-"),
+        String(item.nama || "-"),
+        String(item.serial_number || "-"),
+        formatNumber(item.qty),
+        String(item.satuan || "-"),
+      ]),
+      theme: "grid",
+      styles: { font: "helvetica", fontSize: 8, cellPadding: 2.2, textColor: [17, 24, 39], lineColor: [71, 85, 105], lineWidth: 0.2, valign: "middle" },
+      headStyles: { fillColor: [226, 232, 240], textColor: [15, 23, 42], fontStyle: "bold", halign: "center" },
+      columnStyles: {
+        0: { cellWidth: 9, halign: "center" },
+        1: { cellWidth: 25 },
+        2: { cellWidth: 67 },
+        3: { cellWidth: 35 },
+        4: { cellWidth: 16, halign: "center" },
+        5: { cellWidth: 20, halign: "center" },
+      },
+      rowPageBreak: "avoid",
+    });
+
+    let signatureY = (doc.lastAutoTable?.finalY || 75) + 12;
+    if (signatureY > 205) {
+      doc.addPage();
+      signatureY = 22;
+    }
+    const signatureCenters = [margin + 30, pageWidth / 2, pageWidth - margin - 30];
+    const signatureLabels = ["Penerima", "Penanggung Jawab Teknis", "Gudang"];
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    signatureLabels.forEach((label, index) => {
+      doc.text(label, signatureCenters[index], signatureY, { align: "center" });
+      doc.line(signatureCenters[index] - 22, signatureY + 25, signatureCenters[index] + 22, signatureY + 25);
+      doc.text("Nama & Tanda Tangan", signatureCenters[index], signatureY + 30, { align: "center" });
+    });
+
+    doc.setFont("helvetica", "italic");
+    doc.setFontSize(7.5);
+    doc.text("* Nama jelas, tanggal terima, dan stempel.", pageWidth / 2, signatureY + 35, { align: "center" });
+
+    const termsY = signatureY + 42;
+    doc.setDrawColor(71, 85, 105);
+    doc.setLineWidth(0.25);
+    doc.rect(margin, termsY, contentWidth, 28);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(9);
+    doc.text("TERM & CONDITION", margin + 3, termsY + 5);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8.5);
+    doc.text("1. Penerima mencantumkan nama dan tanda tangan.", margin + 6, termsY + 11);
+    doc.text("2. Penerima mencantumkan tanggal terima barang.", margin + 6, termsY + 17);
+    doc.text("3. Penerima WAJIB membubuhkan stempel RS.", margin + 6, termsY + 23);
+
+    doc.setDrawColor(148, 163, 184);
+    doc.line(margin, termsY + 36, pageWidth - margin, termsY + 36);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8);
+    doc.text(`Tanggal cetak: ${printedAt}`, margin, termsY + 41);
+
+    const fileName = `SPB-${String(spb.spb_number || "pengantaran").replace(/[^a-z0-9_-]/gi, "-")}.pdf`;
+    doc.save(fileName);
   };
 
   const printSpb = (spb) => {
@@ -327,6 +360,7 @@ const Inventory = ({ issueMode = false }) => {
       setIssuePage(Number(response.data.page || targetPage));
       setIssueTotalPages(Number(response.data.total_pages || 1));
       setIssueTotal(Number(response.data.total || 0));
+      setCanApprove(Boolean(response.data.can_approve));
     } catch (error) {
       Swal.fire("Error", error.response?.data?.message || "Gagal memuat riwayat SPB.", "error");
     } finally {
@@ -343,7 +377,7 @@ const Inventory = ({ issueMode = false }) => {
     try {
       const response = await API.get(`/inventory/issues/${issueId}`);
       if (action === "print") printSpb(response.data.data);
-      else downloadSpb(response.data.data);
+      else await downloadSpb(response.data.data);
     } catch (error) {
       Swal.fire("Error", error.response?.data?.message || "SPB tidak dapat dibuka.", "error");
     }
@@ -354,6 +388,7 @@ const Inventory = ({ issueMode = false }) => {
     try {
       const response = await API.post(`/inventory/issues/${issue.issue_id}/approve`);
       await Swal.fire("Disetujui", response.data.message, "success");
+      window.dispatchEvent(new Event("spb-approval-updated"));
       await fetchIssueHistory(issueSearch, issuePage);
       await fetchItems();
     } catch (error) {
@@ -415,100 +450,18 @@ const Inventory = ({ issueMode = false }) => {
     }
   };
 
-  const printBarcode = (targetItems) => {
-    const list = Array.isArray(targetItems) ? targetItems : [targetItems];
-    const labels = list
-      .map((item) => `
-        <section class="label">
-          <div class="name">${item.nama}</div>
-          <div class="barcode">${barcodeSvg(item.item_id)}</div>
-          <div class="sku">${item.item_id}</div>
-          <div class="meta">${item.satuan || "-"} | ${item.merek || "Tanpa merek"}</div>
-        </section>
-      `)
-      .join("");
-    const printWindow = window.open("", "_blank", "width=900,height=700");
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print Barcode SKU</title>
-          <style>
-            @page { size: A4; margin: 12mm; }
-            body { font-family: Arial, sans-serif; margin: 0; color: #111827; }
-            .sheet { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-            .label { border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; text-align: center; break-inside: avoid; min-height: 118px; }
-            .name { font-size: 12px; font-weight: 700; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .barcode svg { max-width: 100%; height: 54px; }
-            .sku { font-family: Consolas, monospace; font-size: 13px; font-weight: 700; letter-spacing: 1px; margin-top: 6px; }
-            .meta { font-size: 10px; color: #6b7280; margin-top: 3px; }
-          </style>
-        </head>
-        <body><main class="sheet">${labels}</main></body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-  };
-
-  const printLocatorBarcode = (target) => {
-    const locators = Array.isArray(target)
-      ? uniqueLocators(target)
-      : [String(target?.locator || target || "").trim()].filter(Boolean);
-
-    if (!locators.length) {
-      Swal.fire("Peringatan", "Locator belum diisi.", "warning");
-      return;
-    }
-
-    const labels = locators
-      .map((locator) => {
-        const relatedItems = items.filter((item) => String(item.locator || "").trim().toLowerCase() === locator.toLowerCase());
-        return `
-          <section class="label">
-            <div class="title">LOCATOR</div>
-            <div class="name">${locator}</div>
-            <div class="barcode">${barcodeSvg(`LOC:${locator}`)}</div>
-            <div class="sku">LOC:${locator}</div>
-            <div class="meta">${relatedItems.length} barang</div>
-          </section>
-        `;
-      })
-      .join("");
-
-    const printWindow = window.open("", "_blank", "width=900,height=700");
-    printWindow.document.write(`
-      <html>
-        <head>
-          <title>Print Barcode Locator</title>
-          <style>
-            @page { size: A4; margin: 12mm; }
-            body { font-family: Arial, sans-serif; margin: 0; color: #111827; }
-            .sheet { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-            .label { border: 1px solid #d1d5db; border-radius: 6px; padding: 10px; text-align: center; break-inside: avoid; min-height: 126px; }
-            .title { font-size: 10px; font-weight: 800; color: #2563eb; letter-spacing: 1px; margin-bottom: 4px; }
-            .name { font-size: 14px; font-weight: 800; margin-bottom: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-            .barcode svg { max-width: 100%; height: 54px; }
-            .sku { font-family: Consolas, monospace; font-size: 13px; font-weight: 700; letter-spacing: 1px; margin-top: 6px; }
-            .meta { font-size: 10px; color: #6b7280; margin-top: 3px; }
-          </style>
-        </head>
-        <body><main class="sheet">${labels}</main></body>
-      </html>
-    `);
-    printWindow.document.close();
-    printWindow.focus();
-    printWindow.print();
-  };
-
   const readIncomingFile = async (event) => {
     const file = event.target.files?.[0];
     event.target.value = "";
     if (!file) return;
 
     try {
-      const table = parseCsv(await file.text());
-      const headers = (table[0] || []).map((header) => header.trim().toLowerCase());
+      if (!/\.xlsx?$/i.test(file.name)) throw new Error("File harus berformat Excel (.xlsx atau .xls).");
+      const workbook = XLSX.read(await file.arrayBuffer(), { type: "array" });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      if (!worksheet) throw new Error("Workbook Excel tidak memiliki worksheet.");
+      const table = XLSX.utils.sheet_to_json(worksheet, { header: 1, defval: "", raw: true });
+      const headers = (table[0] || []).map((header) => String(header).trim().toLowerCase());
       const column = (name) => headers.indexOf(name.toLowerCase());
       const required = ["SKU", "Nama Produk", "HPP", "Stok Terkini"];
       const missing = required.filter((name) => column(name) < 0);
@@ -518,10 +471,10 @@ const Inventory = ({ issueMode = false }) => {
         row_number: index + 2,
         sku: row[column("SKU")] || "",
         nama: row[column("Nama Produk")] || "",
-        harga: csvNumber(row[column("HPP")]),
-        qty: csvNumber(row[column("Stok Terkini")]),
+        harga: spreadsheetNumber(row[column("HPP")]),
+        qty: spreadsheetNumber(row[column("Stok Terkini")]),
         kategori: column("Kategori") >= 0 ? row[column("Kategori")] || "" : "",
-        minimum_stock: column("Stok Minimum") >= 0 ? csvNumber(row[column("Stok Minimum")]) : "",
+        minimum_stock: column("Stok Minimum") >= 0 ? spreadsheetNumber(row[column("Stok Minimum")]) : "",
         satuan: column("Satuan") >= 0 ? row[column("Satuan")] || "" : "",
         gudang: column("Gudang") >= 0 ? row[column("Gudang")] || "" : "",
         rak: column("Rak") >= 0 ? row[column("Rak")] || "" : "",
@@ -534,7 +487,7 @@ const Inventory = ({ issueMode = false }) => {
     } catch (error) {
       setBulkFileName("");
       setBulkRows([]);
-      Swal.fire("Format tidak sesuai", error.message || "CSV tidak dapat dibaca.", "warning");
+      Swal.fire("Format tidak sesuai", error.message || "File Excel tidak dapat dibaca.", "warning");
     }
   };
 
@@ -618,15 +571,13 @@ const Inventory = ({ issueMode = false }) => {
             </p>
             <h1 className="mt-2 text-2xl font-bold text-slate-950 sm:text-3xl">{issueMode ? "Pengeluaran Barang" : "Inventory"}</h1>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">
-              {issueMode ? "Pilih barang ke keranjang, lengkapi SPB, lalu simpan dan cetak surat pengeluaran." : "Kelola stok, barang masuk, barcode, dan riwayat inventory."}
+              {issueMode ? "Pilih barang ke keranjang, lengkapi SPB, lalu simpan dan cetak surat pengeluaran." : "Kelola stok, barang masuk, dan riwayat inventory."}
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap sm:items-center">
             {!issueMode && <>
-              <button onClick={() => printBarcode(items)} disabled={!items.length} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-700 shadow-sm disabled:opacity-50 sm:w-auto"><Barcode size={17} /> Print SKU Halaman</button>
-              <button onClick={() => printLocatorBarcode(items)} disabled={!uniqueLocators(items).length} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-indigo-200 bg-white px-4 text-sm font-semibold text-indigo-700 shadow-sm disabled:opacity-50 sm:w-auto"><Barcode size={17} /> Print Locator</button>
-              <button onClick={() => openTransaction(null, "MASUK")} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm sm:w-auto"><ArrowDownToLine size={17} /> Barang Masuk</button>
+                                          <button onClick={() => openTransaction(null, "MASUK")} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm sm:w-auto"><ArrowDownToLine size={17} /> Barang Masuk</button>
             </>}
             <button onClick={openIssueHistory} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-violet-200 bg-white px-4 text-sm font-semibold text-violet-700 shadow-sm sm:w-auto"><History size={17} /> Riwayat SPB</button>
             <button onClick={openSpb} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-orange-600 px-4 text-sm font-semibold text-white shadow-sm sm:w-auto"><ArrowUpFromLine size={17} /> Keranjang SPB ({spbForm.items.filter((line) => line.item_id).length})</button>
@@ -753,8 +704,6 @@ const Inventory = ({ issueMode = false }) => {
                           <button onClick={() => addToSpbCart(item)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-orange-100 text-orange-600" title="Tambah ke Keranjang SPB"><ArrowUpFromLine size={15} /></button>
                           {!issueMode && <>
                             <button onClick={() => openHistory(item)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-violet-100 text-violet-600" title="History"><History size={15} /></button>
-                            <button onClick={() => printBarcode(item)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 text-slate-600" title="Print barcode SKU"><Barcode size={15} /></button>
-                            <button onClick={() => printLocatorBarcode(item)} className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-100 text-indigo-600" title="Print barcode locator"><Barcode size={15} /></button>
                           </>}
                         </div>
                       </td>
@@ -790,9 +739,6 @@ const Inventory = ({ issueMode = false }) => {
                                               <p className="mt-1 font-mono text-xs text-slate-500">{item.item_id} · NIE {item.nomor_izin_edar || "-"}</p>
                         {expiryStatus(item.tanggal_kedaluwarsa) && <span className={`mt-2 inline-flex rounded-full border px-2 py-0.5 text-[10px] font-bold ${expiryStatus(item.tanggal_kedaluwarsa).className}`}>{expiryStatus(item.tanggal_kedaluwarsa).label}</span>}
                     </div>
-                    {!issueMode && <button onClick={() => printBarcode(item)} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-slate-50" title="Print barcode SKU">
-                      <Barcode size={15} />
-                    </button>}
                   </div>
                   <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
                     <Info label="Kategori" value={item.kategori || "-"} />
@@ -805,7 +751,6 @@ const Inventory = ({ issueMode = false }) => {
                     <button onClick={() => addToSpbCart(item)} className="inline-flex h-9 items-center justify-center gap-2 rounded-lg bg-orange-600 px-3 text-xs font-bold text-white"><ArrowUpFromLine size={14} /> + Keranjang</button>
                     {!issueMode && <>
                       <button onClick={() => openHistory(item)} className="inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-violet-100 text-xs font-bold text-violet-600"><History size={14} /> History</button>
-                      <button onClick={() => printLocatorBarcode(item)} className="col-span-2 inline-flex h-9 items-center justify-center gap-2 rounded-lg border border-indigo-100 text-xs font-bold text-indigo-600"><Barcode size={14} /> Print Locator</button>
                     </>}
                   </div>
                 </article>
@@ -865,7 +810,7 @@ const Inventory = ({ issueMode = false }) => {
                     {reasons.map((reason) => <option key={reason.reason_id} value={reason.reason_id}>{reason.name}</option>)}
                   </select><button type="button" onClick={() => addReason("spb")} className="whitespace-nowrap rounded-lg border border-blue-200 bg-white px-3 text-xs font-bold text-blue-700">+ Alasan</button></div>
                 </div>
-                <div className="md:col-span-2"><Textarea label="No. NIE / AKL" value={spbForm.notes} onChange={(value) => setSpbForm((current) => ({ ...current, notes: value }))} /></div>
+                <div className="md:col-span-2"><label className="mb-1 block text-[10px] font-bold uppercase text-gray-500">NIE</label><select required value={spbForm.notes} onChange={(event) => setSpbForm((current) => ({ ...current, notes: event.target.value }))} className="w-full rounded-lg border bg-white px-3 py-2 text-sm"><option value="">Pilih NIE</option>{NIE_OPTIONS.map((option) => <option key={option} value={option}>{option}</option>)}</select></div>
               </div>
 
               <div className="mt-5 overflow-hidden rounded-xl border border-slate-200">
@@ -902,7 +847,7 @@ const Inventory = ({ issueMode = false }) => {
             <ModalHeader title="Riwayat SPB" subtitle="Approval, revisi, download, dan cetak Surat Pengantaran Barang." onClose={() => setIssueHistoryOpen(false)} />
             <div className="p-4 sm:p-6">
               <form onSubmit={(event) => { event.preventDefault(); setIssuePage(1); fetchIssueHistory(issueSearch, 1); }} className="mb-4 flex flex-col gap-2 sm:flex-row">
-                <input value={issueSearch} onChange={(event) => setIssueSearch(event.target.value)} placeholder="Cari nomor SPB, PO customer, tujuan, NIE/AKL, atau alasan" className="h-10 flex-1 rounded-lg border border-slate-200 px-3 text-sm" />
+                <input value={issueSearch} onChange={(event) => setIssueSearch(event.target.value)} placeholder="Cari nomor SPB, PO customer, tujuan, NIE, atau alasan" className="h-10 flex-1 rounded-lg border border-slate-200 px-3 text-sm" />
                 <button className="h-10 rounded-lg bg-blue-600 px-5 text-sm font-bold text-white">Cari</button>
               </form>
               <div className="max-h-[65vh] overflow-auto rounded-xl border border-slate-200">
@@ -911,7 +856,7 @@ const Inventory = ({ issueMode = false }) => {
                   <tbody className="divide-y divide-slate-100">
                     {issueHistoryLoading ? <tr><td colSpan="6" className="p-10 text-center"><Loader2 className="mx-auto animate-spin text-blue-600" /></td></tr> : issueHistory.length ? issueHistory.map((issue) => <tr key={issue.issue_id}>
                       <td className="whitespace-nowrap px-4 py-3 font-bold text-slate-900">{issue.spb_number}</td><td className="whitespace-nowrap px-4 py-3">{issue.issue_date}</td><td className="px-4 py-3">{issue.recipient}</td><td className="px-4 py-3"><span className={`rounded-full px-2 py-1 text-xs font-bold ${issue.status === "APPROVED" ? "bg-emerald-100 text-emerald-700" : issue.status === "PENDING" ? "bg-amber-100 text-amber-700" : "bg-slate-100 text-slate-600"}`}>{issue.status === "APPROVED" ? "Disetujui" : issue.status === "PENDING" ? "Menunggu" : "Direvisi"}</span></td><td className="whitespace-nowrap px-4 py-3">{issue.item_count} item · {formatNumber(issue.total_qty)}</td>
-                      <td className="whitespace-nowrap px-4 py-3"><div className="flex flex-wrap gap-2">{issue.status === "PENDING" && <button onClick={() => approveIssue(issue)} className="rounded-lg bg-emerald-600 px-3 py-1.5 font-bold text-white">Approve</button>}{issue.status === "APPROVED" && <><button onClick={() => handleIssueDocument(issue.issue_id, "download")} className="rounded-lg border border-blue-200 px-3 py-1.5 font-bold text-blue-700">Download</button><button onClick={() => handleIssueDocument(issue.issue_id, "print")} className="rounded-lg border border-orange-200 px-3 py-1.5 font-bold text-orange-700">Print</button><button onClick={() => reviseIssue(issue)} className="rounded-lg border border-violet-200 px-3 py-1.5 font-bold text-violet-700">Revisi</button></>}</div></td>
+                      <td className="whitespace-nowrap px-4 py-3"><div className="flex flex-wrap gap-2">{issue.status === "PENDING" && canApprove && <button onClick={() => approveIssue(issue)} className="rounded-lg bg-emerald-600 px-3 py-1.5 font-bold text-white">Approve</button>}{issue.status === "APPROVED" && <><button onClick={() => handleIssueDocument(issue.issue_id, "print")} className="rounded-lg border border-orange-200 px-3 py-1.5 font-bold text-orange-700">Print</button><button onClick={() => reviseIssue(issue)} className="rounded-lg border border-violet-200 px-3 py-1.5 font-bold text-violet-700">Revisi</button></>}</div></td>
                     </tr>) : <tr><td colSpan="6" className="p-10 text-center text-slate-500">Belum ada riwayat SPB.</td></tr>}
                   </tbody>
                 </table>
@@ -929,13 +874,13 @@ const Inventory = ({ issueMode = false }) => {
               <section className="mx-6 mt-6 rounded-xl border border-dashed border-blue-300 bg-blue-50/60 p-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <p className="text-sm font-bold text-slate-900">Upload CSV Master_Barang</p>
+                    <p className="text-sm font-bold text-slate-900">Upload Excel Master_Barang</p>
                     <p className="mt-1 text-xs leading-5 text-slate-500">Format Master_Barang: Nama Produk, HPP, dan Stok Terkini. SKU baru dibuat otomatis oleh sistem.</p>
                   </div>
                   <label className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg border border-blue-200 bg-white px-4 text-sm font-bold text-blue-700 shadow-sm hover:bg-blue-50">
                     <Upload size={16} />
-                    Pilih CSV
-                    <input type="file" accept=".csv,text/csv" onChange={readIncomingFile} className="hidden" />
+                    Pilih Excel
+                    <input type="file" accept=".xlsx,.xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" onChange={readIncomingFile} className="hidden" />
                   </label>
                 </div>
                 {bulkRows.length > 0 && (

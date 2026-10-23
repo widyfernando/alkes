@@ -64,7 +64,7 @@ const detail = wrap(async (req, res) => {
   const purchase = await query('SELECT * FROM purchases WHERE purchase_id = $1', [req.params.purchaseId]);
   if (!purchase.rows[0]) throw Object.assign(new Error('Pembelian tidak ditemukan'), { statusCode: 404 });
   const items = await query(
-    `SELECT pi.purchase_item_id, pi.item_id, pi.qty, pi.unit_cost, pi.subtotal, pi.serial_number, i.nama
+    `SELECT pi.purchase_item_id, pi.item_id, pi.qty, pi.unit_cost, pi.subtotal, pi.serial_number, i.nama, i.merek
        FROM purchase_items pi
        JOIN inventory_items i ON i.item_id = pi.item_id
       WHERE pi.purchase_id = $1

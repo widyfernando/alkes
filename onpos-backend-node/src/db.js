@@ -68,6 +68,7 @@ async function withTransaction(callback) {
 }
 
 async function ensureSchema() {
+  await query("ALTER TABLE users ADD COLUMN IF NOT EXISTS is_approver BOOLEAN NOT NULL DEFAULT false");
   await query("ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS minimum_stock NUMERIC(14, 2) NOT NULL DEFAULT 5");
   await query("ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS merek VARCHAR(80) NOT NULL DEFAULT ''");
   await query("ALTER TABLE inventory_items ADD COLUMN IF NOT EXISTS principal VARCHAR(120) NOT NULL DEFAULT ''");
@@ -105,8 +106,11 @@ async function ensureSchema() {
   await query("CREATE TABLE IF NOT EXISTS inventory_restock_plans (item_id VARCHAR(20) PRIMARY KEY REFERENCES inventory_items(item_id) ON DELETE CASCADE, planned_qty NUMERIC(14, 2) NOT NULL DEFAULT 0, updated_by VARCHAR(100) NOT NULL DEFAULT 'SYSTEM', updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW())");
   await query("ALTER TABLE purchase_items ADD COLUMN IF NOT EXISTS serial_number VARCHAR(100) NOT NULL DEFAULT ''");
   await query("INSERT INTO kategori_barang (kategori_id, nama, keterangan) SELECT 'K90001', 'Tanpa Kardus', 'Barang tanpa kemasan kardus' WHERE NOT EXISTS (SELECT 1 FROM kategori_barang WHERE LOWER(nama) = LOWER('Tanpa Kardus'))");
-  await query("INSERT INTO kategori_barang (kategori_id, nama, keterangan) SELECT 'K90002', 'Produk Lama / Legacy', 'Barang produksi lama atau legacy stock' WHERE NOT EXISTS (SELECT 1 FROM kategori_barang WHERE LOWER(nama) = LOWER('Produk Lama / Legacy'))");
   await query("INSERT INTO kategori_barang (kategori_id, nama, keterangan) SELECT 'K90003', 'Trade In RS', 'Barang hasil trade in rumah sakit' WHERE NOT EXISTS (SELECT 1 FROM kategori_barang WHERE LOWER(nama) = LOWER('Trade In RS'))");
+  await query("DELETE FROM kategori_barang WHERE LOWER(nama) = LOWER('Produk Lama / Legacy') AND NOT EXISTS (SELECT 1 FROM inventory_items WHERE inventory_items.kategori_id = kategori_barang.kategori_id)");
+  await query("INSERT INTO kategori_barang (kategori_id, nama, keterangan) SELECT 'K90004', 'Barang Stok', 'Barang persediaan reguler' WHERE NOT EXISTS (SELECT 1 FROM kategori_barang WHERE LOWER(nama) = LOWER('Barang Stok'))");
+  await query("INSERT INTO kategori_barang (kategori_id, nama, keterangan) SELECT 'K90005', 'Barang Demo', 'Barang untuk kebutuhan demonstrasi' WHERE NOT EXISTS (SELECT 1 FROM kategori_barang WHERE LOWER(nama) = LOWER('Barang Demo'))");
+  await query("INSERT INTO kategori_barang (kategori_id, nama, keterangan) SELECT 'K90006', 'Barang Expired', 'Barang yang telah kedaluwarsa' WHERE NOT EXISTS (SELECT 1 FROM kategori_barang WHERE LOWER(nama) = LOWER('Barang Expired'))");
   // Alkes starts with its own clean inventory; legacy BikeStore import is intentionally disabled.
   const menus = [
     ['M00001', 'Administration', '', 'M00001'],

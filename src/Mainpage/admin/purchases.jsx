@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Edit3, Eye, Loader2, PackageCheck, Plus, Search, Trash2, X } from "lucide-react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { Edit3, Eye, Loader2, PackageCheck, Plus, Printer, Search, Trash2, X } from "lucide-react";
 import Swal from "sweetalert2";
 import API from "../../utils/axiosInstance";
 
 const money = (value) => "Rp " + Number(value || 0).toLocaleString("id-ID");
+const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
 const emptyForm = () => ({ supplier_name: "", invoice_number: "", spb_number: "", po_number: "", purchase_date: new Date().toISOString().slice(0, 10), notes: "", items: [{ item_id: "", qty: 1, unit_cost: 0, serial_number: "" }] });
 
 export default function Purchases() {
@@ -17,6 +18,9 @@ export default function Purchases() {
   const [editingId, setEditingId] = useState(null);
   const [saving, setSaving] = useState(false);
   const [loadingEdit, setLoadingEdit] = useState(false);
+  const [brandFilter, setBrandFilter] = useState("all");
+  const brands = useMemo(() => [...new Set(items.map((item) => String(item.merek || "").trim() || "Tanpa Brand"))].sort(), [items]);
+  const selectableItems = useMemo(() => brandFilter === "all" ? items : items.filter((item) => (String(item.merek || "").trim() || "Tanpa Brand") === brandFilter), [brandFilter, items]);
 
   const load = useCallback(async () => {
     const response = await API.get("/purchases", { params: { search, page } });
@@ -129,6 +133,22 @@ export default function Purchases() {
     }
   };
 
+  const printPurchase = async (id) => {
+    try {
+      const response = await API.get(`/purchases/${id}`);
+      const data = response.data.data || {};
+      const rowsHtml = (data.items || []).map((item, index) => `<tr><td>${index + 1}</td><td>${escapeHtml(item.item_id)}</td><td>${escapeHtml(item.nama)}</td><td>${escapeHtml(item.merek || "-")}</td><td>${escapeHtml(item.serial_number || "-")}</td><td class="number">${Number(item.qty || 0).toLocaleString("id-ID")}</td><td class="number">${money(item.unit_cost)}</td><td class="number">${money(Number(item.qty || 0) * Number(item.unit_cost || 0))}</td></tr>`).join("");
+      const printWindow = window.open("", "_blank", "width=1000,height=800");
+      if (!printWindow) return Swal.fire("Pop-up diblokir", "Izinkan pop-up untuk mencetak draft pembelian.", "warning");
+      printWindow.document.write(`<html><head><meta charset="utf-8"><title>Pembelian ${escapeHtml(data.purchase_id)}</title><style>@page{size:A4 portrait;margin:12mm}*{box-sizing:border-box}body{font-family:Arial,sans-serif;color:#111;margin:0;font-size:9pt}.header{text-align:center;border-bottom:2px solid #222;padding-bottom:10px;margin-bottom:14px}.header img{width:145px;max-height:55px;object-fit:contain}.header h1{font-size:16pt;margin:8px 0 2px}.company{font-size:10pt}.status{display:inline-block;margin-top:6px;border:1px solid #555;padding:3px 10px;font-weight:bold}.meta{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:14px}.box{border:1px solid #555;padding:7px;min-height:32px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #333;padding:5px}th{background:#eee;text-align:center}.number{text-align:right}.notes{margin-top:12px;border:1px solid #555;padding:8px;min-height:45px}.sign{display:grid;grid-template-columns:repeat(3,1fr);gap:25px;margin-top:28px;text-align:center}.space{height:55px}.footer{border-top:1px solid #777;margin-top:22px;padding-top:6px;font-size:8pt}@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}</style></head><body><div class="header"><img src="${window.location.origin}/logo-panamed.png" alt="Panamed"><h1>DRAFT PEMBELIAN BARANG</h1><div class="company">PT. Panamed Anugerah Abadi</div><div class="status">${escapeHtml(data.status || "DRAFT")}</div></div><div class="meta"><div class="box"><b>Nomor:</b> ${escapeHtml(data.purchase_id)}</div><div class="box"><b>Tanggal:</b> ${escapeHtml(String(data.purchase_date || "").slice(0,10))}</div><div class="box"><b>Supplier:</b> ${escapeHtml(data.supplier_name)}</div><div class="box"><b>No. PO:</b> ${escapeHtml(data.po_number || "-")}</div><div class="box"><b>No. SPB:</b> ${escapeHtml(data.spb_number || "-")}</div><div class="box"><b>No. Faktur:</b> ${escapeHtml(data.invoice_number || "-")}</div></div><table><thead><tr><th>No</th><th>Kode</th><th>Barang</th><th>Brand</th><th>SN/Batch</th><th>Qty</th><th>Harga</th><th>Jumlah</th></tr></thead><tbody>${rowsHtml}</tbody><tfoot><tr><th colspan="7" class="number">TOTAL</th><th class="number">${money(data.total)}</th></tr></tfoot></table><div class="notes"><b>Catatan:</b><br>${escapeHtml(data.notes || "-")}</div><div class="sign"><div>Dibuat oleh<div class="space"></div>(___________________)</div><div>Diperiksa<div class="space"></div>(___________________)</div><div>Disetujui<div class="space"></div>(___________________)</div></div><div class="footer">Tanggal cetak: ${new Date().toLocaleString("id-ID")}</div></body></html>`);
+      printWindow.document.close();
+      printWindow.focus();
+      setTimeout(() => printWindow.print(), 500);
+    } catch (error) {
+      Swal.fire("Gagal", error.response?.data?.message || "Dokumen pembelian tidak dapat dicetak", "error");
+    }
+  };
+
   const receive = async (id) => {
     const confirmation = await Swal.fire({ icon: "question", title: "Terima barang?", text: "Stok akan langsung bertambah dan pembelian tidak dapat diedit lagi.", showCancelButton: true, confirmButtonText: "Terima" });
     if (!confirmation.isConfirmed) return;
@@ -164,11 +184,12 @@ export default function Purchases() {
             </div>
             <textarea aria-label="Catatan" placeholder="Catatan pembelian" value={form.notes} onChange={(event) => setForm({ ...form, notes: event.target.value })} className="min-h-20 w-full rounded-lg border p-2" />
             <div className="space-y-2">
+              <div className="flex items-center gap-2"><label className="text-xs font-bold uppercase text-slate-500">Filter Brand</label><select value={brandFilter} onChange={(event) => setBrandFilter(event.target.value)} className="rounded-lg border bg-white px-3 py-2 text-sm"><option value="all">Semua Brand</option>{brands.map((brand) => <option key={brand} value={brand}>{brand}</option>)}</select></div>
               {form.items.map((line, index) => (
                 <div key={index} className="grid gap-2 rounded-lg border border-slate-200 bg-white p-2 md:grid-cols-[1fr_150px_100px_160px_42px]">
                   <select aria-label={`Barang baris ${index + 1}`} required value={line.item_id} onChange={(event) => updateLine(index, "item_id", event.target.value)} className="w-full rounded-lg border bg-white p-2">
                     <option value="">Pilih barang</option>
-                    {items.map((item) => <option key={item.item_id} value={item.item_id}>{item.nama} ({item.item_id})</option>)}
+                    {selectableItems.map((item) => <option key={item.item_id} value={item.item_id}>{item.nama} ({item.item_id}) · {item.merek || "Tanpa Brand"}</option>)}
                   </select>
                   <input aria-label={`SN batch baris ${index + 1}`} placeholder="SN / Batch" value={line.serial_number || ""} onChange={(event) => updateLine(index, "serial_number", event.target.value)} className="rounded-lg border p-2" />
                   <input aria-label={`Jumlah baris ${index + 1}`} required min="0.01" step="0.01" type="number" value={line.qty} onChange={(event) => updateLine(index, "qty", event.target.value)} className="rounded-lg border p-2" />
@@ -194,7 +215,7 @@ export default function Purchases() {
                   <td className="p-3 font-mono font-bold">{row.spb_number || row.purchase_id}<p className="mt-1 text-[10px] font-normal text-slate-400">PO: {row.po_number || "-"} | {row.purchase_id}</p></td>
                   <td className="p-3">{String(row.purchase_date).slice(0, 10)}</td><td className="p-3">{row.supplier_name}</td><td className="p-3">{row.item_count}</td><td className="p-3 font-bold">{money(row.total)}</td>
                   <td className="p-3"><span className={`rounded-full px-2 py-1 text-xs font-bold ${row.status === "DRAFT" ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700"}`}>{row.status}</span></td>
-                  <td className="p-3"><div className="flex flex-wrap gap-1.5"><button onClick={() => viewDetail(row.purchase_id)} className="flex items-center gap-1 rounded border border-slate-200 px-2.5 py-2 text-xs font-bold text-slate-700"><Eye size={14} /> Detail</button>{row.status === "DRAFT" && <><button onClick={() => openEdit(row.purchase_id)} disabled={loadingEdit} className="flex items-center gap-1 rounded border border-blue-200 px-2.5 py-2 text-xs font-bold text-blue-700 hover:bg-blue-50"><Edit3 size={14} /> Edit</button><button onClick={() => removePurchase(row)} className="flex items-center gap-1 rounded border border-red-200 px-2.5 py-2 text-xs font-bold text-red-700 hover:bg-red-50"><Trash2 size={14} /> Hapus</button><button onClick={() => receive(row.purchase_id)} className="flex items-center gap-1 rounded bg-emerald-600 px-3 py-2 text-xs font-bold text-white"><PackageCheck size={14} /> Terima</button></>}</div></td>
+                  <td className="p-3"><div className="flex flex-wrap gap-1.5"><button onClick={() => viewDetail(row.purchase_id)} className="flex items-center gap-1 rounded border border-slate-200 px-2.5 py-2 text-xs font-bold text-slate-700"><Eye size={14} /> Detail</button><button onClick={() => printPurchase(row.purchase_id)} className="flex items-center gap-1 rounded border border-violet-200 px-2.5 py-2 text-xs font-bold text-violet-700"><Printer size={14} /> Print</button>{row.status === "DRAFT" && <><button onClick={() => openEdit(row.purchase_id)} disabled={loadingEdit} className="flex items-center gap-1 rounded border border-blue-200 px-2.5 py-2 text-xs font-bold text-blue-700 hover:bg-blue-50"><Edit3 size={14} /> Edit</button><button onClick={() => removePurchase(row)} className="flex items-center gap-1 rounded border border-red-200 px-2.5 py-2 text-xs font-bold text-red-700 hover:bg-red-50"><Trash2 size={14} /> Hapus</button><button onClick={() => receive(row.purchase_id)} className="flex items-center gap-1 rounded bg-emerald-600 px-3 py-2 text-xs font-bold text-white"><PackageCheck size={14} /> Terima</button></>}</div></td>
                 </tr>
               )) : <tr><td colSpan="7" className="p-12 text-center text-slate-500">Belum ada data pembelian.</td></tr>}
             </tbody>

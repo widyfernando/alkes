@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ClipboardCheck, Download, Loader2, RotateCcw, Save, Search, Shuffle } from "lucide-react";
 import Swal from "sweetalert2";
+import * as XLSX from "xlsx";
 import API from "../../utils/axiosInstance";
 
 const num = (value) => Number(value || 0).toLocaleString("id-ID");
@@ -78,16 +79,25 @@ const StockOpname = () => {
 
   useEffect(() => { if (page > totalPages) setPage(totalPages); }, [page, totalPages]);
 
-  const exportWord = () => {
-    const rows = visibleItems.map((item, index) => "<tr><td>" + (index + 1) + "</td><td>" + item.item_id + "</td><td>" + item.nama + "</td><td>" + (item.merek || "-") + "</td><td>" + (item.nomor_batch || "-") + "</td><td>" + num(item.stok) + "</td><td></td><td></td></tr>").join("");
-    const html = '<html><head><meta charset="utf-8"><style>body{font-family:Arial;font-size:10pt}h1{font-size:16pt}table{border-collapse:collapse;width:100%}th,td{border:1px solid #333;padding:5px}th{background:#eee}</style></head><body><h1>Daftar Stock Opname</h1><p>Brand: ' + (brandFilter === "all" ? "Semua" : brandFilter) + " | Dicetak: " + new Date().toLocaleString("id-ID") + "</p><table><thead><tr><th>No</th><th>Kode</th><th>Barang</th><th>Brand</th><th>SN/Batch</th><th>Stok Sistem</th><th>Stok Fisik</th><th>Catatan</th></tr></thead><tbody>" + rows + "</tbody></table></body></html>";
-    const blob = new Blob(["\ufeff", html], { type: "application/msword" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = "stock-opname-" + new Date().toISOString().slice(0, 10) + ".doc";
-    anchor.click();
-    URL.revokeObjectURL(url);
+  const exportExcel = () => {
+    const exportedAt = new Date().toLocaleString("id-ID");
+    const rows = visibleItems.map((item, index) => ({
+      No: index + 1,
+      Kode: item.item_id,
+      Barang: item.nama,
+      Brand: item.merek || "-",
+      "SN/Batch": item.nomor_batch || "-",
+      "Stok Sistem": Number(item.stok || 0),
+      "Stok Fisik": "",
+      Catatan: "",
+    }));
+    const worksheet = XLSX.utils.aoa_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(worksheet, [["Daftar Stock Opname"], [`Brand: ${brandFilter === "all" ? "Semua" : brandFilter}`], [`Diekspor: ${exportedAt}`]], { origin: "A1" });
+    XLSX.utils.sheet_add_json(worksheet, rows, { origin: "A5", skipHeader: false });
+    worksheet["!cols"] = [{ wch: 6 }, { wch: 16 }, { wch: 40 }, { wch: 20 }, { wch: 22 }, { wch: 14 }, { wch: 14 }, { wch: 30 }];
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Stock Opname");
+    XLSX.writeFile(workbook, `stock-opname-${new Date().toISOString().slice(0, 10)}.xlsx`);
   };
 
   const totals = useMemo(() => {
@@ -205,7 +215,7 @@ const StockOpname = () => {
             <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-500">Input stok fisik untuk menyesuaikan stok sistem dan mencatat selisihnya ke history.</p>
           </div>
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
-            <button onClick={exportWord} disabled={!visibleItems.length} className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-white px-4 text-sm font-semibold text-emerald-700 disabled:opacity-50"><Download size={16} /> Export Word</button>
+            <button onClick={exportExcel} disabled={!visibleItems.length} className="inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-white px-4 text-sm font-semibold text-emerald-700 disabled:opacity-50"><Download size={16} /> Export Excel</button>
             <button onClick={() => setRandomOrder((value) => !value)} className={"inline-flex h-10 items-center justify-center gap-2 rounded-lg border px-4 text-sm font-semibold " + (randomOrder ? "border-violet-500 bg-violet-50 text-violet-700" : "border-slate-200 bg-white text-slate-700")}><Shuffle size={16} /> Random</button>
             <button onClick={submitBulk} disabled={bulkSaving || loading || !changedItems.length} className="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50">
               {bulkSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}

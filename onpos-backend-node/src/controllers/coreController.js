@@ -79,7 +79,7 @@ const login = asyncHandler(async (req, res) => {
   }
 
   const result = await query(
-    `SELECT u.user_id, u.username, u.nama, u.email, u.password, u.is_aktif,
+    `SELECT u.user_id, u.username, u.nama, u.email, u.password, u.is_aktif, u.is_approver,
             g.grup_id, d.departemen_id, j.jabatan_id
        FROM users u
        JOIN grup g ON u.grup_id = g.grup_id
@@ -114,6 +114,7 @@ const login = asyncHandler(async (req, res) => {
       grup_id: user.grup_id,
       jabatan_id: user.jabatan_id,
       departemen_id: user.departemen_id,
+      is_approver: user.is_approver,
     },
   });
 });
@@ -140,7 +141,7 @@ const getUsers = asyncHandler(async (req, res) => {
 
   const users = await query(
     `SELECT u.user_id, u.username, u.nama, g.nama AS grup, d.nama AS departemen,
-            j.nama AS jabatan, u.created_at
+            j.nama AS jabatan, u.is_approver, u.created_at
        FROM users u
        JOIN grup g ON u.grup_id = g.grup_id
        JOIN departemen d ON u.dept_id = d.departemen_id
@@ -175,7 +176,7 @@ const getUsers = asyncHandler(async (req, res) => {
 const getDetailUser = asyncHandler(async (req, res) => {
   const { user_id: userId } = req.query;
   const result = await query(
-    `SELECT u.user_id, u.username, u.nama, u.email,
+    `SELECT u.user_id, u.username, u.nama, u.email, u.is_approver,
             u.grup_id, u.dept_id, u.jabatan_id,
             g.nama AS grup, d.nama AS departemen, j.nama AS jabatan
        FROM users u
@@ -901,11 +902,29 @@ const getInventoryIssue = asyncHandler(async (req, res) => {
 const getInventoryIssues = asyncHandler(async (req, res) => {
   await ensureInventoryIssueSchema();
   const search = String(req.query.search || '').trim();
+  const status = String(req.query.status || '').trim().toUpperCase();
+  const approvable = String(req.query.approvable || '').toLowerCase() === 'true';
   const page = Math.max(1, Number.parseInt(req.query.page, 10) || 1);
   const limit = Math.min(50, Math.max(1, Number.parseInt(req.query.limit, 10) || 10));
   const offset = (page - 1) * limit;
-  const params = search ? [`%${search}%`] : [];
-  const where = search ? `WHERE x.spb_number ILIKE $1 OR x.recipient ILIKE $1 OR x.destination ILIKE $1 OR x.notes ILIKE $1 OR r.name ILIKE $1` : '';
+  const params = [];
+  const conditions = [];
+  if (search) {
+    params.push(`%${search}%`);
+    conditions.push(`(x.spb_number ILIKE $${params.length} OR x.recipient ILIKE $${params.length} OR x.destination ILIKE $${params.length} OR x.notes ILIKE $${params.length} OR r.name ILIKE $${params.length})`);
+  }
+  if (['PENDING', 'APPROVED', 'REVISED'].includes(status)) {
+    params.push(status);
+    conditions.push(`x.status = $${params.length}`);
+  }
+  if (approvable) {
+    if (!req.user?.is_approver) conditions.push('1 = 0');
+    else {
+      params.push(actorName(req));
+      conditions.push(`LOWER(x.created_by) <> LOWER($${params.length})`);
+    }
+  }
+  const where = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
   const count = await query(`SELECT COUNT(*)::int AS total FROM inventory_issues x JOIN inventory_reasons r ON r.reason_id = x.reason_id ${where}`, params);
   const rows = await query(
     `SELECT x.issue_id, x.spb_number, TO_CHAR(x.issue_date, 'YYYY-MM-DD') AS issue_date,
@@ -919,7 +938,7 @@ const getInventoryIssues = asyncHandler(async (req, res) => {
     [...params, limit, offset]
   );
   const total = Number(count.rows[0]?.total || 0);
-  return res.json({ status: 1, data: rows.rows, total, page, limit, total_pages: Math.max(1, Math.ceil(total / limit)) });
+  return res.json({ status: 1, data: rows.rows, total, page, limit, total_pages: Math.max(1, Math.ceil(total / limit)), can_approve: Boolean(req.user?.is_approver) });
 });
 
 function revisionSuffix(number) {
@@ -1026,6 +1045,7 @@ const addInventoryIssue = asyncHandler(async (req, res) => {
 const approveInventoryIssue = asyncHandler(async (req, res) => {
   await ensureInventoryIssueSchema();
   const issueId = Number(req.params.issueId);
+  if (!req.user?.is_approver) throw Object.assign(new Error('Anda tidak memiliki hak sebagai approver SPB'), { statusCode: 403 });
   let approvedNumber = '';
   await withTransaction(async (client) => {
     const issue = await client.query('SELECT * FROM inventory_issues WHERE issue_id = $1 FOR UPDATE', [issueId]);

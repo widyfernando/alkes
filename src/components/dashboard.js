@@ -88,7 +88,7 @@ const Dashboard = ({ onSelectMenu }) => {
   return (
     <main className="min-h-[calc(100vh-4rem)] rounded-2xl border border-white/80 bg-white/72 px-4 py-6 shadow-xl shadow-slate-900/5 backdrop-blur-sm sm:px-6 lg:px-8">
       <section className="mx-auto max-w-7xl">
-        <div className="dashboard-hero relative mb-6 grid overflow-hidden rounded-3xl border border-blue-100/80 bg-gradient-to-br from-white via-blue-50/70 to-teal-50/70 p-6 shadow-sm sm:p-8 lg:min-h-[360px] lg:grid-cols-[minmax(0,1fr)_300px] lg:items-center lg:gap-8 xl:grid-cols-[minmax(0,1fr)_340px]">
+        <div className="dashboard-hero relative mb-6 grid overflow-hidden rounded-3xl border border-blue-100/80 bg-gradient-to-br from-white via-blue-50/70 to-teal-50/70 p-6 shadow-sm sm:p-8">
           <div className="relative z-10 min-w-0">
             <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">Pusat Operasional Medis</p>
             <h1 className="mt-2 text-2xl font-bold text-slate-950 sm:text-3xl">Ringkasan Operasional Alat Kesehatan</h1>

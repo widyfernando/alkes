@@ -584,13 +584,15 @@ const Pengaturanpengguna = ({
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Username</th>
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Departemen</th>
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Jabatan</th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Akses</th>
+                  <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-slate-500">Approver</th>
                   <th className="px-5 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-500">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 bg-white">
                 {loading ? (
                   <tr>
-                    <td colSpan="5" className="px-5 py-16 text-center">
+                    <td colSpan="7" className="px-5 py-16 text-center">
                       <Loader2 className="mx-auto mb-3 animate-spin text-blue-600" size={26} />
                       <p className="text-sm font-semibold text-slate-700">Memuat data pengguna</p>
                       <p className="mt-1 text-sm text-slate-400">Mohon tunggu sebentar.</p>
@@ -625,6 +627,8 @@ const Pengaturanpengguna = ({
                       <td className="whitespace-nowrap px-5 py-4 text-sm text-slate-600">
                         {user.jabatan || "-"}
                       </td>
+                      <td className="whitespace-nowrap px-5 py-4 text-sm font-semibold text-slate-700">{user.grup || "-"}</td>
+                      <td className="whitespace-nowrap px-5 py-4"><span className={`rounded-full px-2.5 py-1 text-xs font-bold ${user.is_approver ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>{user.is_approver ? "Ya" : "Tidak"}</span></td>
                       <td className="whitespace-nowrap px-5 py-4">
                         <div className="flex justify-end gap-2">
                           <button
@@ -659,7 +663,7 @@ const Pengaturanpengguna = ({
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="5" className="px-5 py-16 text-center">
+                    <td colSpan="7" className="px-5 py-16 text-center">
                       <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-slate-100 text-slate-400">
                         <UsersRound size={24} />
                       </div>

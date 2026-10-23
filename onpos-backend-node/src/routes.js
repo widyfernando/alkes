@@ -15,7 +15,7 @@ router.use(async (req, _res, next) => {
   if (token) {
     try {
       const payload = jwt.verify(token, SECRET_KEY);
-      const user = await query('SELECT user_id, username, nama, grup_id FROM users WHERE user_id = $1 AND is_aktif = true', [payload.user_id]);
+      const user = await query('SELECT user_id, username, nama, grup_id, is_approver FROM users WHERE user_id = $1 AND is_aktif = true', [payload.user_id]);
       req.user = user.rows[0] || null;
       if (!req.user) req.authError = 'Akun sudah tidak aktif atau tidak ditemukan';
     } catch (error) {
